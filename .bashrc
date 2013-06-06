@@ -4,6 +4,10 @@
 alias mv='mv -i'
 alias rm='rm -i'
 alias cp='cp -i'
+
+#extract tar.gz files
+alias untar='tar -xzvf'
+
 export PATH=$PATH:$HOME/.nodejs/bin
 # Source global definitions
 export TERM="xterm-256color"
