@@ -7,6 +7,7 @@ source ~/.vim/bundles.vim
 filetype plugin indent on     " required!
 
 
+syntax on
 "default vim background color for monokai theme:
 let g:molokai_original=1
 set t_Co=256″
