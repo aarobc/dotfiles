@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # back up the existing files...
-mv .vim{,_bak}
-mv .bashrc{,_bak}
-mv .vimrc{,_bak}
+mv ~/.vim{,_bak}
+mv ~/.bashrc{,_bak}
+mv ~/.vimrc{,_bak}
 
 # create the symlinks
 ln -s ~/config/.vim ~/.vim
