@@ -46,7 +46,8 @@ set ignorecase
 
 set wildmenu
 
-
+"syntax coloring for arduino
+au BufRead,BufNewFile *.ino set filetype=cpp
 
 "open file looking thing in new vim
 map gf :tabedit <cfile><CR>
