@@ -28,6 +28,8 @@ set autoindent
 
 "set mouse=a
 set number
+"change the leader from backslash
+let mapleader=","
 
 "easier window navigation
 nnoremap <silent> <Tab> :wincmd w<CR>
