@@ -67,6 +67,27 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+function qdns {
+  if [ $1 ]
+  then
+    echo $1
+    ip=`dig $1 +short`
+    echo -e "IP:\n$ip"
+    echo -e "www:\n`dig www.$1 +short`"
+
+    # mx stuff
+    mx=`dig mx $1 +short`
+    mailip=`dig mail.$1 +short`
+    ns=`dig ns $1 +short`
+
+    echo -e "mx:\n$mx"
+    echo -e "mail IP:\n$mailip"
+    echo -e "NS:\n$ns"
+  else
+    echo "No domain specified"
+  fi
+}
+
 # User specific aliases and functions
 alias mv='mv -i'
 alias rm='rm -i'

@@ -54,6 +54,8 @@ au BufRead,BufNewFile *.ino set filetype=cpp
 "open file looking thing in new vim
 map gf :tabedit <cfile><CR>
 
+"commenter 
+vmap <C-;> <leader>ci
 
 "------------------------ autoformatter plugin
 autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
