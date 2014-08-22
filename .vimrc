@@ -60,6 +60,8 @@ map gf :tabedit <cfile><CR>
 "commenter 
 vmap <C-;> <leader>ci
 
+"save file as root
+cmap w!! w !sudo tee > /dev/null %
 "------------------------ autoformatter plugin
 autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
 " for html
