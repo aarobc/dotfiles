@@ -20,10 +20,13 @@ set nowrap
 "autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 set backspace=indent,eol,start
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set expandtab
+
+set tabstop=4
+set softtabstop=0
+set shiftwidth=4
+set noexpandtab
+
+"set expandtab
 set autoindent
 
 "set mouse=a
