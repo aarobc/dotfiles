@@ -9,6 +9,7 @@ mv ~/.vimrc{,_bak}
 ln -s ~/config/.vim ~/.vim
 ln -s ~/config/.bashrc ~/.bashrc
 ln -s ~/config/.vimrc ~/.vimrc
+ln -s ~/config/.tmux.conf ~/.tmux.conf
 
 # setting the shell to use the new bashrc
 source .bashrc

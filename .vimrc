@@ -12,6 +12,8 @@ syntax on
 let g:molokai_original=1
 set t_Co=256″
 colorscheme molokai
+"attempt to fix weird background color issues
+set term=screen-256color
 
 set nowrap
 "set nofoldenable
@@ -21,13 +23,14 @@ set nowrap
 
 set backspace=indent,eol,start
 
+set smartindent
 set tabstop=4
-set softtabstop=0
+set softtabstop=4
 set shiftwidth=4
-set noexpandtab
+set expandtab
 
 "set expandtab
-set autoindent
+"set autoindent
 
 "set mouse=a
 set number
@@ -42,6 +45,8 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
+"nerdTree
+nnoremap <C-n> :NERDTree<CR>
 
 "when pasting into vim:
 set pastetoggle=<F10>
@@ -58,7 +63,8 @@ set wildmenu
 au BufRead,BufNewFile *.ino set filetype=cpp
 
 "open file looking thing in new vim
-map gf :tabedit <cfile><CR>
+"map gf :tabedit <cfile><CR>
+noremap gf :exec "tabedit" substitute(expand("<cfile>"), '^\/\.\.', "..", "")<cr>
 
 "commenter 
 vmap <C-;> <leader>ci
@@ -74,4 +80,5 @@ autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
 
 "for php
 "nnoremap <leader>= mzgg=G`z
-
+"enable matchit plugin:
+runtime macros/matchit.vim

@@ -116,7 +116,6 @@ alias cp='cp -i'
 alias ll='ls -latrh'
 
 
-export PATH=$PATH:$HOME/.nodejs/bin
 # Source global definitions
 export TERM="xterm-256color"
 if [ -f /etc/bashrc ]; then
