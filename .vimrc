@@ -78,6 +78,12 @@ autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
 " for css or scss
 autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
 
+"for windowswap plugin:
+let g:windowswap_map_keys = 0 "prevent default bindings
+nnoremap <silent> <leader>yw :call WindowSwap#MarkWindowSwap()<CR>
+nnoremap <silent> <leader>pw :call WindowSwap#DoWindowSwap()<CR>
+nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
+
 "for php
 "nnoremap <leader>= mzgg=G`z
 "enable matchit plugin:
