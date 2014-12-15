@@ -6,10 +6,10 @@ mv ~/.bashrc{,_bak}
 mv ~/.vimrc{,_bak}
 
 # create the symlinks
-ln -s ~/config/.vim ~/.vim
-ln -s ~/config/.bashrc ~/.bashrc
-ln -s ~/config/.vimrc ~/.vimrc
-ln -s ~/config/.tmux.conf ~/.tmux.conf
+ln -s ~/dotfiles/.vim ~/.vim
+ln -s ~/dotfiles/.bashrc ~/.bashrc
+ln -s ~/dotfiles/.vimrc ~/.vimrc
+ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf
 
 # setting the shell to use the new bashrc
 source .bashrc
