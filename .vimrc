@@ -40,10 +40,26 @@ let mapleader=","
 "easier window navigation
 nnoremap <silent> <Tab> :wincmd w<CR>
 nnoremap <silent> <S-Tab> :wincmd W<CR>
-map <C-h> <C-w>h
-map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
+"map <C-h> <C-w>h
+"map <C-j> <C-w>j
+"map <C-k> <C-w>k
+"map <C-l> <C-w>l
+
+function! s:WindowMappings()
+    " Switch focus to adjacent window
+    nnoremap <left> <c-w>h
+    nnoremap <right> <c-w>s
+    nnoremap <up> <c-w>n
+    nnoremap <down> <c-w>t
+    " Move active window
+    nnoremap <s-left> <c-w>H
+    nnoremap <s-right> <c-w>S
+    nnoremap <s-up> <c-w>n
+    nnoremap <s-down> <c-w>T
+    " Discard unfocused windows
+    " (disabled because it interferes with quickfix usage)
+    "nnoremap <silent> <cr> :only<cr>
+endfunction
 
 "nerdTree
 nnoremap <C-n> :NERDTree<CR>
@@ -69,6 +85,14 @@ noremap gf :exec "tabedit" substitute(expand("<cfile>"), '^\/\.\.', "..", "")<cr
 "commenter 
 vmap <C-;> <leader>ci
 
+
+"swap the layouts of horozontal and vertical
+"noremap <C-w>h :windo wincmd H<CR>
+"noremap <C-w>t :windo wincmd K<CR>
+
+"merge tabs into single page
+noremap <C-w>m :Tabmerge<CR>
+
 "save file as root
 cmap w!! w !sudo tee > /dev/null %
 "------------------------ autoformatter plugin
@@ -88,3 +112,10 @@ nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
 "nnoremap <leader>= mzgg=G`z
 "enable matchit plugin:
 runtime macros/matchit.vim
+
+"reference:
+"tabm <number> moves tab to that location.
+"example: tabm 0 moves tab to location 0 (first location)
+"
+"move existing window into new tab:
+":tabedit %<CR>
