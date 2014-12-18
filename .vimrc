@@ -17,6 +17,24 @@ set term=screen-256color
 
 set nowrap
 "set nofoldenable
+set foldlevelstart=0
+" fold methods available: syntax indent marker
+set foldmethod=indent
+set foldignore=
+set foldnestmax=1
+
+"if folding method is set to marker
+set fmr={,}
+" Space to toggle folds.
+nnoremap <Space> za
+vnoremap <Space> za
+
+" "Refocus" folds
+nnoremap ,z zMzvzz
+
+" Make zO recursively open whatever top level fold we're in, no matter where the
+" cursor happens to be.
+nnoremap zO zCzO
 
 "disable auto commenting:
 "autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
@@ -103,6 +121,7 @@ autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
 autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
 
 "for windowswap plugin:
+"should learn keyboard commands though
 let g:windowswap_map_keys = 0 "prevent default bindings
 nnoremap <silent> <leader>yw :call WindowSwap#MarkWindowSwap()<CR>
 nnoremap <silent> <leader>pw :call WindowSwap#DoWindowSwap()<CR>

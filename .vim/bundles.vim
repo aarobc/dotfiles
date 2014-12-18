@@ -5,7 +5,6 @@ call vundle#rc()
 
 
 Bundle 'gmarik/vundle'
-Bundle 'maksimr/vim-jsbeautify'
 Bundle 'gregsexton/MatchTag'
 Bundle 'tomasr/molokai'
 Bundle 'scrooloose/nerdcommenter'
@@ -13,3 +12,5 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'Raimondi/delimitMate'
 Bundle 'wesQ3/vim-windowswap'
 Bundle 'vim-scripts/Tabmerge'
+Bundle 'vim-scripts/JavaScript-Indent'
+Bundle 'jelera/vim-javascript-syntax'
