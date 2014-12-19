@@ -16,25 +16,33 @@ colorscheme molokai
 set term=screen-256color
 
 set nowrap
-"set nofoldenable
-set foldlevelstart=0
-" fold methods available: syntax indent marker
-set foldmethod=indent
-set foldignore=
-set foldnestmax=1
 
-"if folding method is set to marker
-set fmr={,}
-" Space to toggle folds.
-nnoremap <Space> za
-vnoremap <Space> za
+"javascript folding
+function! s:JavascriptFileType()
 
-" "Refocus" folds
-nnoremap ,z zMzvzz
+    "set nofoldenable
+    set foldlevelstart=0
+    " fold methods available: syntax indent marker
+    set foldmethod=indent
+    set foldignore=
+    set foldnestmax=1
 
-" Make zO recursively open whatever top level fold we're in, no matter where the
-" cursor happens to be.
-nnoremap zO zCzO
+    "if folding method is set to marker
+    set fmr={,}
+    " Space to toggle folds.
+    nnoremap <Space> za
+    vnoremap <Space> za
+
+    " "Refocus" folds
+    nnoremap ,z zMzvzz
+
+    " Make zO recursively open whatever top level fold we're in, no matter where the
+    " cursor happens to be.
+    nnoremap zO zCzO
+
+endfunction
+
+autocmd vimrc FileType javascript call s:JavascriptFileType()
 
 "disable auto commenting:
 "autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
@@ -127,11 +135,20 @@ nnoremap <silent> <leader>yw :call WindowSwap#MarkWindowSwap()<CR>
 nnoremap <silent> <leader>pw :call WindowSwap#DoWindowSwap()<CR>
 nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
 
-"for php
-"nnoremap <leader>= mzgg=G`z
 "enable matchit plugin:
 runtime macros/matchit.vim
 
+" php.vim plugin overriding highlighting
+
+function! PhpSyntaxOverride()
+    hi! def link phpDocTags  phpDefine
+    hi! def link phpDocParam phpType
+endfunction
+
+augroup phpSyntaxOverride
+    autocmd!
+    autocmd FileType php call PhpSyntaxOverride()
+augroup END
 "reference:
 "tabm <number> moves tab to that location.
 "example: tabm 0 moves tab to location 0 (first location)
