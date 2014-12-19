@@ -3,6 +3,9 @@
 source ~/.vim/bundles.vim
 
 "------------------------------------------------------------------[General]----
+" Create the 'vimrc' autocmd group, used below, and immediately clear it in
+" case this file is being sourced a second time.
+augroup vimrc | execute 'autocmd!' | augroup END
 
 filetype plugin indent on     " required!
 
@@ -27,11 +30,6 @@ function! s:JavascriptFileType()
     set foldignore=
     set foldnestmax=1
 
-    "if folding method is set to marker
-    set fmr={,}
-    " Space to toggle folds.
-    nnoremap <Space> za
-    vnoremap <Space> za
 
     " "Refocus" folds
     nnoremap ,z zMzvzz
@@ -41,8 +39,12 @@ function! s:JavascriptFileType()
     nnoremap zO zCzO
 
 endfunction
-
 autocmd vimrc FileType javascript call s:JavascriptFileType()
+
+" Space to toggle folds.
+nnoremap <Space> za
+vnoremap <Space> za
+
 
 "disable auto commenting:
 "autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
@@ -121,12 +123,6 @@ noremap <C-w>m :Tabmerge<CR>
 
 "save file as root
 cmap w!! w !sudo tee > /dev/null %
-"------------------------ autoformatter plugin
-autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
-" for html
-autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
-" for css or scss
-autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
 
 "for windowswap plugin:
 "should learn keyboard commands though
@@ -138,9 +134,20 @@ nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
 "enable matchit plugin:
 runtime macros/matchit.vim
 
-" php.vim plugin overriding highlighting
+
+"map <F5> <Esc>:EnableFastPHPFolds<Cr>
+"map <F6> <Esc>:EnablePHPFolds<Cr>
+"map <F7> <Esc>:DisablePHPFolds<Cr>
+
+"to prevent annoying behavior of the folding plugin
+let g:DisableAutoPHPFolding = 1
 
 function! PhpSyntaxOverride()
+    "folding stuff
+    let php_folding=0
+    setlocal foldmethod=manual
+    EnableFastPHPFolds
+    "syntax stuff
     hi! def link phpDocTags  phpDefine
     hi! def link phpDocParam phpType
 endfunction
@@ -149,6 +156,7 @@ augroup phpSyntaxOverride
     autocmd!
     autocmd FileType php call PhpSyntaxOverride()
 augroup END
+
 "reference:
 "tabm <number> moves tab to that location.
 "example: tabm 0 moves tab to location 0 (first location)
