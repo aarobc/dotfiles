@@ -13,7 +13,7 @@ filetype plugin indent on     " required!
 syntax on
 "default vim background color for monokai theme:
 let g:molokai_original=1
-set t_Co=256″
+set t_Co=256
 colorscheme molokai
 "attempt to fix weird background color issues
 set term=screen-256color
@@ -64,6 +64,8 @@ set expandtab
 set number
 "change the leader from backslash
 let mapleader=","
+"set working directory to current file
+set autochdir
 
 "easier window navigation
 nnoremap <silent> <Tab> :wincmd w<CR>
@@ -73,6 +75,7 @@ nnoremap <silent> <S-Tab> :wincmd W<CR>
 "map <C-k> <C-w>k
 "map <C-l> <C-w>l
 
+"should figuro out what's going on here...
 function! s:WindowMappings()
     " Switch focus to adjacent window
     nnoremap <left> <c-w>h
