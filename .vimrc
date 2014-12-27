@@ -16,7 +16,9 @@ let g:molokai_original=1
 set t_Co=256
 colorscheme molokai
 "attempt to fix weird background color issues
-set term=screen-256color
+"shouldn't need to mess with this because tmux alias yay
+"set term=screen-256color
+"set term=xterm-256color
 
 set nowrap
 
@@ -134,14 +136,14 @@ nnoremap <silent> <leader>yw :call WindowSwap#MarkWindowSwap()<CR>
 nnoremap <silent> <leader>pw :call WindowSwap#DoWindowSwap()<CR>
 nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
 
+
+
 "enable matchit plugin:
 runtime macros/matchit.vim
-
 
 "map <F5> <Esc>:EnableFastPHPFolds<Cr>
 "map <F6> <Esc>:EnablePHPFolds<Cr>
 "map <F7> <Esc>:DisablePHPFolds<Cr>
-
 "to prevent annoying behavior of the folding plugin
 let g:DisableAutoPHPFolding = 1
 
