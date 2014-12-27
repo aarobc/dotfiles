@@ -1,0 +1,10 @@
+- clean: ['~']
+- link:
+    ~/.vim: vim/
+    ~/.i3: i3/
+    ~/.bashrc: bashrc
+    ~/.vimrc: vimrc
+    ~/.tmux.conf: tmux.conf
+    ~/.zshrc:
+      force: true
+      path: zshrc
