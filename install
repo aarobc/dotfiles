@@ -9,7 +9,13 @@ DOTBOT_BIN="bin/dotbot"
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 cd "${BASEDIR}"
-#git submodule update --init --recursive "${DOTBOT_DIR}"
-git submodule update --init "${DOTBOT_DIR}"
+git submodule update --init --recursive "${DOTBOT_DIR}"
+
+# updating other submodules
+git submodule update --init --recursive ~/dotfiles/zgen
+git submodule update --init --recursive ~/dotfiles/vim/bundle/Vundle.vim
 
 "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
+
+# install vundle
+vim +BundleInstall +qall
