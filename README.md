@@ -1,7 +1,13 @@
-Clone into home directory, then run 
-./install 
-to create softlinks to the config 
-files stored in the config directory.
-install plugins for vim:
-vim +BundleInstall +qall
+For best results you need:
+
+1. powerline
+2. vim
+3. zsh
+4. git
+
+
+Clone into home directory, then run: 
+
+**./install** 
+
 
