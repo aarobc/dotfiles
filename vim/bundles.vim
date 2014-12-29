@@ -16,3 +16,4 @@ Bundle 'vim-scripts/JavaScript-Indent'
 Bundle 'jelera/vim-javascript-syntax'
 Bundle 'StanAngeloff/php.vim'
 Bundle 'vim-scripts/phpfolding.vim'
+Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
