@@ -15,9 +15,10 @@ git submodule update --init --recursive "${DOTBOT_DIR}"
 git submodule update --init --recursive ~/dotfiles/zgen
 git submodule update --init --recursive ~/dotfiles/vim/bundle/Vundle.vim
 
-"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
 
-#configuring the fonts
-fc-cache -vf ~/.fonts
 # install vundle
 vim +BundleInstall +qall
+#configuring the fonts
+fc-cache -vf ~/.fonts
+
+"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
