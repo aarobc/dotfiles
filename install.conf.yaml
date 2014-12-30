@@ -18,3 +18,10 @@
     ~/.zshrc:
       force: true
       path: zshrc
+    ~/.fonts/PowerlineSymbols.otf:
+        create: true
+        path: vim/bundle/powerline/font/PowerlineSymbols.otf
+    ~/.config/fontconfig/conf.d/10-powerline-symbols.conf:
+        create: true
+        path: vim/bundle/powerline/font/10-powerline-symbols.conf
+
