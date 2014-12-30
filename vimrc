@@ -167,6 +167,18 @@ augroup END
 " Always show statusline
 set laststatus=2
 
+"sexy scrolling settings:
+"let g:SexyScroller_ScrollTime = 10
+"let g:SexyScroller_MaxTime = 500
+let g:SexyScroller_CursorTime = 0
+let g:SexyScroller_EasingStyle = 2
+"where
+" - 1 = start fast, finish slowly            (like 2 but less so)
+" - 2 = start very fast, finish very slowly  (recommended, default)
+" - 3 = start slowly, get faster, end slowly (sexy)
+" - 4 = start very slowly, end very slowly   (like 3 but more so)
+"  - ? = constant speed                       (dull)
+
 " look into this:
 "https://github.com/chrisbra/vim_dotfiles/blob/master/plugin/CustomFoldText.vim
 
