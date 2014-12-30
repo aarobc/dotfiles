@@ -17,5 +17,7 @@ git submodule update --init --recursive ~/dotfiles/vim/bundle/Vundle.vim
 
 "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
 
+#configuring the fonts
+fc-cache -vf ~/.fonts
 # install vundle
 vim +BundleInstall +qall
