@@ -23,3 +23,5 @@ vim +PluginInstall +qall
 
 #configuring the fonts
 fc-cache -vf ~/.fonts
+
+~/dotfiles/vim/bundle/YouCompleteMe/install.sh --clang-completer

@@ -9,3 +9,8 @@ Clone into home directory, then run:
 
 **./install** 
 
+
+dependencies possibly required:
+
+python-devel
+python-yaml
