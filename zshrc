@@ -37,15 +37,17 @@ alias tmux='tmux -2'
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
 # export MANPATH="/usr/local/man:$MANPATH"
 
+export POWERLINE_CONFIG_COMMAND='~/dotfiles/vim/bundle/powerline/scripts/powerline-config'
+
 
 # You may need to manually set your language environment
 #export LANG=en_US.UTF-8
 #export TERM=xterm-256color
 #[ -n "$TMUX" ] && export TERM=screen-256color
 
-if [[ -r /usr/local/lib/python2.7/dist-packages/powerline/bindings/zsh/powerline.zsh ]]; then
-    source /usr/local/lib/python2.7/dist-packages/powerline/bindings/zsh/powerline.zsh
-fi
+#if [[ -r /usr/local/lib/python2.7/dist-packages/powerline/bindings/zsh/powerline.zsh ]]; then
+    #source /usr/local/lib/python2.7/dist-packages/powerline/bindings/zsh/powerline.zsh
+#fi
 
 
 # Extract Files #
