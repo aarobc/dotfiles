@@ -111,7 +111,7 @@ set wildmenu
 "syntax coloring for arduino
 au BufRead,BufNewFile *.ino set filetype=cpp
 
-"open file looking thing in new vim
+"open file looking thing in new tab
 "map gf :tabedit <cfile><CR>
 noremap gf :exec "tabedit" substitute(expand("<cfile>"), '^\/\.\.', "..", "")<cr>
 
@@ -162,8 +162,7 @@ augroup phpSyntaxOverride
     autocmd FileType php call PhpSyntaxOverride()
 augroup END
 
-"powerline stuffs
-"set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
+"powerline stuffs:
 " Always show statusline
 set laststatus=2
 
