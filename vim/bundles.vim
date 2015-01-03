@@ -1,20 +1,24 @@
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim/
-call vundle#rc()
+"call vundle#rc()
+call vundle#begin()
 
 
-Bundle 'gmarik/vundle'
-Bundle 'gregsexton/MatchTag'
-Bundle 'tomasr/molokai'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'scrooloose/nerdtree'
-Bundle 'Raimondi/delimitMate'
-Bundle 'wesQ3/vim-windowswap'
-Bundle 'vim-scripts/Tabmerge'
-Bundle 'vim-scripts/JavaScript-Indent'
-Bundle 'jelera/vim-javascript-syntax'
-Bundle 'StanAngeloff/php.vim'
-Bundle 'vim-scripts/phpfolding.vim'
-Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
-Bundle 'joeytwiddle/sexy_scroller.vim'
+Plugin 'gmarik/vundle'
+Plugin 'gregsexton/MatchTag'
+Plugin 'tomasr/molokai'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Raimondi/delimitMate'
+Plugin 'wesQ3/vim-windowswap'
+Plugin 'vim-scripts/Tabmerge'
+Plugin 'vim-scripts/JavaScript-Indent'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'StanAngeloff/php.vim'
+Plugin 'vim-scripts/phpfolding.vim'
+Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'joeytwiddle/sexy_scroller.vim'
+Plugin 'Valloric/YouCompleteMe'
+
+call vundle#end()  
