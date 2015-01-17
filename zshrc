@@ -72,3 +72,7 @@ function extract {
       echo "'$1' is not a valid file!"
   fi
 }
+
+# getting the neat capslock/ctrl functionality
+setxkbmap -option 'caps:ctrl_modifier'
+xcape -e 'Caps_Lock=Escape'
