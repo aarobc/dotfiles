@@ -72,27 +72,7 @@ set autochdir
 "easier window navigation
 nnoremap <silent> <Tab> :wincmd w<CR>
 nnoremap <silent> <S-Tab> :wincmd W<CR>
-"map <C-h> <C-w>h
-"map <C-j> <C-w>j
-"map <C-k> <C-w>k
-"map <C-l> <C-w>l
 
-"should figuro out what's going on here...
-function! s:WindowMappings()
-    " Switch focus to adjacent window
-    nnoremap <left> <c-w>h
-    nnoremap <right> <c-w>s
-    nnoremap <up> <c-w>n
-    nnoremap <down> <c-w>t
-    " Move active window
-    nnoremap <s-left> <c-w>H
-    nnoremap <s-right> <c-w>S
-    nnoremap <s-up> <c-w>n
-    nnoremap <s-down> <c-w>T
-    " Discard unfocused windows
-    " (disabled because it interferes with quickfix usage)
-    "nnoremap <silent> <cr> :only<cr>
-endfunction
 
 "nerdTree
 nnoremap <C-n> :NERDTree<CR>
@@ -141,6 +121,8 @@ nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
 "enable matchit plugin:
 runtime macros/matchit.vim
 
+"vim-javascript syntax plugin highlighting enable
+let g:javascript_enable_domhtmlcss = 1
 "map <F5> <Esc>:EnableFastPHPFolds<Cr>
 "map <F6> <Esc>:EnablePHPFolds<Cr>
 "map <F7> <Esc>:DisablePHPFolds<Cr>
@@ -178,6 +160,10 @@ let g:SexyScroller_EasingStyle = 2
 " - 4 = start very slowly, end very slowly   (like 3 but more so)
 "  - ? = constant speed                       (dull)
 
+"do better auto complete brace behavior:
+let delimitMate_expand_cr = 1
+"let delimitMate_jump_expansion = 0
+let delimitMate_expand_space = 1
 " look into this:
 "https://github.com/chrisbra/vim_dotfiles/blob/master/plugin/CustomFoldText.vim
 
