@@ -4,6 +4,7 @@
 # i3 config file (v4)
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
+exec xrandr --output DFP7 --auto --left-of DFP5
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -20,8 +21,6 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
  # border only, no titlebar
 new_window pixel 1
 
-#correct orientation for the monitors
-exec xrandr --output DFP7 --auto --left-of DFP5
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -117,7 +116,7 @@ bindsym $mod+Shift+0 move container to workspace 10
 # reload the configuration file
 bindsym $mod+Shift+j reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+p restart
+bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+period exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
@@ -147,25 +146,45 @@ mode "resize" {
 
 bindsym $mod+p mode "resize"
 
-# getting the neat capslock/ctrl functionality
-exec setxkbmap -option 'caps:ctrl_modifier'
-exec xcape -e 'Caps_Lock=Escape'
 
 # Audio shortcuts 
 bindsym XF86AudioLowerVolume exec /usr/bin/pactl set-sink-volume 0 -- '-5%'
 bindsym XF86AudioRaiseVolume exec /usr/bin/pactl set-sink-volume 0 -- '+5%'
 bindsym XF86AudioMute exec /usr/bin/pactl set-sink-mute 0 toggle
 
+#window switchy like ubuntu
+bindsym Control+$mod+Right workspace next
+bindsym Control+$mod+Left workspace prev
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
+#exec xrandr --output DFP7 --auto --left-of DFP5
+
+workspace 1 output DFP7
+workspace 7 output DFP5
 bar {
+    output DFP7
         status_command i3status
         #position top
+    colors{
+        background #232323
+        statusline #DCDCDC
+    }
+}
+
+bar {
+    output DFP5
+    status_command i3status
+    #position top
+    colors{
+        background #232323
+        statusline #DCDCDC
+    }
 }
 
 #wallpaper thingy
 exec --no-startup-id nitrogen --restore
-#exe compton -CGb
+exec compton --config ~/.i3/compton.conf
 
 #network manager
 #exec /usr/bin/nm-applet
@@ -179,5 +198,6 @@ bindsym $mod+l exec "gnome-screensaver-command -l"
 for_window [class="Chromium-browser" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] floating enable
 
 #for the aawesome stuffs:
+gap_size 15
 #enable_alpha_channel yes
 #new_window inset 10
