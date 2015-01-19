@@ -4,7 +4,7 @@
 # i3 config file (v4)
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-exec xrandr --output DFP7 --auto --left-of DFP5
+#exec xrandr --output DFP7 --auto --left-of DFP5
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -160,10 +160,10 @@ bindsym Control+$mod+Left workspace prev
 # finds out, if available)
 #exec xrandr --output DFP7 --auto --left-of DFP5
 
-workspace 1 output DFP7
-workspace 7 output DFP5
+#workspace 1 output DFP7
+#workspace 7 output DFP5
 bar {
-    output DFP7
+    #output DFP7
         status_command i3status
         #position top
     colors{
@@ -172,15 +172,15 @@ bar {
     }
 }
 
-bar {
-    output DFP5
-    status_command i3status
+#bar {
+    #output DFP5
+    #status_command i3status
     #position top
-    colors{
-        background #232323
-        statusline #DCDCDC
-    }
-}
+    #colors{
+        #background #232323
+        #statusline #DCDCDC
+    #}
+#}
 
 #wallpaper thingy
 exec --no-startup-id nitrogen --restore

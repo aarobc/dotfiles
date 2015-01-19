@@ -74,5 +74,5 @@ function extract {
 }
 
 # getting the neat capslock/ctrl functionality
-setxkbmap -option 'caps:ctrl_modifier'
-xcape -e 'Caps_Lock=Escape'
+#setxkbmap -option 'caps:ctrl_modifier'
+#xcape -e 'Caps_Lock=Escape'
