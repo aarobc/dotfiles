@@ -8,8 +8,7 @@ source ~/.vim/bundles.vim
 augroup vimrc | execute 'autocmd!' | augroup END
 
 filetype plugin indent on     " required!
-
-
+    
 syntax on
 "default vim background color for monokai theme:
 let g:molokai_original=1
@@ -91,6 +90,8 @@ set wildmenu
 "syntax coloring for arduino
 au BufRead,BufNewFile *.ino set filetype=cpp
 
+"au BufRead,BufNewFile *.txt set filetype=js
+
 "open file looking thing in new tab
 "map gf :tabedit <cfile><CR>
 noremap gf :exec "tabedit" substitute(expand("<cfile>"), '^\/\.\.', "..", "")<cr>
@@ -148,6 +149,7 @@ augroup END
 " Always show statusline
 set laststatus=2
 
+"endfunction
 "sexy scrolling settings:
 "let g:SexyScroller_ScrollTime = 10
 "let g:SexyScroller_MaxTime = 500
