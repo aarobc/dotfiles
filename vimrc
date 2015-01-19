@@ -149,10 +149,6 @@ augroup END
 " Always show statusline
 set laststatus=2
 
-"function! s:HelloWorld()
-    "echo "hello potato"
-    "echo "green"
-
 "endfunction
 "sexy scrolling settings:
 "let g:SexyScroller_ScrollTime = 10
