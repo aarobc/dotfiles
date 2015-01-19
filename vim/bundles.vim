@@ -13,7 +13,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'Raimondi/delimitMate'
 "Plugin 'wesQ3/vim-windowswap'
 Plugin 'vim-scripts/Tabmerge'
-Plugin 'vim-scripts/JavaScript-Indent'
+Plugin 'pangloss/vim-javascript'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'vim-scripts/phpfolding.vim'
@@ -23,3 +23,4 @@ Plugin 'christoomey/vim-tmux-navigator'
 "Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()  
+
