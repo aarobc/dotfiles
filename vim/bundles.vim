@@ -14,7 +14,7 @@ Plugin 'Raimondi/delimitMate'
 "Plugin 'wesQ3/vim-windowswap'
 Plugin 'vim-scripts/Tabmerge'
 Plugin 'pangloss/vim-javascript'
-Plugin 'jelera/vim-javascript-syntax'
+"Plugin 'jelera/vim-javascript-syntax'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'vim-scripts/phpfolding.vim'
 Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
