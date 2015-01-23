@@ -48,6 +48,7 @@ vnoremap <Space> za
 
 
 "disable auto commenting:
+set fo-=o
 "autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 set backspace=indent,eol,start
@@ -57,9 +58,11 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
-
 "set expandtab
 "set autoindent
+
+autocmd Filetype html setlocal ts=2 sts=2 sw=2
+autocmd Filetype javascript setlocal ts=4 sts=4 sw=4
 
 "set mouse=a
 set number
@@ -74,7 +77,8 @@ nnoremap <silent> <S-Tab> :wincmd W<CR>
 
 
 "nerdTree
-nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-f> :NERDTree<CR>
+
 
 "when pasting into vim:
 set pastetoggle=<F10>
@@ -97,7 +101,7 @@ au BufRead,BufNewFile *.ino set filetype=cpp
 noremap gf :exec "tabedit" substitute(expand("<cfile>"), '^\/\.\.', "..", "")<cr>
 
 "commenter 
-vmap <C-;> <leader>ci
+"vmap <C-;> <leader>ci
 
 
 "swap the layouts of horozontal and vertical
