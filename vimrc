@@ -121,7 +121,9 @@ nnoremap <silent> <leader>yw :call WindowSwap#MarkWindowSwap()<CR>
 nnoremap <silent> <leader>pw :call WindowSwap#DoWindowSwap()<CR>
 nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
 
-
+"window split settings
+set splitbelow
+set splitright
 
 "enable matchit plugin:
 runtime macros/matchit.vim
