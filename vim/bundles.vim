@@ -18,7 +18,7 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'vim-scripts/phpfolding.vim'
 Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
-Plugin 'joeytwiddle/sexy_scroller.vim'
+" Plugin 'joeytwiddle/sexy_scroller.vim'
 Plugin 'christoomey/vim-tmux-navigator'
 "Plugin 'Valloric/YouCompleteMe'
 
