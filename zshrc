@@ -34,7 +34,7 @@ fi
 
 
 alias tmux='tmux -2'
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 #export "$PATH:$HOME/Library/Python/2.7/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -73,6 +73,3 @@ function extract {
   fi
 }
 
-# getting the neat capslock/ctrl functionality
-#setxkbmap -option 'caps:ctrl_modifier'
-#xcape -e 'Caps_Lock=Escape'
