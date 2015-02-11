@@ -4,8 +4,10 @@
 # i3 config file (v4)
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-exec xrandr --output DFP7 --auto --left-of DFP5
-set $mod Mod4
+# exec xrandr --output DFP7 --auto --left-of DFP5
+# mod = alt, $sup = Windows key
+set $mod Mod1
+set $sup Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
