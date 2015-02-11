@@ -160,25 +160,25 @@ bindsym Control+$mod+Left workspace prev
 # finds out, if available)
 #exec xrandr --output DFP7 --auto --left-of DFP5
 
-workspace 1 output DFP7
-workspace 7 output DFP5
+# workspace 1 output DFP7
+# workspace 7 output DFP5
 bar {
-    output DFP7
-        status_command i3status
-    colors{
-        background #232323
-        statusline #DCDCDC
-    }
-}
-
-bar {
-    output DFP5
+    # output DFP7
     status_command i3status
     colors{
         background #232323
         statusline #DCDCDC
     }
 }
+#
+# bar {
+#     output DFP5
+#     status_command i3status
+#     colors{
+#         background #232323
+#         statusline #DCDCDC
+#     }
+# }
 
 #wallpaper thingy
 exec --no-startup-id nitrogen --restore
@@ -196,6 +196,9 @@ bindsym $mod+l exec "gnome-screensaver-command -l"
 for_window [class="Chromium-browser" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] floating enable
 
 #for the aawesome stuffs:
-gap_size 15
+# gap_size 15
 #enable_alpha_channel yes
 #new_window inset 10
+
+gaps inner 20
+# gaps outer 5
