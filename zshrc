@@ -73,3 +73,5 @@ function extract {
   fi
 }
 
+#hoping that this fixes the annoying issue when it doesn't workO
+setxkbmap -option 'caps:ctrl_modifier'
