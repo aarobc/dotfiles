@@ -29,7 +29,7 @@ floating_modifier $mod
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec gnome-terminal
+bindsym $mod+Return exec --no-startup-id gnome-terminal 
 
 # kill focused window
 bindsym $mod+Shift+apostrophe kill
@@ -187,7 +187,11 @@ bar {
 
 #wallpaper thingy
 exec --no-startup-id nitrogen --restore
-exec compton --config ~/.i3/compton.conf
+# disabling the config file untill I have more time to mess with it compton
+# exec compton --config ~/.i3/compton.conf
+# exec compton -bcCGf -i 0.8 -e 0.8 --no-fading-openclose --clear-shadow
+exe compton -bcCGf --inactive-dim 0.3 -e 0.8 --no-fading-openclose --clear-shadow
+ 
 
 #network manager
 #exec /usr/bin/nm-applet
