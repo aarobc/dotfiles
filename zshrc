@@ -74,4 +74,6 @@ function extract {
 }
 
 #hoping that this fixes the annoying issue when it doesn't workO
-setxkbmap -option 'caps:ctrl_modifier'
+if hash setxkbmap 2>/dev/null; then
+    setxkbmap -option 'caps:ctrl_modifier'
+fi
