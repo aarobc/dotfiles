@@ -21,6 +21,8 @@ Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 " Plugin 'joeytwiddle/sexy_scroller.vim'
 Plugin 'christoomey/vim-tmux-navigator'
 "Plugin 'Valloric/YouCompleteMe'
+" for marks
+Plugin 'kshenoy/vim-signature'
 
 call vundle#end()  
 

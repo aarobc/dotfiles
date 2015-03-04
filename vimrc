@@ -181,3 +181,28 @@ let delimitMate_expand_space = 1
 "
 "move existing window into new tab:
 ":tabedit %<CR>
+
+" This function returns the highlight group used by git-gutter depending on how the line was edited (added/modified/deleted)
+" It must be placed in the vimrc (or in any file that is sourced by vim)
+" function! SignatureGitGutter(lnum)
+"   let gg_line_state = filter(copy(gitgutter#diff#process_hunks(gitgutter#hunk#hunks())), 'v:val[0] == a:lnum')
+"   "echo gg_line_state
+"  
+"   if len(gg_line_state) == 0
+"     return 'Exception'
+"   endif
+"  
+"   if gg_line_state[0][1] =~ 'added'
+"     return 'GitGutterAdd'
+"   elseif gg_line_state[0][1] =~ 'modified'
+"     return 'GitGutterChange'
+"   elseif gg_line_state[0][1] =~ 'removed'
+"     return 'GitGutterDelete'
+"   endif
+" endfunction
+"  
+" " Next, assign it to g:SignatureMarkTextHL
+" let g:SignatureMarkTextHL = 'SignatureGitGutter(l:lnum)'
+ 
+" Now everytime Signature wants to place a sign, it calls this function and thus, we can dynamically assign a Highlight group g:SignatureMarkTextHL
+" The advantage of doing it this way is that this decouples Signature from git-gutter. Both can remain unaware of the other.
