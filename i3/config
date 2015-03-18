@@ -204,7 +204,7 @@ exec xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Two-Finger Scrollin
 #exec_always nm-applet --sm-disable
 exec nm-applet --sm-disable
 #volume
-exec volumeicon 
+exec --no-startup-id volumeicon 
 
 #lock screen 
 bindsym $mod+l exec "gnome-screensaver-command -l" 
