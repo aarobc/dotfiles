@@ -33,6 +33,7 @@ if ! zgen saved; then
 fi
 
 
+alias gitreset='git fetch --all && git reset --hard origin/master'
 alias tmux='tmux -2'
 alias gitl='git log --pretty=format:"%h - %an, %ar : %s"'
 export PATH="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
