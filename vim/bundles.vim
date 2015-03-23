@@ -23,6 +23,8 @@ Plugin 'christoomey/vim-tmux-navigator'
 "Plugin 'Valloric/YouCompleteMe'
 " for marks
 Plugin 'kshenoy/vim-signature'
+"vim syntax for dockerfiles
+Plugin 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
 
 call vundle#end()  
 
