@@ -10,6 +10,7 @@ Plugin 'gregsexton/MatchTag'
 Plugin 'tomasr/molokai'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
 Plugin 'Raimondi/delimitMate'
 Plugin 'wesQ3/vim-windowswap'
 Plugin 'vim-scripts/Tabmerge'
@@ -23,7 +24,6 @@ Plugin 'christoomey/vim-tmux-navigator'
 "Plugin 'Valloric/YouCompleteMe'
 " for marks
 Plugin 'kshenoy/vim-signature'
-"vim syntax for dockerfiles
 Plugin 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
 
 call vundle#end()  

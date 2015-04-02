@@ -217,11 +217,11 @@ gaps inner 20
 # gaps outer 5
 
 # open shell on startup
-exec gnome-terminal
+# exec gnome-terminal
 
 # testing layout config setup
 # exec --no-startup-id i3-msg 'workspace 3:Web; exec chromium-browser'
-# exec --no-startup-id i3-msg 'workspace 1; exec pidgin'
+exec --no-startup-id i3-msg 'workspace 1; exec pidgin'
 # exec --no-startup-id i3-msg 'workspace 3; exec chromium-browser'
 exec --no-startup-id i3-msg 'workspace 10; exec virtualbox'
 
