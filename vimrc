@@ -175,6 +175,11 @@ let delimitMate_expand_space = 1
 " look into this:
 "https://github.com/chrisbra/vim_dotfiles/blob/master/plugin/CustomFoldText.vim
 
+"syntastic:
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 "reference:
 "tabm <number> moves tab to that location.
 "example: tabm 0 moves tab to location 0 (first location)
