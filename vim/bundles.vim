@@ -25,6 +25,7 @@ Plugin 'christoomey/vim-tmux-navigator'
 " for marks
 Plugin 'kshenoy/vim-signature'
 Plugin 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
+Plugin 'sirtaj/vim-openscad'
 
 call vundle#end()  
 
