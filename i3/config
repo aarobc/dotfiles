@@ -22,8 +22,17 @@ set $sup Mod4
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 font pango:Source Code Pro for Powerline 10px
  # border only, no titlebar
-new_window pixel 2
-hide_edge_borders vertical
+# new_window pixel 2
+# hide_edge_borders vertical
+new_window pixel 1
+new_float pixel 1
+hide_edge_borders both
+# class border backgr indicator
+# client.focused #9fbc00 #9fbc00 #111111
+client.focused #00FFCC #00FFCC #111111
+client.unfocused #444444 #444444 #315858
+client.focused_inactive #444444 #444444 #2c2c2f
+client.urgent #383a3b #383a3b #ee0000
 
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -192,9 +201,8 @@ bar {
 exec --no-startup-id nitrogen --restore
 # disabling the config file untill I have more time to mess with it compton
 # exec compton --config ~/.i3/compton.conf
-# exec compton -bcCGf -i 0.8 -e 0.8 --no-fading-openclose --clear-shadow
-exec compton -bcCGf --inactive-dim 0.1 -e 0.8 --no-fading-openclose --clear-shadow
- 
+# exec compton -bcCGf --inactive-dim 0.1 -e 0.8 --no-fading-openclose --clear-shadow --backend glx --vsync opengl
+exec compton -bcCGf --inactive-dim 0.1 -e 0.8 --clear-shadow --backend glx --vsync opengl -D 2 
 
 # natural scrolling:
 exec xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Scrolling Distance" -107, -106
