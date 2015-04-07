@@ -35,3 +35,11 @@ if [ "$STATUS1" = "connected" ] && [ "$STATUS2" = "connected" ]; then
     # echo "both connected!"
     /home/ac/dotfiles/scripts/fixLayout.py
 fi
+
+# display port
+read DP1 < /sys/class/drm/card0-DP-1/status
+if [ "$DP1" = "connected" ]; then
+    xrandr --output DP1 --right-of eDP1 --auto --screen 0
+else
+    xrandr --output DP1 --off --screen 0
+fi
