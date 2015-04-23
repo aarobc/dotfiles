@@ -76,5 +76,7 @@ function extract {
 
 #hoping that this fixes the annoying issue when it doesn't workO
 if hash setxkbmap 2>/dev/null; then
+    # disable caps lock if it's on just in case
+    python -c 'from ctypes import *; X11 = cdll.LoadLibrary("libX11.so.6"); display = X11.XOpenDisplay(None); X11.XkbLockModifiers(display, c_uint(0x0100), c_uint(2), c_uint(0)); X11.XCloseDisplay(display)'
     setxkbmap -option 'caps:ctrl_modifier'
 fi
