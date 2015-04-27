@@ -26,6 +26,7 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'kshenoy/vim-signature'
 Plugin 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
 Plugin 'sirtaj/vim-openscad'
+Plugin 'klen/python-mode'
 
 call vundle#end()  
 
