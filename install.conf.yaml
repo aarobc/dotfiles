@@ -3,6 +3,9 @@
     ~/.vim: 
       force: true
       path: vim/
+    ~/.nvim: 
+      force: true
+      path: vim/
     ~/.i3: 
       force: true
       path: i3/
@@ -10,6 +13,9 @@
       force: true
       path: bashrc
     ~/.vimrc:
+      force: true
+      path: vimrc
+    ~/.nvimrc:
       force: true
       path: vimrc
     ~/.tmux.conf:
