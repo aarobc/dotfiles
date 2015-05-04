@@ -21,6 +21,12 @@ colorscheme molokai
 
 set nowrap
 
+"generic folding settings
+set foldmethod=indent   "fold based on indent
+set foldnestmax=1      "deepest fold is 10 levels
+set nofoldenable        "dont fold by default
+set foldlevel=1         "this is just what i use
+
 "javascript folding
 function! s:JavascriptFileType()
 
