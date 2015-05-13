@@ -7,7 +7,8 @@ call vundle#begin()
 
 Plugin 'gmarik/vundle'
 Plugin 'gregsexton/MatchTag'
-Plugin 'tomasr/molokai'
+" Plugin 'tomasr/molokai'
+Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 Plugin 'tomtom/tcomment_vim'
 Plugin 'scrooloose/nerdtree'
 " Plugin 'scrooloose/syntastic'
