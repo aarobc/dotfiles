@@ -13,7 +13,9 @@ syntax on
 "default vim background color for monokai theme:
 let g:molokai_original=1
 set t_Co=256
-colorscheme molokai
+
+" colorscheme molokai
+colorscheme Tomorrow
 "attempt to fix weird background color issues
 "shouldn't need to mess with this because tmux alias yay
 "set term=screen-256color
