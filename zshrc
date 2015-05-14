@@ -17,13 +17,14 @@ if ! zgen saved; then
         # plugins
     zgen oh-my-zsh plugins/git
     zgen oh-my-zsh plugins/sudo
+    zgen oh-my-zsh plugins/docker
     zgen oh-my-zsh plugins/command-not-found
     zgen load zsh-users/zsh-syntax-highlighting
     #zgen load ~/dotfiles/agnoster.zsh-theme
 
     # completion-only repositories. Add optional path argument to specify
     # what subdirectory of the repository to add to your fpath.
-    zgen completions zsh-users/zsh-completions src
+    zgen load zsh-users/zsh-completions src
 
     # theme
     #zgen oh-my-zsh themes/arrow
