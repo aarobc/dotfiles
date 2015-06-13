@@ -17,13 +17,14 @@ if ! zgen saved; then
         # plugins
     zgen oh-my-zsh plugins/git
     zgen oh-my-zsh plugins/sudo
+    zgen oh-my-zsh plugins/docker
     zgen oh-my-zsh plugins/command-not-found
     zgen load zsh-users/zsh-syntax-highlighting
     #zgen load ~/dotfiles/agnoster.zsh-theme
 
     # completion-only repositories. Add optional path argument to specify
     # what subdirectory of the repository to add to your fpath.
-    zgen completions zsh-users/zsh-completions src
+    zgen load zsh-users/zsh-completions src
 
     # theme
     #zgen oh-my-zsh themes/arrow
@@ -37,7 +38,8 @@ alias gitreset='git fetch --all && git reset --hard origin/master'
 alias tmux='tmux -2'
 alias gitl='git log --pretty=format:"%h - %an, %ar : %s"'
 alias dc='docker-compose'
-export PATH="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
+
+export PATH="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 #export "$PATH:$HOME/Library/Python/2.7/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 

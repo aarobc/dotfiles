@@ -13,13 +13,21 @@ syntax on
 "default vim background color for monokai theme:
 let g:molokai_original=1
 set t_Co=256
+
 colorscheme molokai
+" colorscheme Tomorrow
 "attempt to fix weird background color issues
 "shouldn't need to mess with this because tmux alias yay
 "set term=screen-256color
 "set term=xterm-256color
 
 set nowrap
+
+"generic folding settings
+set foldmethod=indent   "fold based on indent
+set foldnestmax=1      "deepest fold is 10 levels
+set nofoldenable        "dont fold by default
+set foldlevel=1         "this is just what i use
 
 "javascript folding
 function! s:JavascriptFileType()
