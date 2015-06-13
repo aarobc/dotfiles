@@ -8,9 +8,10 @@ call vundle#begin()
 Plugin 'gmarik/vundle'
 Plugin 'gregsexton/MatchTag'
 Plugin 'tomasr/molokai'
+" Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
 Plugin 'tomtom/tcomment_vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
+" Plugin 'scrooloose/syntastic'
 Plugin 'Raimondi/delimitMate'
 Plugin 'wesQ3/vim-windowswap'
 Plugin 'vim-scripts/Tabmerge'
