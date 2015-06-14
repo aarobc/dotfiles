@@ -46,7 +46,8 @@ bindsym $mod+Return exec --no-startup-id gnome-terminal
 bindsym $mod+Shift+apostrophe kill
 
 # start dmenu (a program launcher)
-bindsym $mod+e exec dmenu_run
+# bindsym $mod+e exec dmenu_run
+bindsym $mod+e exec j4-dmenu-desktop --dmenu="dmenu -i"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -201,11 +202,12 @@ bar {
 
 #wallpaper thingy
 exec --no-startup-id nitrogen --restore
+
 # disabling the config file untill I have more time to mess with it compton
 # exec compton --config ~/.i3/compton.conf
 # exec compton -bcCGf --inactive-dim 0.1 -e 0.8 --no-fading-openclose --clear-shadow --backend glx --vsync opengl
-exec compton -bcCGf --inactive-dim 0.1 -e 0.8 --clear-shadow --backend glx --vsync opengl -D 2 
-
+# exec compton -bcCGfz --inactive-dim 0.1 -e 0.8  --backend glx --vsync opengl -D 2 
+exec compton -bcCGfz -o 1 -D 5
 # natural scrolling:
 exec xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Scrolling Distance" -107, -106
 exec xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Two-Finger Scrolling" 1 1
@@ -236,7 +238,7 @@ gaps inner 20
 # exec --no-startup-id i3-msg 'workspace 3:Web; exec chromium-browser'
 exec --no-startup-id i3-msg 'workspace 1; exec pidgin'
 # exec --no-startup-id i3-msg 'workspace 3; exec chromium-browser'
-exec --no-startup-id i3-msg 'workspace 10; exec virtualbox'
+# exec --no-startup-id i3-msg 'workspace 10; exec virtualbox'
 
 
 #pitiful attepmts at maging new terminal open in same directory
