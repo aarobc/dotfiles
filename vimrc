@@ -192,6 +192,8 @@ let g:syntastic_check_on_wq = 0
 "tabm <number> moves tab to that location.
 "example: tabm 0 moves tab to location 0 (first location)
 "
+"let @a = ':s/row\['\(\w*\)'\]/row->\1/g'
+" :s/row\['\(\w*\)'\]/row->\1/g
 "move existing window into new tab:
 ":tabedit %<CR>
 
