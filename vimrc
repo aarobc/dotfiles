@@ -83,6 +83,12 @@ set autochdir
 nnoremap <silent> <Tab> :wincmd w<CR>
 nnoremap <silent> <S-Tab> :wincmd W<CR>
 
+" doal with drag issues when in tmux
+" set mouse+=a
+if &term =~ '^screen'
+    " tmux knows the extended mouse mode
+    set ttymouse=xterm2
+endif
 
 "nerdTree
 nnoremap <C-f> :NERDTree<CR>
