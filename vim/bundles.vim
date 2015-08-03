@@ -1,11 +1,11 @@
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim/
-"call vundle#rc()
 call vundle#begin()
 
 
-Plugin 'gmarik/vundle'
+" Plugin 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 Plugin 'gregsexton/MatchTag'
 Plugin 'tomasr/molokai'
 " Plugin 'chriskempson/tomorrow-theme', {'rtp': 'vim/'}
@@ -28,6 +28,7 @@ Plugin 'kshenoy/vim-signature'
 Plugin 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
 Plugin 'sirtaj/vim-openscad'
 Plugin 'klen/python-mode'
+Plugin 'unblevable/quick-scope'     " xor Vundle
 
 call vundle#end()  
 
