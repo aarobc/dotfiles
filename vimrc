@@ -77,6 +77,9 @@ nnoremap <silent> <S-Tab> :wincmd W<CR>
 nnoremap <Space> za
 vnoremap <Space> za
 
+"
+noremap B g^
+noremap E g$
 "open file looking thing in new tab
 "map gf :tabedit <cfile><CR>
 noremap gf :exec "tabedit" substitute(expand("<cfile>"), '^\/\.\.', "..", "")<cr>
