@@ -29,6 +29,8 @@ Plugin 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
 Plugin 'sirtaj/vim-openscad'
 Plugin 'klen/python-mode'
 Plugin 'unblevable/quick-scope'     " xor Vundle
+" git plugin
+Plugin 'tpope/vim-fugitive'     
 
 call vundle#end()  
 
