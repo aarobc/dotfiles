@@ -204,7 +204,7 @@ bar {
 # exec --no-startup-id nitrogen --restore
 
 #auto wallpaper changer
-# exec --no-startup-id variety
+exec --no-startup-id variety
 
 # disabling the config file untill I have more time to mess with it compton
 exec compton -b --config ~/.i3/compton.conf
