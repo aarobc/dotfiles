@@ -39,6 +39,7 @@ alias tmux='tmux -2'
 alias gitl='git log --pretty=format:"%h - %an, %ar : %s"'
 alias dc='docker-compose'
 alias hibernate='systemctl hibernate'
+alias logoff='i3-msg exit'
 
 export PATH="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 #export "$PATH:$HOME/Library/Python/2.7/bin"
@@ -84,4 +85,11 @@ if hash setxkbmap 2>/dev/null; then
     # disable caps lock if it's on just in case
     python -c 'from ctypes import *; X11 = cdll.LoadLibrary("libX11.so.6"); display = X11.XOpenDisplay(None); X11.XkbLockModifiers(display, c_uint(0x0100), c_uint(2), c_uint(0)); X11.XCloseDisplay(display)'
     setxkbmap -option 'caps:ctrl_modifier'
+fi
+
+#temp workaround for microphone volume issue
+if hash amixer 2>/dev/null; then
+    NOPe=`amixer -c 1 set Capture 20`
+else
+    echo "no amixer"
 fi

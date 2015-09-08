@@ -27,5 +27,21 @@ fi
 
 export PATH="$PATH:$HOME/local/bin"
 
-xcape -e 'Caps_Lock=Escape'
-setxkbmap -option 'caps:ctrl_modifier'
+if hash setxkbmap ; then
+    setxkbmap -option 'caps:ctrl_modifier'
+else
+    echo "no setxkbmap"
+fi
+
+
+if hash xcape; then
+    xcape -e 'Caps_Lock=Escape'
+else
+    echo "no xcape"
+fi
+
+if hash amixer; then
+    amixer -c 1 set Capture 20
+else
+    echo "no amixer"
+fi
