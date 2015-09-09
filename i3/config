@@ -20,7 +20,8 @@ set $sup Mod4
 # --- Interface ---------------------------------------------------------------------
 #font -*-termsynu-medium-r-*-13-*-*-*-*-*-*-*
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-font pango:Source Code Pro for Powerline 10px
+# font pango:Source Code Pro for Powerline 10px
+font pango:SFNS Display Regular 14px
  # border only, no titlebar
 new_window pixel 1
 new_float pixel 1
@@ -28,7 +29,7 @@ hide_edge_borders both
 # class border backgr indicator
 
 # client.focused #9fbc00 #9fbc00 #111111
-client.focused #FF6600 #FF6600 #111111
+client.focused #FF0F8FF #FF0F8FF #FF0F8FF
 client.unfocused #444444 #444444 #315858
 client.focused_inactive #444444 #444444 #2c2c2f
 client.urgent #383a3b #383a3b #ee0000
@@ -186,7 +187,7 @@ bar {
     status_command i3status
     position    top
     colors{
-        background #232323
+        background #232323FF
         statusline #DCDCDC
     }
 }
