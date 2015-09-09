@@ -1,0 +1,8 @@
+install base configuration automatically
+
+software:
+arandr
+
+#visual stuff:
+compton
+lxappearance gtk-chtheme qt4-qtconfig
