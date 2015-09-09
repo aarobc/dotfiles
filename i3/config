@@ -217,10 +217,8 @@ exec xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Two-Finger Scrollin
 #network manager
 #exec /usr/bin/nm-applet
 #exec_always nm-applet --sm-disable
-exec nm-applet --sm-disable
-
-#workaround for sound
-# exec unity-control-center 
+# exec nm-applet --sm-disable
+exec --no-startup-id nm-applet
 
 #volume icon
 exec --no-startup-id volumeicon 
