@@ -42,6 +42,6 @@ fi
 
 if hash amixer; then
     amixer -c 1 set Capture 20 2>/dev/null
-else
+# else
     # echo "no amixer"
 fi

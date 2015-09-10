@@ -89,7 +89,7 @@ fi
 
 #temp workaround for microphone volume issue
 if hash amixer 2>/dev/null; then
-    NOPe=`amixer -c 1 set Capture 20 2>/div/null`
+    NOPe=`amixer -c 1 set Capture 20 2>/dev/null`
 else
     echo "no amixer"
 fi
