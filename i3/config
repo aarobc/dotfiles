@@ -21,7 +21,7 @@ set $sup Mod4
 #font -*-termsynu-medium-r-*-13-*-*-*-*-*-*-*
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # font pango:Source Code Pro for Powerline 10px
-font pango:SFNS Display Regular 14px
+font pango:SFNS Text Medium 14px
  # border only, no titlebar
 new_window pixel 1
 new_float pixel 1
