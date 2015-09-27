@@ -21,7 +21,8 @@ set $sup Mod4
 #font -*-termsynu-medium-r-*-13-*-*-*-*-*-*-*
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # font pango:Source Code Pro for Powerline 10px
-font pango:SFNS Display Regular 14px
+# font pango:SFNS Text MediumP4 14px
+font pango:SFNS Display 14px
  # border only, no titlebar
 new_window pixel 1
 new_float pixel 1
@@ -163,8 +164,8 @@ bindsym $mod+p mode "resize"
 
 
 # Audio shortcuts 
-bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%- 
-bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+ 
+bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 3%- 
+bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 3%+ 
 bindsym XF86AudioMute exec amixer -D pulse sset Master toggle 
 #window switchy like ubuntu
 bindsym Control+$mod+Right workspace next
@@ -208,7 +209,8 @@ bar {
 exec --no-startup-id variety
 
 # disabling the config file untill I have more time to mess with it compton
-exec compton -b --config ~/.i3/compton.conf
+exec compton --config ~/.i3/compton.conf
+
 # exec compton -bcCGf --inactive-dim 0.1 -e 0.8 --no-fading-openclose --clear-shadow --backend glx --vsync opengl
 # exec compton -bcCGfz --inactive-dim 0.1 -e 0.8  --backend glx --vsync opengl -D 2 
 # exec compton -bcCGfz -o 1 -D 5
