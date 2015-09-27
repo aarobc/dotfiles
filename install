@@ -9,10 +9,11 @@ DOTBOT_BIN="bin/dotbot"
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 cd "${BASEDIR}"
-git submodule update --init --recursive "${DOTBOT_DIR}"
+# git submodule update --init --recursive "${DOTBOT_DIR}"
+git submodule update --init --recursive *
 # updating other submodules
 # git submodule update --init --recursive ~/dotfiles/zgen
-# git submodule update --init --recursive ~/dotfiles/vim/bundle/Vundle.vim
+git submodule update --init --recursive ~/dotfiles/vim/bundle/Vundle.vim
 
 git submodule foreach -q --recursive 'branch="$(git config -f ~/dotfiles/.gitmodules submodule.$name.branch)"; git checkout $branch master; git pull'
 
