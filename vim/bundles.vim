@@ -35,6 +35,7 @@ Plugin 'klen/python-mode'
 Plugin 'unblevable/quick-scope'     " xor Vundle
 " git plugin
 Plugin 'tpope/vim-fugitive'     
+Plugin 'ntpeters/vim-better-whitespace'
 
 call vundle#end()  
 
