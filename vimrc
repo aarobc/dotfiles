@@ -7,7 +7,7 @@ source ~/.vim/bundles.vim
 augroup vimrc | execute 'autocmd!' | augroup END
 
 filetype plugin indent on     " required!
-    
+
 syntax on
 "default vim background color for monokai theme:
 let g:molokai_original=1
@@ -65,9 +65,14 @@ set wildmenu
 set splitbelow
 set splitright
 
-"powerline stuffs:
+"powerline/airline stuffs:
 " Always show statusline
 set laststatus=2
+let g:airline_powerline_fonts = 1
+" let g:airline_theme='powerlineish'
+let g:airline_theme='murmur'
+" let g:airline_theme='molokai'
+" let g:airline_theme='luna'
 
 "easier window navigation
 nnoremap <silent> <Tab> :wincmd w<CR>
