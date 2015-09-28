@@ -49,7 +49,8 @@ export PATH="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/lo
 
 # You may need to manually set your language environment
 #export LANG=en_US.UTF-8
-#export TERM=xterm-256color
+# Setting to 256 for working neovim syntax. must set to just xterm for vim
+export TERM=xterm-256color
 #[ -n "$TMUX" ] && export TERM=screen-256color
 
 #if [[ -r /usr/local/lib/python2.7/dist-packages/powerline/bindings/zsh/powerline.zsh ]]; then
