@@ -43,7 +43,7 @@ set foldnestmax=1      "deepest fold is 10 levels
 set nofoldenable        "dont fold by default
 set foldlevel=1         "this is just what i use
 
-"set mouse=a
+set mouse=r
 set number
 "change the leader from backslash
 let mapleader=","
@@ -73,6 +73,14 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme='murmur'
 " let g:airline_theme='molokai'
 " let g:airline_theme='luna'
+if ! has('gui_running')
+    set ttimeoutlen=10
+    augroup FastEscape
+        autocmd!
+        au InsertEnter * set timeoutlen=0
+        au InsertLeave * set timeoutlen=1000
+    augroup END
+endif
 
 "easier window navigation
 nnoremap <silent> <Tab> :wincmd w<CR>
@@ -97,7 +105,6 @@ cmap w!! w !sudo tee > /dev/null %
 
 "javascript folding
 function! s:JavascriptFileType()
-
     "set nofoldenable
     set foldlevelstart=0
     " fold methods available: syntax indent marker
@@ -112,7 +119,6 @@ function! s:JavascriptFileType()
     " Make zO recursively open whatever top level fold we're in, no matter where the
     " cursor happens to be.
     nnoremap zO zCzO
-
 endfunction
 
 autocmd vimrc FileType javascript call s:JavascriptFileType()
