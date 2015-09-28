@@ -41,6 +41,10 @@ alias dc='docker-compose'
 alias hibernate='systemctl hibernate'
 alias logoff='i3-msg exit'
 
+if hash nvim 2>/dev/null; then
+    alias vim='nvim'
+fi
+
 export PATH="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 #export "$PATH:$HOME/Library/Python/2.7/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
