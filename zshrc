@@ -40,6 +40,8 @@ alias gitl='git log --pretty=format:"%h - %an, %ar : %s"'
 alias dc='docker-compose'
 alias hibernate='systemctl hibernate'
 alias logoff='i3-msg exit'
+alias gitroot='`git rev-parse --show-toplevel`'
+
 
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
