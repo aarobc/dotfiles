@@ -41,6 +41,7 @@ alias dc='docker-compose'
 alias hibernate='systemctl hibernate'
 alias logoff='i3-msg exit'
 alias gitroot='git rev-parse --show-toplevel'
+alias dcrrm='dc run --rm'
 
 
 if hash nvim 2>/dev/null; then
