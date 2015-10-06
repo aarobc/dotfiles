@@ -30,7 +30,7 @@ hide_edge_borders both
 # class border backgr indicator
 
 # client.focused #9fbc00 #9fbc00 #111111
-client.focused #2c3e50 #2c3e50 #ecf0f1
+client.focused #03ff00 #03ff00 #ecf0f1
 client.unfocused #444444 #444444 #000000
 client.focused_inactive #444444 #444444 #2c2c2f
 client.urgent #383a3b #383a3b #ee0000
