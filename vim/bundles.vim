@@ -34,8 +34,9 @@ Plugin 'sirtaj/vim-openscad'
 Plugin 'klen/python-mode'
 Plugin 'unblevable/quick-scope'     " xor Vundle
 " git plugin
-Plugin 'tpope/vim-fugitive'     
+Plugin 'tpope/vim-fugitive'
 Plugin 'ntpeters/vim-better-whitespace'
+" Plugin 'nathanaelkane/vim-indent-guides'
 
-call vundle#end()  
+call vundle#end()
 
