@@ -30,13 +30,15 @@ set fo-=o
 
 set backspace=indent,eol,start
 
-set smartindent
+" set smartindent
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
+set background=dark
 "set expandtab
-"set autoindent
+set autoindent
+filetype plugin indent on
 "generic folding settings
 set foldmethod=indent   "fold based on indent
 set foldnestmax=1      "deepest fold is 10 levels
@@ -172,7 +174,9 @@ function! PhpSyntaxOverride()
     "folding stuff
     let php_folding=0
     setlocal foldmethod=manual
-    EnableFastPHPFolds
+    " EnableFastPHPFolds
+    EnablePHPFolds
+    normal zR
     "syntax stuff
     hi! def link phpDocTags  phpDefine
     hi! def link phpDocParam phpType
