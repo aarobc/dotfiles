@@ -43,6 +43,7 @@ alias logoff='i3-msg exit'
 alias gitroot='git rev-parse --show-toplevel'
 alias dcrrm='dc run --rm'
 alias v='$HOME/dotfiles/scripts/vimterm.py'
+alias xclip='xclip -selection clipboard'
 
 
 if hash nvim 2>/dev/null; then
