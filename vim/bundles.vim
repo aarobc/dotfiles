@@ -36,6 +36,8 @@ Plugin 'unblevable/quick-scope'     " xor Vundle
 " git plugin
 Plugin 'tpope/vim-fugitive'
 Plugin 'ntpeters/vim-better-whitespace'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
 " Plugin 'nathanaelkane/vim-indent-guides'
 
 call vundle#end()
