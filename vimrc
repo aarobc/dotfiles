@@ -24,9 +24,7 @@ set lazyredraw
 set nowrap
 
 "disable auto commenting:
-"doesn't work
-set fo-=o
-"autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 set backspace=indent,eol,start
 
@@ -36,7 +34,6 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 set background=dark
-"set expandtab
 set autoindent
 filetype plugin indent on
 "generic folding settings
