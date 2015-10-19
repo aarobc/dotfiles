@@ -54,7 +54,8 @@ fi
 export PATH="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 #export "$PATH:$HOME/Library/Python/2.7/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
-
+export GIT_EDITOR=vim
+export EDITOR=vim
 
 
 # You may need to manually set your language environment
