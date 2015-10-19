@@ -38,13 +38,14 @@ alias gitreset='git fetch --all && git reset --hard origin/master'
 alias tmux='tmux -2'
 alias gitl='git log --pretty=format:"%h - %an, %ar : %s"'
 alias dc='docker-compose'
-alias hibernate='systemctl hibernate'
 alias logoff='i3-msg exit'
 alias gitroot='git rev-parse --show-toplevel'
 alias dcrrm='dc run --rm'
 alias v='$HOME/dotfiles/scripts/vimterm.py'
 alias xclip='xclip -selection clipboard'
+alias hibernate='$HOME/dotfiles/scripts/hibernate.sh'
 
+alias vim='nvim'
 
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
