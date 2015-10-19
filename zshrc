@@ -56,6 +56,7 @@ export PATH="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/lo
 # export MANPATH="/usr/local/man:$MANPATH"
 export GIT_EDITOR=vim
 export EDITOR=vim
+export VISUAL=vim
 
 
 # You may need to manually set your language environment
