@@ -198,17 +198,25 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-"neovim stuff
+
+"move between splits:
+nnoremap <C-H> <C-W><C-H>
+nnoremap <C-T> <C-W><C-J>
+nnoremap <C-N> <C-W><C-K>
+nnoremap <C-S> <C-W><C-L>
+
+"neovim stuff; move between terminal splits
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
-    tnoremap <A-h> <C-\><C-n><C-w>h
-    tnoremap <A-j> <C-\><C-n><C-w>j
-    tnoremap <A-k> <C-\><C-n><C-w>k
-    tnoremap <A-l> <C-\><C-n><C-w>l
-    nnoremap <A-h> <C-w>h
-    nnoremap <A-j> <C-w>j
-    nnoremap <A-k> <C-w>k
-    nnoremap <A-l> <C-w>l
+    tnoremap <C-h> <C-\><C-n><C-w>h
+    tnoremap <C-t> <C-\><C-n><C-w>j
+    tnoremap <C-n> <C-\><C-n><C-w>k
+    tnoremap <C-s> <C-\><C-n><C-w>l
+
+    nnoremap <C-h> <C-w>h
+    nnoremap <C-t> <C-w>j
+    nnoremap <C-n> <C-w>k
+    nnoremap <C-s> <C-w>l
 endif
 
 "reference:
