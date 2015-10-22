@@ -39,6 +39,7 @@ Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 " Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'ctrlpvim/ctrlp.vim'
 
 call vundle#end()
 

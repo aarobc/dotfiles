@@ -72,6 +72,12 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme='murmur'
 " let g:airline_theme='molokai'
 " let g:airline_theme='luna'
+" Enable the list of buffers
+" let g:airline#extensions#tabline#enabled = 1
+" " Show just the filename
+" let g:airline#extensions#tabline#fnamemod = ':t'
+
+" workaround to deal with laggy response
 if ! has('gui_running')
     set ttimeoutlen=10
     augroup FastEscape
@@ -147,6 +153,8 @@ nnoremap <C-f> :NERDTree<CR>
 "merge tabs into single page
 noremap <C-w>m :Tabmerge<CR>
 
+"ctrlP
+noremap <C-B> :CtrlPBuffer<CR>
 
 "for windowswap plugin:
 "should learn keyboard commands though
