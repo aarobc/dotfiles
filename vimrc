@@ -95,9 +95,14 @@ nnoremap <silent> <S-Tab> :wincmd W<CR>
 nnoremap <Space> za
 vnoremap <Space> za
 
-"
+"jumping to beginning and end of lines
 noremap B g^
 noremap E g$
+
+" vim quickscope repurposing t to jump to second blue match
+noremap t 2f
+noremap T 2F
+
 "open file looking thing in new tab
 "map gf :tabedit <cfile><CR>
 noremap gf :exec "tabedit" substitute(expand("<cfile>"), '^\/\.\.', "..", "")<cr>
