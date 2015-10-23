@@ -233,7 +233,7 @@ bindsym $mod+l exec "gnome-screensaver-command -l"
 #hangouts popup set to floating
 for_window [class="Chromium-browser" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] floating enable
 #move hangouts always to desktop 1
-assign [class="Google-chrome" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] →  1
+assign [class="google-chrome" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] →  1
 #pidgin always desktop 1
 assign [class="Pidgin"] →  1
 
