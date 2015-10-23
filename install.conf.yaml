@@ -1,15 +1,15 @@
 - clean: ['~']
 - link:
-    ~/.vim: 
+    ~/.vim:
       force: true
       path: vim/
-    ~/.nvim: 
+    ~/.nvim:
       force: true
       path: vim/
-    ~/.i3: 
+    ~/.i3:
       force: true
       path: i3/
-    ~/.bashrc: 
+    ~/.bashrc:
       force: true
       path: bashrc
     ~/.vimrc:
@@ -33,4 +33,7 @@
     ~/.config/fontconfig/conf.d/10-powerline-symbols.conf:
       create: true
       path: vim/bundle/powerline/font/10-powerline-symbols.conf
+    ~/.i3status.conf:
+      force: true
+      path: i3status.conf
 
