@@ -46,8 +46,6 @@ alias xclip='xclip -selection clipboard'
 alias hibernate='$HOME/dotfiles/scripts/hibernate.sh'
 alias gitaddall='echo -e "a\n*\nq\n"|git add -i'
 
-alias vim='nvim'
-
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
 fi
