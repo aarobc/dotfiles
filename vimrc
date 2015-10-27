@@ -160,6 +160,18 @@ noremap <C-w>m :Tabmerge<CR>
 
 "ctrlP
 noremap <C-B> :CtrlPBuffer<CR>
+let g:ctrlp_prompt_mappings = {
+    \ 'PrtSelectMove("j")':   ['<c-t>', '<down>'],
+    \ 'PrtSelectMove("k")':   ['<c-n>', '<up>'],
+    \ 'AcceptSelection("t")': ['<c-y>'],
+    \ 'CreateNewFile()':      ['<c-f>'],
+    \ 'ToggleType(1)':        ['<c-u>', '<c-up>'],
+    \ 'PrtClear()':           ['<c-g>'],
+    \ 'PrtHistory(-1)':       ['<c-b>'],
+    \ 'ToggleType(-1)':       ['<c-down>'],
+    \ 'PrtExit()':            ['<esc>', '<c-c>'],
+    \ }
+
 
 "for windowswap plugin:
 "should learn keyboard commands though
