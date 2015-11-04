@@ -190,7 +190,7 @@ bar {
     position    top
     colors{
         background #23232310
-        statusline #DCDCDC10
+        # statusline #DCDCDC10
     }
 }
 #
