@@ -250,6 +250,11 @@ if has('nvim')
     nnoremap <C-s> <C-w>l
 endif
 
+"moving splits around
+nnoremap <C-w>S <C-w>L
+nnoremap <C-w>T <C-w>J
+nnoremap <C-w>N <C-w>K
+
 function! ToggleMouse()
     " check if mouse is enabled
     if &mouse == 'a'
