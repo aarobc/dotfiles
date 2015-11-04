@@ -172,7 +172,13 @@ let g:ctrlp_prompt_mappings = {
     \ 'PrtExit()':            ['<esc>', '<c-c>'],
     \ }
 
-
+" silver searcher is supposed to be faster, but I'm not find that to be the case
+if executable('ag')
+  " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  " let g:ctrlp_use_caching = 0
+  " set grepprg=ag\ --nogroup\ --nocolor
+  " let g:ackprg = 'ag --nogroup --nocolor --column'
+endif
 "for windowswap plugin:
 "should learn keyboard commands though
 let g:windowswap_map_keys = 0 "prevent default bindings
