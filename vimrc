@@ -96,8 +96,8 @@ nnoremap <Space> za
 vnoremap <Space> za
 
 "jumping to beginning and end of lines
-noremap B g^
-noremap E g$
+noremap B ^
+noremap E $
 
 " vim quickscope repurposing t to jump to second blue match
 noremap t 2f
@@ -108,7 +108,7 @@ noremap T 2F
 noremap gf :exec "tabedit" substitute(expand("<cfile>"), '^\/\.\.', "..", "")<cr>
 "syntax coloring for arduino
 au BufRead,BufNewFile *.ino set filetype=cpp
-"au BufRead,BufNewFile *.txt set filetype=js
+au BufRead,BufNewFile *.vue set filetype=html
 
 "save file as root
 cmap w!! w !sudo tee > /dev/null %
