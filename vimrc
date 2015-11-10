@@ -215,6 +215,9 @@ augroup phpSyntaxOverride
     autocmd FileType php call PhpSyntaxOverride()
 augroup END
 
+" check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
+set autoread
+au CursorHold * checktime
 
 "do better auto complete brace behavior:
 let delimitMate_expand_cr = 1
