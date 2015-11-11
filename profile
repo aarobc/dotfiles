@@ -45,3 +45,5 @@ if hash amixer; then
 # else
     # echo "no amixer"
 fi
+
+sh ~/.screenlayout/layout.sh

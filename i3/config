@@ -103,7 +103,8 @@ bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
-
+workspace "1" output HDMI-0
+workspace "7" output DVI-I-1
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -181,10 +182,19 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightne
 # finds out, if available)
 #exec xrandr --output DFP7 --auto --left-of DFP5
 
-# workspace 1 output DFP7
-# workspace 7 output DFP5
 bar {
-    # output DFP7
+    output HDMI-0
+    i3bar_command i3bar -t
+    # status_command i3status
+    position    top
+    colors{
+        background #23232310
+        # statusline #DCDCDC10
+    }
+}
+
+bar {
+    output DVI-I-1
     i3bar_command i3bar -t
     status_command i3status
     position    top
@@ -193,15 +203,7 @@ bar {
         # statusline #DCDCDC10
     }
 }
-#
-# bar {
-#     output DFP5
-#     status_command i3status
-#     colors{
-#         background #232323
-#         statusline #DCDCDC
-#     }
-# }
+
 
 #wallpaper thingy
 # exec --no-startup-id nitrogen --restore
