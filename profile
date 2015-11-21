@@ -27,20 +27,20 @@ fi
 
 export PATH="$PATH:$HOME/local/bin"
 
-if hash setxkbmap ; then
+if hash setxkbmap 2>/dev/null; then
     setxkbmap -option 'caps:ctrl_modifier'
 else
     echo "no setxkbmap"
 fi
 
 
-if hash xcape; then
+if hash xcape 2>/dev/null; then
     xcape -e 'Caps_Lock=Escape'
-else
-    echo "no xcape"
+# else
+#     echo "no xcape"
 fi
 
-if hash amixer; then
+if hash amixer 2>/dev/null; then
     amixer -c 1 set Capture 20 2>/dev/null
 # else
     # echo "no amixer"
