@@ -103,8 +103,8 @@ bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
-workspace "1" output HDMI-0
-workspace "7" output DVI-I-1
+# workspace "1" output HDMI-0
+workspace "8" output HDMI-0
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -182,19 +182,19 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightne
 # finds out, if available)
 #exec xrandr --output DFP7 --auto --left-of DFP5
 
-bar {
-    output HDMI-0
-    i3bar_command i3bar -t
-    # status_command i3status
-    position    top
-    colors{
-        background #23232310
-        # statusline #DCDCDC10
-    }
-}
+# bar {
+#     # output HDMI-0
+#     i3bar_command i3bar -t
+#     # status_command i3status
+#     position    top
+#     colors{
+#         background #23232310
+#         # statusline #DCDCDC10
+#     }
+# }
 
 bar {
-    output DVI-I-1
+    # output DVI-I-1
     i3bar_command i3bar -t
     status_command i3status
     position    top
@@ -210,6 +210,7 @@ bar {
 
 #auto wallpaper changer
 exec --no-startup-id variety
+exec --no-startup-id synergy
 
 exec compton --config ~/.i3/compton.conf
 # exec compton -bcCGf --inactive-dim 0.1 -e 0.8 --no-fading-openclose --clear-shadow --backend glx --vsync opengl
@@ -240,6 +241,9 @@ for_window [class="Chromium-browser" instance="crx_knipolnnllmklapflnccelgolnpeh
 assign [class="google-chrome" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] →  1
 #pidgin always desktop 1
 assign [class="Pidgin"] →  1
+# get rid of annoying popup on hangout screen sharing
+# doesn't work
+for_window [title="*Hangouts is sharing your screen*"] floating enable
 
 gaps inner 20
 # gaps outer 5
