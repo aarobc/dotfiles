@@ -1,4 +1,6 @@
 #!/bin/bash
+#variety
+sudo add-apt-repository ppa:peterlevi/ppa
 #neovim
 sudo add-apt-repository -y ppa:neovim-ppa/unstable
 sudo apt-get update
@@ -6,6 +8,9 @@ sudo apt-get install -y neovim
 
 sudo apt-get install -y python-dev python-pip python3-dev python3-pip
 
+
+sudo apt-get install -y variety
+sudo apt-get install -y feh
 # for dd
 sudo apt-get install -y pv
 
@@ -40,4 +45,5 @@ sudo apt-get install -y libxkbcommon-x11-dev
 
 sudo apt-get install -y i3status
 sudo apt-get install -y suckless-tools
+
 
