@@ -93,8 +93,6 @@ function extract {
   fi
 }
 
-fpath=(~/.zsh/completion $fpath)
-autoload -Uz compinit && compinit -i
 #hoping that this fixes the annoying issue when it doesn't workO
 if hash setxkbmap 2>/dev/null; then
     # disable caps lock if it's on just in case
