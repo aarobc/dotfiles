@@ -33,6 +33,10 @@ if ! zgen saved; then
     zgen save
 fi
 
+# to fix zgen do:
+# zgen reset
+# zgen selfupdate
+# zgen update
 
 alias gitreset='git fetch --all && git reset --hard origin/master'
 alias tmux='tmux -2'
