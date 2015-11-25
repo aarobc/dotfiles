@@ -183,18 +183,7 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightne
 #exec xrandr --output DFP7 --auto --left-of DFP5
 
 bar {
-    output HDMI-0
-    i3bar_command i3bar -t
-    # status_command i3status
-    position    top
-    colors{
-        background #23232310
-        # statusline #DCDCDC10
-    }
-}
-
-bar {
-    output DVI-I-1
+    # output HDMI-0
     i3bar_command i3bar -t
     status_command i3status
     position    top
@@ -203,6 +192,17 @@ bar {
         # statusline #DCDCDC10
     }
 }
+
+# bar {
+#     output DVI-I-1
+#     i3bar_command i3bar -t
+#     status_command i3status
+#     position    top
+#     colors{
+#         background #23232310
+#         # statusline #DCDCDC10
+#     }
+# }
 
 
 #wallpaper thingy
