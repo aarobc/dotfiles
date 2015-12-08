@@ -40,6 +40,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 " Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'nixprime/cpsm'
 
 call vundle#end()
 
