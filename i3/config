@@ -268,6 +268,8 @@ exec --no-startup-id i3-msg 'workspace 1; exec pidgin'
 # exec --no-startup-id i3-msg 'workspace 3; exec chromium-browser'
 # exec --no-startup-id i3-msg 'workspace 10; exec virtualbox'
 
+# toggle keyboard layout
+bindsym $sup+space exec ~/.i3/layout.sh
 
 #pitiful attepmts at maging new terminal open in same directory
 # bindsym $mod+g exec ~/.i3/shell.sh
