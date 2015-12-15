@@ -163,7 +163,7 @@ nnoremap <C-f> :NERDTree<CR>
 noremap <C-w>m :Tabmerge<CR>
 
 "ctrlP
-let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
+" let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
 let g:ctrlp_max_files=0
 noremap <C-B> :CtrlPBuffer<CR>
 let g:ctrlp_prompt_mappings = {
