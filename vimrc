@@ -14,6 +14,8 @@ let g:molokai_original=1
 set t_Co=256
 
 colorscheme molokai
+"run syntax check on entire document
+autocmd BufEnter * :syntax sync fromstart
 " colorscheme Tomorrow
 "attempt to fix weird background color issues
 "shouldn't need to mess with this because tmux alias yay
@@ -161,6 +163,8 @@ nnoremap <C-f> :NERDTree<CR>
 noremap <C-w>m :Tabmerge<CR>
 
 "ctrlP
+let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
+let g:ctrlp_max_files=0
 noremap <C-B> :CtrlPBuffer<CR>
 let g:ctrlp_prompt_mappings = {
     \ 'PrtSelectMove("j")':   ['<c-t>', '<down>'],
@@ -175,6 +179,7 @@ let g:ctrlp_prompt_mappings = {
     \ }
 
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+let g:ctrlp_use_caching = 1
 " silver searcher is supposed to be faster, but I'm not find that to be the case
 if executable('ag')
   " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
