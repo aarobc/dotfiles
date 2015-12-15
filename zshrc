@@ -108,5 +108,5 @@ fi
 if hash amixer 2>/dev/null; then
     NOPe=`amixer -c 1 set Capture 20 2>/dev/null`
 else
-    echo "no amixer"
+    # echo "no amixer"
 fi
