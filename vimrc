@@ -134,7 +134,9 @@ endfunction
 autocmd vimrc FileType javascript call s:JavascriptFileType()
 
 
-autocmd Filetype html setlocal ts=2 sts=2 sw=2
+" autocmd Filetype html setlocal ts=2 sts=2 sw=2
+"bbecause stupid work decided to use 4 spaces on html
+autocmd Filetype html       setlocal ts=4 sts=4 sw=4
 autocmd Filetype javascript setlocal ts=4 sts=4 sw=4
 
 
@@ -172,6 +174,7 @@ let g:ctrlp_prompt_mappings = {
     \ 'PrtExit()':            ['<esc>', '<c-c>'],
     \ }
 
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 " silver searcher is supposed to be faster, but I'm not find that to be the case
 if executable('ag')
   " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
