@@ -25,6 +25,7 @@ autocmd BufEnter * :syntax sync fromstart
 set lazyredraw
 set nowrap
 
+set colorcolumn=90
 "disable auto commenting:
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
