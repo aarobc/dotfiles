@@ -38,7 +38,8 @@ fi
 # zgen selfupdate
 # zgen update
 
-alias gitreset='git fetch --all && git reset --hard origin/master'
+# alias gitreset='git fetch --all && git reset --hard origin/master'
+alias gitreset='git fetch --all && git reset --hard'
 alias tmux='tmux -2'
 alias gitl='git log --pretty=format:"%h - %an, %ar : %s"'
 alias dc='docker-compose'
