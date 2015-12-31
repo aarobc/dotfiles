@@ -9,6 +9,7 @@ sudo apt-get install -y neovim
 
 sudo apt-get install -y python-dev python-pip python3-dev python3-pip
 
+sudo apt-get install -y arandr
 
 sudo apt-get install -y variety
 sudo apt-get install -y feh
@@ -21,6 +22,7 @@ sudo apt-get install -y checkinstall
 sudo apt-get install -y compton
 sudo apt-get install -y pasystray
 sudo apt-get install -y xclip
+sudo apt-get install -y network-manager-openvpn
 
 sudo chsh -s /bin/zsh
 #TODO: test
