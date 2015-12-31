@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 #variety
 sudo add-apt-repository ppa:peterlevi/ppa
 #neovim
@@ -19,10 +20,14 @@ sudo apt-get install -y git
 sudo apt-get install -y checkinstall
 sudo apt-get install -y compton
 sudo apt-get install -y pasystray
+sudo apt-get install -y xclip
 
-
-#TODO:
+sudo chsh -s /bin/zsh
+#TODO: test
 # https://github.com/alols/xcape
+sudo apt-get install -y gcc make pkg-config libx11-dev libxtst-dev libxi-dev
+git clone https://github.com/alols/xcape.git /tmp/xcape
+cd /tmp/xcape && make && sudo checkinstall
 
 
 # dependencies for i3:
@@ -42,8 +47,13 @@ sudo apt-get install -y libxcb-xkb-dev
 sudo apt-get install -y libxkbcommon-dev
 sudo apt-get install -y libxkbcommon-x11-dev
 
-
 sudo apt-get install -y i3status
 sudo apt-get install -y suckless-tools
 
+# passthrough install stuff:
+sudo apt-get install -y qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils qemu-utils
 
+
+# install docker goodness
+curl -sSL https://get.docker.com/ | sh
+sudo usermod -aG docker `whoami`
