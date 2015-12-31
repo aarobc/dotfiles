@@ -57,3 +57,7 @@ sudo apt-get install -y qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils qemu
 # install docker goodness
 curl -sSL https://get.docker.com/ | sh
 sudo usermod -aG docker `whoami`
+
+#docker-compose goodness
+curl -L https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m` > docker-compose
+sudo mv docker-compose /usr/local/bin/
