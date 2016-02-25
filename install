@@ -17,10 +17,11 @@ git submodule update --init --recursive ~/dotfiles/vim/bundle/Vundle.vim
 
 git submodule foreach -q --recursive 'branch="$(git config -f ~/dotfiles/.gitmodules submodule.$name.branch)"; git checkout $branch master; git pull'
 
-# install vundle
-vim +PluginInstall +qall
 
 "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
+
+# install vundle
+vim +PluginInstall +qall
 
 #configuring the fonts
 fc-cache -vf ~/.fonts
