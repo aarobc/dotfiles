@@ -13,6 +13,7 @@ sudo apt-get install -y arandr
 
 sudo apt-get install -y variety
 sudo apt-get install -y feh
+sudo apt-get install -y shutter
 # for dd
 sudo apt-get install -y pv
 

@@ -32,9 +32,9 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 set backspace=indent,eol,start
 
 " set smartindent
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set expandtab
 set background=dark
 set autoindent
@@ -139,8 +139,8 @@ autocmd vimrc FileType javascript call s:JavascriptFileType()
 
 " autocmd Filetype html setlocal ts=2 sts=2 sw=2
 "bbecause stupid work decided to use 4 spaces on html
-autocmd Filetype html       setlocal ts=4 sts=4 sw=4
-autocmd Filetype javascript setlocal ts=4 sts=4 sw=4
+" autocmd Filetype html       setlocal ts=4 sts=4 sw=4
+" autocmd Filetype javascript setlocal ts=4 sts=4 sw=4
 
 
 

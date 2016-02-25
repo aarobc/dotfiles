@@ -47,3 +47,6 @@ if hash amixer 2>/dev/null; then
 fi
 
 # sh ~/.screenlayout/layout.sh
+# workaround for annoying thing
+# killall pulseaudio
+# alsa force-reload
