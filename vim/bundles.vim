@@ -42,6 +42,7 @@ Plugin 'tpope/vim-repeat'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'othree/html5.vim'
 " Plugin 'nixprime/cpsm'
+Plugin 'godlygeek/tabular'
 
 call vundle#end()
 
