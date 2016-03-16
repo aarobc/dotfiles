@@ -54,6 +54,10 @@ bindsym $mod+e exec j4-dmenu-desktop --dmenu="dmenu -i"
 # installed.
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
+# move desktop monitor
+bindsym $mod+Shift+Control+h move workspace to output left
+bindsym $mod+Shift+Control+s move workspace to output right
+
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+t focus down
