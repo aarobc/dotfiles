@@ -52,6 +52,7 @@ alias v='$HOME/dotfiles/scripts/vimterm.py'
 alias xclip='xclip -selection clipboard'
 alias hibernate='$HOME/dotfiles/scripts/hibernate.sh'
 alias gitaddall='echo -e "a\n*\nq\n"|git add -i'
+alias used='du -Sh | sort -rh | head -n 15'
 
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
