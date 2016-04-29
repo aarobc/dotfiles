@@ -20,7 +20,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/docker
     zgen oh-my-zsh plugins/command-not-found
     zgen load zsh-users/zsh-syntax-highlighting
-    #zgen load ~/dotfiles/agnoster.zsh-theme
+    # zgen load zsh-users/zsh-completions/docker-machine
 
     # completion-only repositories. Add optional path argument to specify
     # what subdirectory of the repository to add to your fpath.
@@ -52,6 +52,7 @@ alias v='$HOME/dotfiles/scripts/vimterm.py'
 alias xclip='xclip -selection clipboard'
 alias hibernate='$HOME/dotfiles/scripts/hibernate.sh'
 alias gitaddall='echo -e "a\n*\nq\n"|git add -i'
+alias used='du -Sh | sort -rh | head -n 15'
 
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
