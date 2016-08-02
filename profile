@@ -46,6 +46,8 @@ if hash amixer 2>/dev/null; then
     # echo "no amixer"
 fi
 
+# set the screen timeout for 20 mins
+xset dpms 0 0 1200
 # sh ~/.screenlayout/layout.sh
 # workaround for annoying thing
 # killall pulseaudio
