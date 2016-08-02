@@ -236,10 +236,11 @@ exec compton --config ~/.i3/compton.conf
 exec xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Scrolling Distance" -107, -106
 exec xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Two-Finger Scrolling" 1 1
 #network manager
-#exec /usr/bin/nm-applet
-#exec_always nm-applet --sm-disable
+# exec /usr/bin/nm-applet
+# exec_always nm-applet --sm-disable
 # exec nm-applet --sm-disable
 exec --no-startup-id nm-applet
+# exec --no-startup-id wicd-gtk
 
 #volume icon
 exec --no-startup-id volumeicon
