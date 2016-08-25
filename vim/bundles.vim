@@ -45,5 +45,8 @@ Plugin 'othree/html5.vim'
 " Plugin 'nixprime/cpsm'
 Plugin 'godlygeek/tabular'
 
+Plugin 'leafgarland/typescript-vim'
+Plugin 'Quramy/vim-js-pretty-template'
+
 call vundle#end()
 
