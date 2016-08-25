@@ -103,6 +103,10 @@ function extract {
   fi
 }
 
+# rotate video with ffmpeg
+function rotate() {
+  ffmpeg -i "$1" -c copy -metadata:s:v:0 rotate=180 "$2"
+}
 #hoping that this fixes the annoying issue when it doesn't workO
 if hash setxkbmap 2>/dev/null; then
     # disable caps lock if it's on just in case

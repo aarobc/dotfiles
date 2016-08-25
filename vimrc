@@ -16,6 +16,9 @@ set t_Co=256
 colorscheme molokai
 "run syntax check on entire document
 autocmd BufEnter * :syntax sync fromstart
+" typescript template syntax
+autocmd FileType typescript JsPreTmpl html
+autocmd FileType typescript syn clear foldBraces
 " colorscheme Tomorrow
 "attempt to fix weird background color issues
 "shouldn't need to mess with this because tmux alias yay
