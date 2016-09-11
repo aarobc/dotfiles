@@ -47,7 +47,7 @@ bindsym $mod+Return exec --no-startup-id gnome-terminal
 bindsym $mod+Shift+apostrophe kill
 
 # start dmenu (a program launcher)
-bindsym $mod+e exec dmenu_run
+bindsym $mod+e exec --no-startup-id dmenu_run
 # bindsym $mod+e exec j4-dmenu-desktop --dmenu="dmenu -i"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
@@ -224,31 +224,28 @@ bar {
 # exec --no-startup-id nitrogen --restore
 
 #auto wallpaper changer
-exec --no-startup-id variety
+exec --no-startup-id exec variety
 # exec --no-startup-id synergy
 
-exec compton --config ~/.i3/compton.conf
+exec --no-startup-id exec compton --config ~/.i3/compton.conf -b
 # exec compton -bcCGf --inactive-dim 0.1 -e 0.8 --no-fading-openclose --clear-shadow --backend glx --vsync opengl
 # exec compton -bcCGfz --inactive-dim 0.1 -e 0.8  --backend glx --vsync opengl -D 2
 # exec compton -bcCGfz -o 1 -D 5
 
 # natural scrolling:
-exec xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Scrolling Distance" -107, -106
-exec xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Two-Finger Scrolling" 1 1
+exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Scrolling Distance" -107, -106
+exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Two-Finger Scrolling" 1 1
 #network manager
-# exec /usr/bin/nm-applet
-# exec_always nm-applet --sm-disable
-# exec nm-applet --sm-disable
-exec --no-startup-id nm-applet
+exec --no-startup-id exec nm-applet
 # exec --no-startup-id wicd-gtk
 
 #volume icon
-exec --no-startup-id volumeicon
+exec --no-startup-id exec volumeicon
 # exec --no-startup-id pasystray
 # exec --no-startup-id gnome-sound-applet
 
 # fix the freaking sound
-exec --no-startup-id 'amixer -c 1 set Capture 20'
+# exec --no-startup-id 'amixer -c 1 set Capture 20'
 #lock screen
 bindsym $mod+l exec "gnome-screensaver-command -l"
 
@@ -270,7 +267,7 @@ gaps inner 20
 
 # testing layout config setup
 # exec --no-startup-id i3-msg 'workspace 3:Web; exec chromium-browser'
-exec --no-startup-id i3-msg 'workspace 1; exec pidgin'
+# exec --no-startup-id i3-msg 'workspace 1; exec pidgin'
 # exec --no-startup-id i3-msg 'workspace 3; exec chromium-browser'
 # exec --no-startup-id i3-msg 'workspace 10; exec virtualbox'
 
@@ -279,4 +276,5 @@ bindsym $sup+space exec ~/.i3/layout.sh
 
 #pitiful attepmts at maging new terminal open in same directory
 # bindsym $mod+g exec ~/.i3/shell.sh
-# bindsym $mod+g exec gnome-terminal --working-directory=`xcwd`
+# bindsym Control+Shift+n exec gnome-terminal --working-directory=`xcwd`
+#bindsym Control+Shift+n exec urxvt -cd "`xcwd`"
