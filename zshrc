@@ -120,3 +120,8 @@ if hash amixer 2>/dev/null; then
 else
     # echo "no amixer"
 fi
+
+# including this ensures that new gnome-terminal tabs keep the parent `pwd` !
+if [ -e /etc/profile.d/vte.sh ]; then
+    . /etc/profile.d/vte.sh
+fi

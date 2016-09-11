@@ -47,6 +47,7 @@ Plugin 'godlygeek/tabular'
 
 Plugin 'leafgarland/typescript-vim'
 Plugin 'Quramy/vim-js-pretty-template'
+Plugin 'maksimr/vim-jsbeautify'
 
 call vundle#end()
 
