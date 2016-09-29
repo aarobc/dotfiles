@@ -20,7 +20,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/docker
     zgen oh-my-zsh plugins/command-not-found
     zgen load zsh-users/zsh-syntax-highlighting
-    # zgen load zsh-users/zsh-completions/docker-machine
+    zgen load zsh-users/zsh-completions/docker-machine
 
     # completion-only repositories. Add optional path argument to specify
     # what subdirectory of the repository to add to your fpath.
@@ -32,6 +32,9 @@ if ! zgen saved; then
     # save all to init script
     zgen save
 fi
+
+zstyle ':completion:*:*:docker:*' option-stacking yes
+zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
 # to fix zgen do:
 # zgen reset
@@ -53,6 +56,7 @@ alias xclip='xclip -selection clipboard'
 alias hibernate='$HOME/dotfiles/scripts/hibernate.sh'
 alias gitaddall='echo -e "a\n*\nq\n"|git add -i'
 alias used='du -Sh | sort -rh | head -n 15'
+alias nautilus='nautilus --no-desktop'
 
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
@@ -108,11 +112,11 @@ function rotate() {
   ffmpeg -i "$1" -c copy -metadata:s:v:0 rotate=180 "$2"
 }
 #hoping that this fixes the annoying issue when it doesn't workO
-if hash setxkbmap 2>/dev/null; then
-    # disable caps lock if it's on just in case
-    python -c 'from ctypes import *; X11 = cdll.LoadLibrary("libX11.so.6"); display = X11.XOpenDisplay(None); X11.XkbLockModifiers(display, c_uint(0x0100), c_uint(2), c_uint(0)); X11.XCloseDisplay(display)'
-    setxkbmap -option 'caps:ctrl_modifier'
-fi
+# if hash setxkbmap 2>/dev/null; then
+#     # disable caps lock if it's on just in case
+#     python -c 'from ctypes import *; X11 = cdll.LoadLibrary("libX11.so.6"); display = X11.XOpenDisplay(None); X11.XkbLockModifiers(display, c_uint(0x0100), c_uint(2), c_uint(0)); X11.XCloseDisplay(display)'
+#     setxkbmap -option 'caps:ctrl_modifier'
+# fi
 
 #temp workaround for microphone volume issue
 if hash amixer 2>/dev/null; then
