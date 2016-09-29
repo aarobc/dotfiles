@@ -108,7 +108,7 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 # workspace "1" output HDMI-0
-workspace "8" output HDMI-0
+workspace "8" output HDMI3
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -233,8 +233,8 @@ exec --no-startup-id exec compton --config ~/.i3/compton.conf -b
 # exec compton -bcCGfz -o 1 -D 5
 
 # natural scrolling:
-exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Scrolling Distance" -107, -106
-exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Two-Finger Scrolling" 1 1
+# exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Scrolling Distance" -107, -106
+# exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Two-Finger Scrolling" 1 1
 #network manager
 exec --no-startup-id exec nm-applet
 # exec --no-startup-id wicd-gtk
@@ -262,19 +262,15 @@ for_window [title="*Hangouts is sharing your screen*"] floating enable
 gaps inner 20
 # gaps outer 5
 
-# open shell on startup
-# exec gnome-terminal
-
 # testing layout config setup
 # exec --no-startup-id i3-msg 'workspace 3:Web; exec chromium-browser'
 # exec --no-startup-id i3-msg 'workspace 1; exec pidgin'
 # exec --no-startup-id i3-msg 'workspace 3; exec chromium-browser'
 # exec --no-startup-id i3-msg 'workspace 10; exec virtualbox'
 
+
+# set the screen timeout for 20 mins
+exec --no-startup-id xset dpms 0 0 1200
+
 # toggle keyboard layout
 bindsym $sup+space exec ~/.i3/layout.sh
-
-#pitiful attepmts at maging new terminal open in same directory
-# bindsym $mod+g exec ~/.i3/shell.sh
-# bindsym Control+Shift+n exec gnome-terminal --working-directory=`xcwd`
-#bindsym Control+Shift+n exec urxvt -cd "`xcwd`"
