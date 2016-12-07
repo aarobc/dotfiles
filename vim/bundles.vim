@@ -23,6 +23,7 @@ Plugin 'vim-scripts/phpfolding.vim'
 " trying out airline to provide compatability with neovim
 " Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 " Plugin 'joeytwiddle/sexy_scroller.vim'
 Plugin 'christoomey/vim-tmux-navigator'

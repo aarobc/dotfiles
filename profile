@@ -46,8 +46,18 @@ if hash amixer 2>/dev/null; then
     # echo "no amixer"
 fi
 
-# set the screen timeout for 20 mins
-xset dpms 0 0 1200
+# xrandr --output eDP1 --auto --left-of HDMI3 --output HDMI3 --auto --scale 2x2 --right-of DP1
+# xrandr --output eDP1 --mode 1920x1200 --left-of HDMI3 --output HDMI3  --right-of DP1
+# xrandr --output eDP1 --mode 2560x1600 --left-of HDMI3 --output HDMI3  --right-of DP1
+#xrandr --output eDP1 --mode 2560x1600 --left-of HDMI3
+# natural scrolling
+# xinput set-button-map 14 1 2 3 5 4 7 6 8 9 10 11 12
+
+# mac keyboard remap
+# xmodmap ~/.xmodmaprc
+synclient HorizTwoFingerScroll=1
+synclient VertEdgeScroll=0
+
 # sh ~/.screenlayout/layout.sh
 # workaround for annoying thing
 # killall pulseaudio
