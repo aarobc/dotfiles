@@ -6,7 +6,7 @@
 
 
 export DISPLAY=:0
-# export XAUTHORITY=/home/vk/.Xauthority
+# export XAUTHORITY=/home/ac/.Xauthority
 
 
 # because otherwise weird issues
@@ -17,24 +17,36 @@ sleep 2
 read STATUS1 < /sys/class/drm/card0-HDMI-A-1/status
 
 if [ "$STATUS1" = "connected" ]; then
-    xrandr --output HDMI1 --right-of eDP1 --auto --screen 0
+    xrandr --output HDMI1 --left-of eDP1 --auto --screen 0
 else
     xrandr --output HDMI1 --off --screen 0
 fi
 
 
-read STATUS2 < /sys/class/drm/card0-HDMI-A-2/status
-if [ "$STATUS2" = "connected" ]; then
-    xrandr --output HDMI2 --right-of HDMI1 --auto --screen 0
+# read STATUS2 < /sys/class/drm/card0-HDMI-A-2/status
+# if [ "$STATUS2" = "connected" ]; then
+#     xrandr --output HDMI2 --right-of HDMI1 --auto --screen 0
+# else
+#     xrandr --output HDMI2 --off --screen 0
+# fi
+
+read STATUS3 < /sys/class/drm/card0-HDMI-A-3/status
+if [ "$STATUS3" = "connected" ]; then
+    # su ac -c 'xrandr --output HDMI3 --right-of eDP1 --auto --screen 0'
+  xrandr > /home/ac/Desktop/testt
+  su ac -c 'notify-send Monitor "Connected"'
+    # xrandr --output HDMI3 --right-of eDP1 --auto --screen 0
+    xrandr --output HDMI3 --right-of eDP1 --auto --screen 0
 else
-    xrandr --output HDMI2 --off --screen 0
+    xrandr --output HDMI3 --off --screen 0
+  su ac -c 'notify-send Monitor "Disconnected"'
 fi
 
-notify-send Monitor "HDMI2: $STATUS2\nHDMI1: $STATUS1"
-if [ "$STATUS1" = "connected" ] && [ "$STATUS2" = "connected" ]; then
-    # echo "both connected!"
-    /home/ac/dotfiles/scripts/fixLayout.py
-fi
+# su ac -c 'notify-send Monitor "HDMI3: $STATUS3\nHDMI1: $STATUS1"'
+# if [ "$STATUS3" = "connected" ] && [ "$STATUS2" = "connected" ]; then
+#     # echo "both connected!"
+#     /home/ac/dotfiles/scripts/fixLayout.py
+# fi
 
 # display port
 read DP1 < /sys/class/drm/card0-DP-1/status
