@@ -30,7 +30,7 @@ hide_edge_borders both
 # class border backgr indicator
 
 # client.focused #9fbc00 #9fbc00 #111111
-client.focused #03ff00 #03ff00 #ecf0f1
+# client.focused #03ff00 #03ff00 #ecf0f1
 client.unfocused #444444 #444444 #000000
 client.focused_inactive #444444 #444444 #2c2c2f
 client.urgent #383a3b #383a3b #ee0000
@@ -42,6 +42,7 @@ floating_modifier $mod
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec --no-startup-id gnome-terminal
+# bindsym $mod+Return exec --no-startup-id lxterminal
 
 # kill focused window
 bindsym $mod+Shift+apostrophe kill
@@ -196,27 +197,36 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightne
 #     }
 # }
 
+# bar {
+#     output eDP1
+#     height 50
+#     # i3bar_command polybar bar1
+#     i3bar_command i3bar -t
+#     position    top
+#     # status_command i3status
+#     # colors{
+#     #     background #23232310
+#     #     # statusline #DCDCDC10
+#     # }
+# }
+
 bar {
-    # output DVI-I-1
     i3bar_command i3bar -t
+    # tray_output primary
     status_command i3status
+#     # output DVI-I-1
+    # output eDP1
+    # status_command polybar bar1
     position    top
+    # height 60
+    font pango:DejaVu Sans Mono 10
+#     separator_symbol "//"
+#     strip_workspace_numbers yes
     colors{
         background #23232310
         # statusline #DCDCDC10
     }
 }
-
-# bar {
-#     output DVI-I-1
-#     i3bar_command i3bar -t
-#     status_command i3status
-#     position    top
-#     colors{
-#         background #23232310
-#         # statusline #DCDCDC10
-#     }
-# }
 
 
 #wallpaper thingy
@@ -226,7 +236,8 @@ bar {
 exec --no-startup-id exec variety
 # exec --no-startup-id synergy
 
-exec --no-startup-id exec compton --config ~/.i3/compton.conf -b
+exec --no-startup-id compton --shadow-exclude '!focused' --config ~/.i3/compton.conf -b
+# exec --no-startup-id exec compton --config ~/.i3/compton.conf -b
 # exec compton -bcCGf --inactive-dim 0.1 -e 0.8 --no-fading-openclose --clear-shadow --backend glx --vsync opengl
 # exec compton -bcCGfz --inactive-dim 0.1 -e 0.8  --backend glx --vsync opengl -D 2
 # exec compton -bcCGfz -o 1 -D 5
@@ -239,8 +250,8 @@ exec --no-startup-id exec nm-applet
 # exec --no-startup-id wicd-gtk
 
 #volume icon
-exec --no-startup-id exec volumeicon
-# exec --no-startup-id pasystray
+# exec --no-startup-id exec volumeicon
+exec --no-startup-id pasystray
 # exec --no-startup-id gnome-sound-applet
 exec --no-startup-id blueman-applet
 
@@ -268,6 +279,10 @@ gaps inner 20
 # exec --no-startup-id i3-msg 'workspace 3; exec chromium-browser'
 # exec --no-startup-id i3-msg 'workspace 10; exec virtualbox'
 
+# fix the monitor
+exec --no-startup-id $HOME/.screenlayout/othree.sh
+# polybar
+# exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # set the screen timeout for 20 mins
 exec --no-startup-id xset dpms 0 0 1200

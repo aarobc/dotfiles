@@ -55,8 +55,9 @@ fi
 
 # mac keyboard remap
 # xmodmap ~/.xmodmaprc
-synclient HorizTwoFingerScroll=1
-synclient VertEdgeScroll=0
+# synclient HorizTwoFingerScroll=1 HorizEdgeScroll=0 VertEdgeScroll=0 VertScrollDelta=-247 HorizScrollDelta=-247
+setxkbmap -option ctrl:nocaps
+xmodmap -e "keycode 66 = Escape NoSymbol Escape"
 
 # sh ~/.screenlayout/layout.sh
 # workaround for annoying thing
