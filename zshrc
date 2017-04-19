@@ -57,6 +57,7 @@ alias hibernate='$HOME/dotfiles/scripts/hibernate.sh'
 alias gitaddall='echo -e "a\n*\nq\n"|git add -i'
 alias used='du -Sh | sort -rh | head -n 15'
 alias nautilus='nautilus --no-desktop'
+# alias mydns='nmcli device show <interfacename> | grep IP4.DNS'
 
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
@@ -129,3 +130,6 @@ fi
 if [ -e /etc/profile.d/vte.sh ]; then
     . /etc/profile.d/vte.sh
 fi
+
+# set the option so you can use vim bindings in the shell
+# set -o vi
