@@ -12,10 +12,13 @@ def outputs():
     return s
 
 outs = outputs()
-pprint.pprint(outs)
+# pprint.pprint(outs)
+c = outs[0]['current_workspace']
+pprint.pprint(c)
 many = len(outs)
 spaces = 10/many
 current = 1
+
 for output in outs:
     for i in xrange(spaces):
         print output['name']
@@ -23,3 +26,6 @@ for output in outs:
         i3.workspace(str(current))
         i3.command('move', 'workspace to output ' + output['name'])
         current += 1
+
+
+i3.workspace(c)

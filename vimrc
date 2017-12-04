@@ -24,6 +24,7 @@ autocmd FileType typescript syn clear foldBraces
 "shouldn't need to mess with this because tmux alias yay
 "set term=screen-256color
 "set term=xterm-256color
+set shell=/bin/bash
 
 set lazyredraw
 set nowrap
@@ -285,6 +286,8 @@ function! ToggleMouse()
         set mouse=a
     endif
 endfunc
+
+map <c-f> :call HtmlBeautify()<cr>
 
 "reference:
 "tabm <number> moves tab to that location.

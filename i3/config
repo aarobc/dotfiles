@@ -39,6 +39,17 @@ client.urgent #383a3b #383a3b #ee0000
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+mode  "Passthrough Mode - Press Alt+F12 to exit" {
+        bindsym $mod+F12 mode "default"
+}
+bindsym $mod+F12 mode "Passthrough Mode - Press Alt+F12 to exit"
+
+# allows keypresses into the application below
+mode freeze {
+  bindsym Mod1+Mod4+Escape mode default
+}
+bindsym Mod1+Mod4+Escape mode freeze
+
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec --no-startup-id gnome-terminal
@@ -108,8 +119,8 @@ bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
-workspace "1" output HDMI1
-workspace "8" output HDMI3
+workspace "1" output eDP1
+workspace "8" output HDMI1
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -254,6 +265,7 @@ exec --no-startup-id exec nm-applet
 exec --no-startup-id pasystray
 # exec --no-startup-id gnome-sound-applet
 exec --no-startup-id blueman-applet
+exec --no-startup-id blueproximity
 
 # fix the freaking sound
 # exec --no-startup-id 'amixer -c 1 set Capture 20'
@@ -263,9 +275,9 @@ bindsym $mod+l exec "gnome-screensaver-command -l"
 #hangouts popup set to floating
 for_window [class="Chromium-browser" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] floating enable
 #move hangouts always to desktop 1
-assign [class="google-chrome" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] →  1
+# assign [class="google-chrome" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] →  1
 #pidgin always desktop 1
-assign [class="Pidgin"] →  1
+# assign [class="Pidgin"] →  1
 # get rid of annoying popup on hangout screen sharing
 # doesn't work
 for_window [title="*Hangouts is sharing your screen*"] floating enable
@@ -280,7 +292,7 @@ gaps inner 20
 # exec --no-startup-id i3-msg 'workspace 10; exec virtualbox'
 
 # fix the monitor
-exec --no-startup-id $HOME/.screenlayout/othree.sh
+# exec --no-startup-id $HOME/.screenlayout/othree.sh
 # polybar
 # exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
