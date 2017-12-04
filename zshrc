@@ -66,6 +66,8 @@ fi
 path="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 path="$path:/usr/games"
 path="$path:/usr/bin/core_perl"
+path="$path:/opt/android-studio/bin"
+path="$path:/$HOME/.local/bin"
 export PATH=$path
 # export PATH="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
