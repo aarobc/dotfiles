@@ -24,6 +24,7 @@ autocmd FileType typescript syn clear foldBraces
 "shouldn't need to mess with this because tmux alias yay
 "set term=screen-256color
 "set term=xterm-256color
+set shell=/bin/bash
 
 set lazyredraw
 set nowrap
@@ -69,6 +70,9 @@ set wildmenu
 "window split settings
 set splitbelow
 set splitright
+
+"allow vilual block cursor to go anywhere
+set virtualedit=block
 
 "powerline/airline stuffs:
 " Always show statusline
@@ -142,8 +146,8 @@ autocmd vimrc FileType javascript call s:JavascriptFileType()
 
 " autocmd Filetype html setlocal ts=2 sts=2 sw=2
 " because stupid work decided to use 4 spaces on html
-autocmd Filetype html       setlocal ts=4 sts=4 sw=4
-" autocmd Filetype javascript setlocal ts=4 sts=4 sw=4
+autocmd Filetype html       setlocal ts=2 sts=2 sw=2
+autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
 autocmd Filetype php setlocal ts=4 sts=4 sw=4
 autocmd Filetype yml setlocal ts=2 sts=2 sw=2
 
@@ -282,6 +286,8 @@ function! ToggleMouse()
         set mouse=a
     endif
 endfunc
+
+map <c-f> :call HtmlBeautify()<cr>
 
 "reference:
 "tabm <number> moves tab to that location.

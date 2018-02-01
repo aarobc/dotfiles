@@ -3,40 +3,29 @@
 import i3
 import pprint
 
-pp = pprint.PrettyPrinter(indent=4)
-
-
-# print len(outputs)
-# order is typically:
-# EDP1, HDMI2, HDMI1
-spaces = i3.get_workspaces()
+# spaces = i3.get_workspaces()
 
 def outputs():
     puts = i3.get_outputs()
-    ray = []
-    for i in puts:
-        if i['active']:
-            # print i
-            ray.append(i)
-    return ray
-
-def findSpaces(disp):
-    ray = []
-    for space in spaces:
-        if space['output'] == disp:
-            ray.append(space)
-    return ray
+    act = [item for item in puts if item['active']]
+    s = sorted(act, key=lambda x: x['rect']['x'])
+    return s
 
 outs = outputs()
+# pprint.pprint(outs)
+c = outs[0]['current_workspace']
+pprint.pprint(c)
+many = len(outs)
+spaces = 10/many
+current = 1
+
+for output in outs:
+    for i in xrange(spaces):
+        print output['name']
+        print current
+        i3.workspace(str(current))
+        i3.command('move', 'workspace to output ' + output['name'])
+        current += 1
 
 
-layout = {1: 'eDP1', 2: 'eDP1', 
-        3:'HDMI1', 4:'HDMI1', 5:'HDMI1', 6:'HDMI1',
-        7:'HDMI2', 8:'HDMI2', 9:'HDMI2', 10:'HDMI2'}
-
-for space in spaces:
-    # print space['num']
-    i3.workspace(str(space['num']))
-    i3.command('move', 'workspace to output ' + layout[space['num']])
-
-
+i3.workspace(c)

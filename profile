@@ -34,8 +34,25 @@ xmodmap -e 'keycode 0x42=Escape' #remaps the keyboard so CAPS LOCK=ESC
 
 # ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
 
-# set the screen timeout for 20 mins
-#gxset dpms 0 0 1200
+path="$PATH/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+path="$path:/usr/games"
+path="$path:/usr/bin/core_perl"
+# path="$path:/opt/android-studio/bin"
+# path="$path:/opt/android-studio-3/bin"
+export PATH=$path
+# xrandr --output eDP1 --auto --left-of HDMI3 --output HDMI3 --auto --scale 2x2 --right-of DP1
+# xrandr --output eDP1 --mode 1920x1200 --left-of HDMI3 --output HDMI3  --right-of DP1
+# xrandr --output eDP1 --mode 2560x1600 --left-of HDMI3 --output HDMI3  --right-of DP1
+#xrandr --output eDP1 --mode 2560x1600 --left-of HDMI3
+# natural scrolling
+# xinput set-button-map 14 1 2 3 5 4 7 6 8 9 10 11 12
+
+# mac keyboard remap
+# xmodmap ~/.xmodmaprc
+# synclient HorizTwoFingerScroll=1 HorizEdgeScroll=0 VertEdgeScroll=0 VertScrollDelta=-247 HorizScrollDelta=-247
+setxkbmap -option ctrl:nocaps
+xmodmap -e "keycode 66 = Escape NoSymbol Escape"
+
 # sh ~/.screenlayout/layout.sh
 # workaround for annoying thing
 # killall pulseaudio
