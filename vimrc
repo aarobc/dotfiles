@@ -143,7 +143,7 @@ autocmd vimrc FileType javascript call s:JavascriptFileType()
 " autocmd Filetype html setlocal ts=2 sts=2 sw=2
 " because stupid work decided to use 4 spaces on html
 autocmd Filetype html       setlocal ts=4 sts=4 sw=4
-autocmd Filetype javascript setlocal ts=4 sts=4 sw=4
+" autocmd Filetype javascript setlocal ts=4 sts=4 sw=4
 autocmd Filetype php setlocal ts=4 sts=4 sw=4
 autocmd Filetype yml setlocal ts=2 sts=2 sw=2
 

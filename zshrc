@@ -6,6 +6,7 @@
 # time that oh-my-zsh is loaded.
 # load zgen
 source ~/dotfiles/zgen/zgen.zsh
+#source ~/.profile
 
 #custom theme
 source ~/dotfiles/agnoster.zsh-theme
@@ -57,6 +58,7 @@ alias hibernate='$HOME/dotfiles/scripts/hibernate.sh'
 alias gitaddall='echo -e "a\n*\nq\n"|git add -i'
 alias used='du -Sh | sort -rh | head -n 15'
 alias nautilus='nautilus --no-desktop'
+alias php='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html php php'
 
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
@@ -83,6 +85,26 @@ export TERM=xterm-256color
     #source /usr/local/lib/python2.7/dist-packages/powerline/bindings/zsh/powerline.zsh
 #fi
 
+function qdns {
+  if [ $1 ]
+  then
+    echo $1
+    ip=`dig $1 +short`
+    echo -e "IP:\n$ip"
+    echo -e "www:\n`dig www.$1 +short`"
+
+    # mx stuff
+    mx=`dig mx $1 +short`
+    mailip=`dig mail.$1 +short`
+    ns=`dig ns $1 +short`
+
+    echo -e "mx:\n$mx"
+    echo -e "mail IP:\n$mailip"
+    echo -e "NS:\n$ns"
+  else
+    echo "No domain specified"
+  fi
+}
 
 # Extract Files #
 function extract {
