@@ -30,7 +30,7 @@ hide_edge_borders both
 # class border backgr indicator
 
 # client.focused #9fbc00 #9fbc00 #111111
-client.focused #03ff00 #03ff00 #ecf0f1
+# client.focused #03ff00 #03ff00 #ecf0f1
 client.unfocused #444444 #444444 #000000
 client.focused_inactive #444444 #444444 #2c2c2f
 client.urgent #383a3b #383a3b #ee0000
@@ -39,9 +39,21 @@ client.urgent #383a3b #383a3b #ee0000
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+mode  "Passthrough Mode - Press Alt+F12 to exit" {
+        bindsym $mod+F12 mode "default"
+}
+bindsym $mod+F12 mode "Passthrough Mode - Press Alt+F12 to exit"
+
+# allows keypresses into the application below
+mode freeze {
+  bindsym Mod1+Mod4+Escape mode default
+}
+bindsym Mod1+Mod4+Escape mode freeze
+
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec --no-startup-id gnome-terminal
+# bindsym $mod+Return exec --no-startup-id lxterminal
 
 
 
@@ -115,8 +127,8 @@ bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
-# workspace "1" output HDMI-0
-workspace "8" output HDMI3
+workspace "1" output eDP1
+workspace "8" output HDMI1
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -180,6 +192,7 @@ bindsym $mod+p mode "resize"
 bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 3%-
 bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 3%+
 bindsym XF86AudioMute exec amixer -D pulse sset Master toggle
+
 #window switchy like ubuntu
 bindsym Control+$mod+Right workspace next
 bindsym Control+$mod+Left workspace prev
@@ -188,11 +201,9 @@ bindsym Control+$mod+Left workspace prev
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
 
-# TODO: set up binding to togle layout
-# setxkbmap dvorak
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-#exec xrandr --output DFP7 --auto --left-of DFP5
 
 # bar {
 #     # output HDMI-0
@@ -205,27 +216,36 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightne
 #     }
 # }
 
+# bar {
+#     output eDP1
+#     height 50
+#     # i3bar_command polybar bar1
+#     i3bar_command i3bar -t
+#     position    top
+#     # status_command i3status
+#     # colors{
+#     #     background #23232310
+#     #     # statusline #DCDCDC10
+#     # }
+# }
+
 bar {
-    # output DVI-I-1
     i3bar_command i3bar -t
+    # tray_output primary
     status_command i3status
+#     # output DVI-I-1
+    # output eDP1
+    # status_command polybar bar1
     position    top
+    # height 60
+    font pango:DejaVu Sans Mono 10
+#     separator_symbol "//"
+#     strip_workspace_numbers yes
     colors{
         background #23232310
         # statusline #DCDCDC10
     }
 }
-
-# bar {
-#     output DVI-I-1
-#     i3bar_command i3bar -t
-#     status_command i3status
-#     position    top
-#     colors{
-#         background #23232310
-#         # statusline #DCDCDC10
-#     }
-# }
 
 
 #wallpaper thingy
@@ -236,7 +256,8 @@ exec --no-startup-id exec variety
 exec --no-startup-id synergy
 exec --no-startup-id redshift-gtk
 
-exec --no-startup-id exec compton --config ~/.i3/compton.conf -b
+exec --no-startup-id compton --shadow-exclude '!focused' --config ~/.i3/compton.conf -b
+# exec --no-startup-id exec compton --config ~/.i3/compton.conf -b
 # exec compton -bcCGf --inactive-dim 0.1 -e 0.8 --no-fading-openclose --clear-shadow --backend glx --vsync opengl
 # exec compton -bcCGfz --inactive-dim 0.1 -e 0.8  --backend glx --vsync opengl -D 2
 # exec compton -bcCGfz -o 1 -D 5
@@ -249,9 +270,11 @@ exec --no-startup-id exec nm-applet
 # exec --no-startup-id wicd-gtk
 
 #volume icon
-exec --no-startup-id exec volumeicon
-# exec --no-startup-id pasystray
+# exec --no-startup-id exec volumeicon
+exec --no-startup-id pasystray
 # exec --no-startup-id gnome-sound-applet
+exec --no-startup-id blueman-applet
+exec --no-startup-id blueproximity
 
 # fix the freaking sound
 # exec --no-startup-id 'amixer -c 1 set Capture 20'
@@ -261,9 +284,9 @@ bindsym $mod+l exec "gnome-screensaver-command -l"
 #hangouts popup set to floating
 for_window [class="Chromium-browser" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] floating enable
 #move hangouts always to desktop 1
-assign [class="google-chrome" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] →  1
+# assign [class="google-chrome" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] →  1
 #pidgin always desktop 1
-assign [class="Pidgin"] →  1
+# assign [class="Pidgin"] →  1
 # get rid of annoying popup on hangout screen sharing
 # doesn't work
 for_window [title="*Hangouts is sharing your screen*"] floating enable
@@ -277,6 +300,10 @@ gaps inner 20
 # exec --no-startup-id i3-msg 'workspace 3; exec chromium-browser'
 # exec --no-startup-id i3-msg 'workspace 10; exec virtualbox'
 
+# fix the monitor
+# exec --no-startup-id $HOME/.screenlayout/othree.sh
+# polybar
+# exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # set the screen timeout for 20 mins
 exec --no-startup-id xset dpms 0 0 1200
