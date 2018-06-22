@@ -57,12 +57,6 @@ bindsym $mod+Return exec --no-startup-id gnome-terminal
 
 
 
-# allows keypresses into the application below
-mode freeze {
-    bindsym $mod+$sup+Escape mode default
-}
-bindsym $mod+$sup+Escape mode freeze
-
 # kill focused window
 bindsym $mod+Shift+apostrophe kill
 
@@ -283,6 +277,8 @@ bindsym $mod+l exec "gnome-screensaver-command -l"
 
 #hangouts popup set to floating
 for_window [class="Chromium-browser" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] floating enable
+# shutter floating
+for_window [class="Shutter"] floating enable
 #move hangouts always to desktop 1
 # assign [class="google-chrome" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] →  1
 #pidgin always desktop 1
@@ -310,3 +306,4 @@ exec --no-startup-id xset dpms 0 0 1200
 
 # toggle keyboard layout
 bindsym $sup+space exec ~/.i3/layout.sh
+exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
