@@ -11,6 +11,7 @@ def outputs():
     s = sorted(act, key=lambda x: x['rect']['x'])
     return s
 
+
 outs = outputs()
 # pprint.pprint(outs)
 c = outs[0]['current_workspace']

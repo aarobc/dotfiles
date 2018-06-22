@@ -7,6 +7,14 @@
 export DISPLAY=":0.0"
 # export XAUTHORITY=/home/ac/.Xauthority
 
+# function wait_for_monitor {
+#     xrandr | grep $MONITOR | grep '\bconnected'
+#     while [ $? -ne 0 ]; do
+#             logger -t "waiting for 100ms"
+#             sleep 0.1
+#             xrandr | grep $MONITOR | grep '\bconnected'
+#     done
+#  }
 
 # because otherwise weird issues
 sleep 1

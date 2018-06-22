@@ -50,15 +50,23 @@ alias dc='docker-compose'
 alias dm='docker-machine'
 alias logoff='i3-msg exit'
 alias gitroot='git rev-parse --show-toplevel'
-alias dcrrm='dc run --rm'
-alias dcrrmp='dc run --rm --service-ports'
+alias rootOrcwd='[ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 && gitroot || pwd'
+
+alias vue='docker run -it --rm -v "$PWD":"$PWD" -w "$PWD"  -u "$(id -u)" aarobc/vue-cli vue'
+
+alias dcr='dc run --rm'
+alias dcrrm='dcr'
+alias dcrp='dcr --service-ports'
+alias dcrrmp='dcrp'
+
 alias v='$HOME/dotfiles/scripts/vimterm.py'
 alias xclip='xclip -selection clipboard'
 alias hibernate='$HOME/dotfiles/scripts/hibernate.sh'
 alias gitaddall='echo -e "a\n*\nq\n"|git add -i'
 alias used='du -Sh | sort -rh | head -n 15'
 alias nautilus='nautilus --no-desktop'
-alias php='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html php php'
+alias phpd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html php php'
+alias yarnd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html node yarn'
 
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
@@ -68,7 +76,8 @@ path="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbi
 path="$path:/usr/games"
 path="$path:/usr/bin/core_perl"
 path="$path:/opt/android-studio/bin"
-path="$path:/$HOME/.local/bin"
+path="$path:$HOME/.local/bin"
+path="$path:$HOME/.npm-global/bin"
 export PATH=$path
 # export PATH="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 # export MANPATH="/usr/local/man:$MANPATH"

@@ -115,7 +115,6 @@ noremap T 2F
 
 "open file looking thing in new tab
 "map gf :tabedit <cfile><CR>
-noremap gf :exec "tabedit" substitute(expand("<cfile>"), '^\/\.\.', "..", "")<cr>
 "syntax coloring for arduino
 au BufRead,BufNewFile *.ino set filetype=cpp
 au BufRead,BufNewFile *.vue set filetype=html
@@ -241,6 +240,7 @@ au CursorHold * checktime
 let delimitMate_expand_cr = 1
 "let delimitMate_jump_expansion = 0
 let delimitMate_expand_space = 1
+let delimitMate_matchpairs = '(:),{:},[:]'
 " look into this:
 "https://github.com/chrisbra/vim_dotfiles/blob/master/plugin/CustomFoldText.vim
 
@@ -288,6 +288,9 @@ function! ToggleMouse()
 endfunc
 
 map <c-f> :call HtmlBeautify()<cr>
+
+
+com! FormatJSON %!python -m json.tool
 
 "reference:
 "tabm <number> moves tab to that location.
