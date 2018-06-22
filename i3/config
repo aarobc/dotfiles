@@ -44,12 +44,6 @@ mode  "Passthrough Mode - Press Alt+F12 to exit" {
 }
 bindsym $mod+F12 mode "Passthrough Mode - Press Alt+F12 to exit"
 
-# allows keypresses into the application below
-mode freeze {
-  bindsym Mod1+Mod4+Escape mode default
-}
-bindsym Mod1+Mod4+Escape mode freeze
-
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec --no-startup-id gnome-terminal
