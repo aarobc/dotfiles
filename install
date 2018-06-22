@@ -1,29 +1,23 @@
-#!/usr/bin/env bash
+#!/bin/bash -xe
 
-set -e
 
+pip install dotbot
 CONFIG="install.conf.yaml"
-DOTBOT_DIR="dotbot"
-
-DOTBOT_BIN="bin/dotbot"
+#
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 cd "${BASEDIR}"
-git submodule update --init --recursive "${DOTBOT_DIR}"
-#git submodule update --init --recursive *
-# updating other submodules
 git submodule update --init --recursive ~/dotfiles/zgen
 git submodule update --init --recursive ~/dotfiles/vim/bundle/Vundle.vim
 
 git submodule foreach -q --recursive 'branch="$(git config -f ~/dotfiles/.gitmodules submodule.$name.branch)"; git checkout $branch master; git pull'
 
 
-"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
+dotbot -d "${BASEDIR}" -c "${CONFIG}" "${@}"
 
 # install vundle
 vim +PluginInstall +qall
 
 #configuring the fonts
-fc-cache -vf ~/.fonts
+# fc-cache -vf ~/.fonts
 
-#~/dotfiles/vim/bundle/YouCompleteMe/install.sh --clang-completer
