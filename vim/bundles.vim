@@ -50,6 +50,7 @@ Plugin 'leafgarland/typescript-vim'
 Plugin 'Quramy/vim-js-pretty-template'
 Plugin 'maksimr/vim-jsbeautify'
 Plugin 'lfilho/cosco.vim'
+Plugin 'fatih/vim-go'
 
 call vundle#end()
 

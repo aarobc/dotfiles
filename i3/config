@@ -53,15 +53,8 @@ bindsym Mod1+Mod4+Escape mode freeze
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec --no-startup-id gnome-terminal
+# bindsym $mod+Return exec --no-startup-id termite
 # bindsym $mod+Return exec --no-startup-id lxterminal
-
-
-
-# allows keypresses into the application below
-mode freeze {
-    bindsym $mod+$sup+Escape mode default
-}
-bindsym $mod+$sup+Escape mode freeze
 
 # kill focused window
 bindsym $mod+Shift+apostrophe kill
@@ -290,6 +283,9 @@ for_window [class="Chromium-browser" instance="crx_knipolnnllmklapflnccelgolnpeh
 # get rid of annoying popup on hangout screen sharing
 # doesn't work
 for_window [title="*Hangouts is sharing your screen*"] floating enable
+for_window [title="Friends List"] floating enable
+for_window [title="Steam - News"] floating enable
+for_window [title="[^Steam]" class="Steam"] floating enable
 
 gaps inner 20
 # gaps outer 5
