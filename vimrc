@@ -190,13 +190,6 @@ let g:ctrlp_prompt_mappings = {
 
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:ctrlp_use_caching = 1
-" silver searcher is supposed to be faster, but I'm not find that to be the case
-if executable('ag')
-  " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  " let g:ctrlp_use_caching = 0
-  " set grepprg=ag\ --nogroup\ --nocolor
-  " let g:ackprg = 'ag --nogroup --nocolor --column'
-endif
 "for windowswap plugin:
 "should learn keyboard commands though
 let g:windowswap_map_keys = 0 "prevent default bindings
@@ -206,7 +199,7 @@ nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
 
 
 "enable matchit plugin:
-runtime macros/matchit.vim
+" runtime macros/matchit.vim
 
 "vim-javascript syntax plugin highlighting enable
 let g:javascript_enable_domhtmlcss = 1
@@ -241,6 +234,7 @@ au CursorHold * checktime
 let delimitMate_expand_cr = 1
 "let delimitMate_jump_expansion = 0
 let delimitMate_expand_space = 1
+let delimitMate_matchpairs = "(:),[:],{:}"
 " look into this:
 "https://github.com/chrisbra/vim_dotfiles/blob/master/plugin/CustomFoldText.vim
 
@@ -249,6 +243,10 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+
+"vim-go:
+let g:go_autodetect_gopath = 1
 
 
 "move between splits:
