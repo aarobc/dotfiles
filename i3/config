@@ -44,12 +44,6 @@ mode  "Passthrough Mode - Press Alt+F12 to exit" {
 }
 bindsym $mod+F12 mode "Passthrough Mode - Press Alt+F12 to exit"
 
-# allows keypresses into the application below
-mode freeze {
-  bindsym Mod1+Mod4+Escape mode default
-}
-bindsym Mod1+Mod4+Escape mode freeze
-
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Return exec --no-startup-id gnome-terminal
@@ -276,6 +270,8 @@ bindsym $mod+l exec "gnome-screensaver-command -l"
 
 #hangouts popup set to floating
 for_window [class="Chromium-browser" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] floating enable
+# shutter floating
+for_window [class="Shutter"] floating enable
 #move hangouts always to desktop 1
 # assign [class="google-chrome" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] →  1
 #pidgin always desktop 1
@@ -306,3 +302,4 @@ exec --no-startup-id xset dpms 0 0 1200
 
 # toggle keyboard layout
 bindsym $sup+space exec ~/.i3/layout.sh
+exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
