@@ -55,9 +55,7 @@ alias rootOrcwd='[ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 && gitr
 alias vue='docker run -it --rm -v "$PWD":"$PWD" -w "$PWD"  -u "$(id -u)" aarobc/vue-cli vue'
 
 alias dcr='dc run --rm'
-alias dcrrm='dcr'
 alias dcrp='dcr --service-ports'
-alias dcrrmp='dcrp'
 
 alias v='$HOME/dotfiles/scripts/vimterm.py'
 alias xclip='xclip -selection clipboard'
@@ -67,6 +65,10 @@ alias used='du -Sh | sort -rh | head -n 15'
 alias nautilus='nautilus --no-desktop'
 alias phpd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html php php'
 alias yarnd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html node yarn'
+alias quickhttp='docker run --rm -it -v $PWD:/usr/share/nginx/html:ro -p 8080:80 nginx:alpine'
+
+alias gitclean="git branch --merged master | grep -v '^[ *]*master$' | xargs git branch -d"
+alias gitcleanup='git remote prune origin'
 
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
