@@ -5,6 +5,7 @@
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
 # load zgen
+ZSH_DISABLE_COMPFIX=true
 source ~/dotfiles/zgen/zgen.zsh
 #source ~/.profile
 
@@ -78,6 +79,8 @@ path="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbi
 path="$path:/usr/games"
 path="$path:/usr/bin/core_perl"
 path="$path:/opt/android-studio/bin"
+# path="$path:/$HOME/Android/Sdk/platform-tools"
+path="$path:/$HOME/go/bin"
 path="$path:$HOME/.local/bin"
 path="$path:$HOME/.npm-global/bin"
 export PATH=$path
