@@ -49,6 +49,8 @@ Plugin 'godlygeek/tabular'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'Quramy/vim-js-pretty-template'
 Plugin 'maksimr/vim-jsbeautify'
+" allow motions on strings. is awesome
+Plugin 'wellle/targets.vim'
 " Plugin 'lfilho/cosco.vim'
 " Plugin 'metakirby5/codi.vim'
 

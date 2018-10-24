@@ -46,7 +46,6 @@ zstyle ':completion:*:*:docker-*:*' option-stacking yes
 alias gitreset='git fetch --all && git reset --hard'
 alias tmux='tmux -2'
 alias gitl='git log --pretty=format:"%h - %an, %ar : %s"'
-alias dc='docker-compose'
 alias dm='docker-machine'
 alias logoff='i3-msg exit'
 alias gitroot='git rev-parse --show-toplevel'
@@ -54,6 +53,7 @@ alias rootOrcwd='[ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 && gitr
 
 alias vue='docker run -it --rm -v "$PWD":"$PWD" -w "$PWD"  -u "$(id -u)" aarobc/vue-cli vue'
 
+alias dc='docker-compose'
 alias dcr='dc run --rm'
 alias dcrp='dcr --service-ports'
 
@@ -81,9 +81,10 @@ path="$path:/usr/games"
 path="$path:/usr/bin/core_perl"
 path="$path:/opt/android-studio/bin"
 # path="$path:/$HOME/Android/Sdk/platform-tools"
-path="$path:/$HOME/go/bin"
+path="$path:$HOME/go/bin"
 path="$path:$HOME/.local/bin"
 path="$path:$HOME/.npm-global/bin"
+path="$path:$HOME/.local/share/JetBrains/Toolbox/bin"
 export PATH=$path
 # export PATH="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -149,6 +150,52 @@ function extract {
 function rotate() {
   ffmpeg -i "$1" -c copy -metadata:s:v:0 rotate=180 "$2"
 }
+#hoping that this fixes the annoying issue when it doesn't workO
+# if hash setxkbmap 2>/dev/null; then
+#     # disable caps lock if it's on just in case
+#     python -c 'from ctypes import *; X11 = cdll.LoadLibrary("libX11.so.6"); display = X11.XOpenDisplay(None); X11.XkbLockModifiers(display, c_uint(0x0100), c_uint(2), c_uint(0)); X11.XCloseDisplay(display)'
+#     setxkbmap -option 'caps:ctrl_modifier'
+# fi
+
+function rftest() {
+  if [ -z "$1" ]
+  then
+    echo "no args"
+    return 0
+  fi
+  echo "$1"
+  if [[ $(id -u) -ne 0 ]] ; then echo "Please run as root" ; return 1 ; fi
+
+  # eventually for better ramdisk size allocation
+  # bs=`du -csh --block-size=1M . | grep total | grep -Eo '[0-9]*'`
+  #  (500|15)+1
+  # echo $bs
+  # expr $bs + 20
+  echo $1
+  return 0
+
+  mkdir -p /media/ramdisk
+  mount -t tmpfs -o size=1024M tmpfs /media/ramdisk/
+  cp -r ./. /media/ramdisk/
+  cd /media/ramdisk
+  $@
+  cd -
+  sleep 1
+  umount /media/ramdisk
+}
+
+# workaround to allow sudo to be used with aliases
+alias sudo='sudo '
+
+
+alias runfast='sudo rftest'
+
+#temp workaround for microphone volume issue
+if hash amixer 2>/dev/null; then
+    NOPe=`amixer -c 1 set Capture 20 2>/dev/null`
+else
+    # echo "no amixer"
+fi
 
 # including this ensures that new gnome-terminal tabs keep the parent `pwd` !
 if [ -e /etc/profile.d/vte.sh ]; then
