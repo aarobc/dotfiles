@@ -157,38 +157,37 @@ function rotate() {
 #     setxkbmap -option 'caps:ctrl_modifier'
 # fi
 
-function rftest() {
+# workaround to allow sudo to be used with aliases
+alias sudo='sudo '
+
+function runfast() {
   if [ -z "$1" ]
   then
     echo "no args"
     return 0
   fi
-  echo "$1"
-  if [[ $(id -u) -ne 0 ]] ; then echo "Please run as root" ; return 1 ; fi
 
-  # eventually for better ramdisk size allocation
-  # bs=`du -csh --block-size=1M . | grep total | grep -Eo '[0-9]*'`
-  #  (500|15)+1
-  # echo $bs
-  # expr $bs + 20
-  echo $1
-  return 0
+  bs=`du -csh --block-size=1M . | grep total | grep -Eo '[0-9]*'`
+  big=$((($bs | 15) + 1))M
 
-  mkdir -p /media/ramdisk
-  mount -t tmpfs -o size=1024M tmpfs /media/ramdisk/
-  cp -r ./. /media/ramdisk/
-  cd /media/ramdisk
-  $@
+  ramdir=/media/ramdisk
+
+  echo "Creating temp ramdisk at $ramdir with size $big..."
+  sudo mkdir -p $ramdir
+  sudo mount -t tmpfs -o size=$big tmpfs $ramdir/
+  echo "setting permissions..."
+  sudo chown `whoami`:`whoami` $ramdir
+  echo "copying contents..."
+  cp -r ./. $ramdir/
+  cd $ramdir
+  echo "running command"
+  eval "$@"
   cd -
   sleep 1
-  umount /media/ramdisk
+  echo "unmounting ramdisk"
+  sudo umount $ramdir
 }
 
-# workaround to allow sudo to be used with aliases
-alias sudo='sudo '
-
-
-alias runfast='sudo rftest'
 
 #temp workaround for microphone volume issue
 if hash amixer 2>/dev/null; then
