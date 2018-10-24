@@ -42,7 +42,9 @@ off_w=`echo $(( ($int_w-$ext_w)/2 )) | sed 's/^-//'`
 #   --output ${EXT} --auto --scale 1.5x1.5 --pos ${int_w}x0"
 
 scale=.9
-cmd="xrandr --output ${INT} --auto --pos 0x0 --scale ${scale}x${scale}"
+# ds="--scale ${scale}x${scale}"
+ds=""
+cmd="xrandr --output ${INT} --auto --pos 0x0 $ds"
 # cmd="xrandr --output ${INT} --auto --pos 0x0"
 
 if [ -n "$EXT" ]; then
