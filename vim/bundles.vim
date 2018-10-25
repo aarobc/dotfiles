@@ -49,8 +49,8 @@ Plugin 'godlygeek/tabular'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'Quramy/vim-js-pretty-template'
 Plugin 'maksimr/vim-jsbeautify'
-Plugin 'lfilho/cosco.vim'
-Plugin 'fatih/vim-go'
+" Plugin 'lfilho/cosco.vim'
+" Plugin 'metakirby5/codi.vim'
 
 call vundle#end()
 

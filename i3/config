@@ -41,8 +41,11 @@ floating_modifier $mod
 
 mode  "Passthrough Mode - Press Alt+F12 to exit" {
         bindsym $mod+F12 mode "default"
+        bindsym $mod+$sup+Escape mode "default"
 }
+
 bindsym $mod+F12 mode "Passthrough Mode - Press Alt+F12 to exit"
+bindsym $mod+$sup+Escape mode "Passthrough Mode - Press Alt+F12 to exit"
 
 # start a terminal
 # bindsym $mod+Return exec i3-sensible-terminal
@@ -187,6 +190,8 @@ bindsym Control+$mod+Left workspace prev
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
+# todo: figure out xrandr
+# xrandr --output LVDS1 --brightness 0.5
 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
