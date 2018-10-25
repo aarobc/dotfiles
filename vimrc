@@ -42,7 +42,6 @@ set shiftwidth=2
 set expandtab
 set background=dark
 set autoindent
-filetype plugin indent on
 "generic folding settings
 set foldmethod=indent   "fold based on indent
 set foldnestmax=1      "deepest fold is 10 levels
@@ -97,6 +96,10 @@ if ! has('gui_running')
     augroup END
 endif
 
+"potatoes
+"green
+" vnoremap yy "py
+
 "easier window navigation
 nnoremap <silent> <Tab> :wincmd w<CR>
 nnoremap <silent> <S-Tab> :wincmd W<CR>
@@ -142,6 +145,8 @@ endfunction
 
 autocmd vimrc FileType javascript call s:JavascriptFileType()
 
+" set conceallevel=1
+
 
 " autocmd Filetype html setlocal ts=2 sts=2 sw=2
 " because stupid work decided to use 4 spaces on html
@@ -162,6 +167,8 @@ endif
 "nerdTree
 nnoremap <C-f> :NERDTree<CR>
 
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
 
 
 "swap the layouts of horozontal and vertical
