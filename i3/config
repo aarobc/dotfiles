@@ -51,9 +51,9 @@ bindsym $mod+F12 mode "Passthrough Mode - Press Alt+F12 to exit"
 bindsym $mod+$sup+Escape mode "Passthrough Mode - Press Alt+F12 to exit"
 
 # start a terminal
-# bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec --no-startup-id kitty
+#bindsym $mod+Return exec i3-sensible-terminal
 # bindsym $mod+Return exec --no-startup-id gnome-terminal
+bindsym $mod+Return exec --no-startup-id kitty
 # bindsym $mod+Return exec --no-startup-id termite
 # bindsym $mod+Return exec --no-startup-id lxterminal
 
@@ -291,20 +291,7 @@ for_window [class="Nm-connection-editor"] floating enable
 for_window [title="Friends List"] floating enable
 for_window [title="Steam - News"] floating enable
 for_window [title="[^Steam]" class="Steam"] floating enable
-for_window [title="^Kerbal Space Program$"] fullscreen enable
-# for_window [title="Origin"] floating enable
-for_window [instance="origin.exe"] floating enable
-for_window [title="Blizzard Battle.net"] floating enable
-for_window [class="UDKGame-Linux"] floating enable
-for_window [title="Minecraft Launcher"] floating enable
-for_window [title="Uplay"] floating enable
-for_window [title="Volume Control"] floating enable
-for_window [title="^Lutris$"] floating enable
-for_window [title="^Battlefield™ 1"] floating enable
-for_window [title="Rockstar Games Launcher"] floating enable
-for_window [title="zoom"] floating enable
-# for_window [title="Radeon Profile"] floating enable
-
+for_window [class="pavucontrol"] floating enable
 
 gaps inner 20
 # gaps outer 5
@@ -316,7 +303,7 @@ gaps inner 20
 # exec --no-startup-id i3-msg 'workspace 10; exec virtualbox'
 
 # fix the monitor
-# exec --no-startup-id $HOME/.screenlayout/othree.sh
+exec --no-startup-id $HOME/.screenlayout/layout.sh
 # polybar
 # exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
