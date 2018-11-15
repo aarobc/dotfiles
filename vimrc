@@ -24,7 +24,7 @@ autocmd FileType typescript syn clear foldBraces
 "shouldn't need to mess with this because tmux alias yay
 "set term=screen-256color
 "set term=xterm-256color
-set shell=/bin/bash
+set shell=/bin/zsh
 
 set lazyredraw
 set nowrap
@@ -36,17 +36,20 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 set backspace=indent,eol,start
 
 " set smartindent
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set expandtab
 set background=dark
 set autoindent
 "generic folding settings
-set foldmethod=indent   "fold based on indent
-set foldnestmax=1      "deepest fold is 10 levels
+set foldmethod=syntax
+set foldcolumn=1
+let javaScript_fold=1
+set foldnestmax=10      "allowed depth of sub-folds
 set nofoldenable        "dont fold by default
-set foldlevel=1         "this is just what i use
+set foldlevelstart=99   "needed for some reason to not fold everything
+" set foldlevel=1         "this is just what i use
 
 set mouse=r
 set number
@@ -128,11 +131,11 @@ cmap w!! w !sudo tee > /dev/null %
 "javascript folding
 function! s:JavascriptFileType()
     "set nofoldenable
-    set foldlevelstart=0
+    " set foldlevelstart=0
     " fold methods available: syntax indent marker
-    set foldmethod=indent
-    set foldignore=
-    set foldnestmax=1
+    " set foldmethod=indent
+    " set foldignore=
+    " set foldnestmax=1
 
 
     " "Refocus" folds
@@ -143,7 +146,7 @@ function! s:JavascriptFileType()
     nnoremap zO zCzO
 endfunction
 
-autocmd vimrc FileType javascript call s:JavascriptFileType()
+" autocmd vimrc FileType javascript call s:JavascriptFileType()
 
 " set conceallevel=1
 
@@ -293,8 +296,9 @@ endfunc
 
 map <c-f> :call HtmlBeautify()<cr>
 
-
 com! FormatJSON %!python -m json.tool
+" fix weird bug that makes underscores (_) invisible with kitty
+set linespace=5
 
 "reference:
 "tabm <number> moves tab to that location.

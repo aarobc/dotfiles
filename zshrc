@@ -7,6 +7,7 @@
 # load zgen
 ZSH_DISABLE_COMPFIX=true
 source ~/dotfiles/zgen/zgen.zsh
+# source ~/.profile
 
 #custom theme
 source ~/dotfiles/agnoster.zsh-theme
@@ -76,17 +77,6 @@ if hash nvim 2>/dev/null; then
     alias vim='nvim'
 fi
 
-path="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-path="$path:/usr/games"
-path="$path:/usr/bin/core_perl"
-path="$path:/opt/android-studio/bin"
-# path="$path:/$HOME/Android/Sdk/platform-tools"
-path="$path:$HOME/go/bin"
-path="$path:$HOME/.local/bin"
-path="$path:$HOME/.npm-global/bin"
-path="$path:$HOME/.local/share/JetBrains/Toolbox/bin"
-export PATH=$path
-# export PATH="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 export GIT_EDITOR=vim
 export EDITOR=vim
@@ -181,6 +171,7 @@ function runfast() {
   cp -r ./. $ramdir/
   cd $ramdir
   echo "running command"
+  echo "$@"
   eval "$@"
   cd -
   sleep 1
