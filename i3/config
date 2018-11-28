@@ -292,6 +292,7 @@ for_window [title="Friends List"] floating enable
 for_window [title="Steam - News"] floating enable
 for_window [title="[^Steam]" class="Steam"] floating enable
 for_window [class="pavucontrol"] floating enable
+for_window [title="Volume Control"] floating enable
 
 gaps inner 20
 # gaps outer 5
