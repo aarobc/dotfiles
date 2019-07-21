@@ -7,7 +7,6 @@
 # load zgen
 ZSH_DISABLE_COMPFIX=true
 source ~/dotfiles/zgen/zgen.zsh
-#source ~/.profile
 
 #custom theme
 source ~/dotfiles/agnoster.zsh-theme
@@ -66,7 +65,7 @@ alias used='du -Sh | sort -rh | head -n 15'
 alias nautilus='nautilus --no-desktop'
 alias phpd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html php php'
 alias yarnd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html node yarn'
-alias quickhttp='docker run --rm -it -v $PWD:/usr/share/nginx/html:ro -p 8080:80 nginx:alpine'
+alias quickhttp='docker run --rm -it -v $PWD:/web:ro -p 8080:80 aarobc/quickhttp'
 
 alias gitclean="git branch --merged master | grep -v '^[ *]*master$' | xargs git branch -d"
 alias gitcleanup='git remote prune origin'
@@ -138,6 +137,7 @@ function extract {
           *.zip)       unzip $1       ;;
           *.Z)         uncompress $1  ;;
           *.7z)        7z x $1        ;;
+          *.rar)       unrar e $1     ;;
           *)           echo "don't know how to extract '$1'..." ;;
       esac
   else
@@ -149,19 +149,6 @@ function extract {
 function rotate() {
   ffmpeg -i "$1" -c copy -metadata:s:v:0 rotate=180 "$2"
 }
-#hoping that this fixes the annoying issue when it doesn't workO
-# if hash setxkbmap 2>/dev/null; then
-#     # disable caps lock if it's on just in case
-#     python -c 'from ctypes import *; X11 = cdll.LoadLibrary("libX11.so.6"); display = X11.XOpenDisplay(None); X11.XkbLockModifiers(display, c_uint(0x0100), c_uint(2), c_uint(0)); X11.XCloseDisplay(display)'
-#     setxkbmap -option 'caps:ctrl_modifier'
-# fi
-
-#temp workaround for microphone volume issue
-if hash amixer 2>/dev/null; then
-    NOPe=`amixer -c 1 set Capture 20 2>/dev/null`
-else
-    # echo "no amixer"
-fi
 
 # including this ensures that new gnome-terminal tabs keep the parent `pwd` !
 if [ -e /etc/profile.d/vte.sh ]; then
