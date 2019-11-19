@@ -16,6 +16,7 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'wesQ3/vim-windowswap'
 Plugin 'vim-scripts/Tabmerge'
 Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
 "Plugin 'jelera/vim-javascript-syntax'
 Plugin 'StanAngeloff/php.vim'
 Plugin 'vim-scripts/phpfolding.vim'
@@ -53,6 +54,7 @@ Plugin 'maksimr/vim-jsbeautify'
 Plugin 'wellle/targets.vim'
 " Plugin 'lfilho/cosco.vim'
 " Plugin 'metakirby5/codi.vim'
+Plugin 'lambdalisue/suda.vim'
 
 call vundle#end()
 

@@ -17,6 +17,7 @@ PATH="$PATH:/opt/android-studio/bin"
 PATH="$PATH:$HOME/go/bin"
 PATH="$PATH:$HOME/.npm-global/bin"
 PATH="$PATH:$HOME/.local/share/JetBrains/Toolbox/bin"
+PATH="$PATH:/snap/bin"
 
 export PATH=$PATH
 # remove duplicate entrys from path
@@ -51,7 +52,7 @@ export PATH=$PATH
 # xmodmap ~/.xmodmaprc
 # synclient HorizTwoFingerScroll=1 HorizEdgeScroll=0 VertEdgeScroll=0 VertScrollDelta=-247 HorizScrollDelta=-247
 xmodmap -e 'clear Lock' #ensures you're not stuck in CAPS on mode
-xmodmap -e 'keycode 0x42=Escape' #remaps the keyboard so CAPS LOCK=ESC
+# xmodmap -e 'keycode 0x42=Escape' #remaps the keyboard so CAPS LOCK=ESC
 
 setxkbmap -option ctrl:nocaps
 xmodmap -e "keycode 66 = Escape NoSymbol Escape"
