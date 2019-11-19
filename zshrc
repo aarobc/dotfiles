@@ -57,21 +57,24 @@ alias vue='docker run -it --rm -v "$PWD":"$PWD" -w "$PWD"  -u "$(id -u)" aarobc/
 alias dc='docker-compose'
 alias dcr='dc run --rm'
 alias dcrp='dcr --service-ports'
+alias dce='dc exec'
 
-alias drt='docker run --rm -it'
-alias v='$HOME/dotfiles/scripts/vimterm.py'
+alias v=$HOME/dotfiles/scripts/vimterm.py
 alias xclip='xclip -selection clipboard'
-alias hibernate='$HOME/dotfiles/scripts/hibernate.sh'
+alias hibernate=$HOME/dotfiles/scripts/hibernate.sh
 alias gitaddall='echo -e "a\n*\nq\n"|git add -i'
 alias used='du -Sh | sort -rh | head -n 15'
 alias nautilus='nautilus --no-desktop'
 alias phpd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html php php'
 alias yarnd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html node yarn'
-alias quickhttp='docker run --rm -it -v $PWD:/web:ro -p 8080:80 aarobc/quickhttp'
-alias has='dc -f ~/Documents/docker/homeassistant-cli/docker-compose.yml hass-cli'
+alias quickhttp='docker run --rm -it -v $PWD:/usr/share/nginx/html:ro -p 8080:80 -p 4443:443 nginx:alpine'
 
 alias gitclean="git branch --merged master | grep -v '^[ *]*master$' | xargs git branch -d"
 alias gitcleanup='git remote prune origin'
+alias clearlaravel='dcr chat bash -c "./artisan cache:clear && ./artisan config:clear && ./artisan config:cache"'
+alias pr='~/dotfiles/scripts/go-to-source pr'
+
+# alias twiliod='docker run --rm -it -v $HOME/.twilio-cli:/root/.twilio-cli -v $PWD:$PWD --workdir $PWD aarobc/twilio-cli twilio'
 
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
@@ -91,6 +94,10 @@ export TERM=xterm-256color
 #if [[ -r /usr/local/lib/python2.7/dist-packages/powerline/bindings/zsh/powerline.zsh ]]; then
     #source /usr/local/lib/python2.7/dist-packages/powerline/bindings/zsh/powerline.zsh
 #fi
+
+# for the path for now:
+export PATH=~/.node_modules/bin:$PATH
+export N_PREFIX=$HOME/.local
 
 function qdns {
   if [ $1 ]

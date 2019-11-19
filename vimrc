@@ -35,13 +35,15 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 set backspace=indent,eol,start
 
-" set smartindent
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+" to disable the global markers
+" set shada="NONE"
+" set tabstop=4
+" set softtabstop=4
+" set shiftwidth=4
 set expandtab
 set background=dark
 set autoindent
+" set smartindent
 "generic folding settings
 set foldmethod=syntax
 set foldcolumn=1
@@ -116,8 +118,8 @@ noremap B ^
 noremap E $
 
 " vim quickscope repurposing t to jump to second blue match
-noremap t 2f
-noremap T 2F
+" noremap t 2f
+" noremap T 2F
 
 "open file looking thing in new tab
 "map gf :tabedit <cfile><CR>
@@ -153,11 +155,16 @@ endfunction
 
 " autocmd Filetype html setlocal ts=2 sts=2 sw=2
 " because stupid work decided to use 4 spaces on html
+
+autocmd FileType make       setlocal ts=2 sts=2 tw=2 noet
 autocmd Filetype html       setlocal ts=2 sts=2 sw=2
 autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
-autocmd Filetype php setlocal ts=4 sts=4 sw=4
-autocmd Filetype yml setlocal ts=2 sts=2 sw=2
+autocmd Filetype php        setlocal ts=4 sts=4 sw=4
+au Filetype yaml            setlocal ts=2 sts=2 sw=2 expandtab
+au Filetype typescript      setlocal ts=2 sts=2 sw=2 expandtab
+au BufNewFile,BufRead Jenkinsfile setf groovy
 
+" let g:SignatureForceRemoveGlobal = 0
 
 
 " deal with drag issues when in tmux
@@ -283,6 +290,8 @@ nnoremap <C-w>S <C-w>L
 nnoremap <C-w>T <C-w>J
 nnoremap <C-w>N <C-w>K
 
+com! ToJson %s/\(\w*\):/"\1"/
+
 function! ToggleMouse()
     " check if mouse is enabled
     if &mouse == 'a'
@@ -300,6 +309,11 @@ com! FormatJSON %!python -m json.tool
 " fix weird bug that makes underscores (_) invisible with kitty
 set linespace=5
 
+" vim-fugitive gdiff direction
+set diffopt+=vertical
+
+" suda.vim save as root
+let g:suda_smart_edit = 1
 "reference:
 "tabm <number> moves tab to that location.
 "example: tabm 0 moves tab to location 0 (first location)
@@ -308,3 +322,7 @@ set linespace=5
 " :s/row\['\(\w*\)'\]/row->\1/g
 "move existing window into new tab:
 ":tabedit %<CR>
+
+"freedom in visual mode
+" :set virtualedit=all
+" then use Afoo to instert multiple columns
