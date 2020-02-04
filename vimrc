@@ -19,7 +19,7 @@ autocmd BufEnter * :syntax sync fromstart
 " typescript template syntax
 autocmd FileType typescript JsPreTmpl html
 autocmd FileType typescript syn clear foldBraces
-" colorscheme Tomorrow
+
 "attempt to fix weird background color issues
 "shouldn't need to mess with this because tmux alias yay
 "set term=screen-256color
@@ -148,14 +148,9 @@ function! s:JavascriptFileType()
     nnoremap zO zCzO
 endfunction
 
-" autocmd vimrc FileType javascript call s:JavascriptFileType()
-
 " set conceallevel=1
 
-
-" autocmd Filetype html setlocal ts=2 sts=2 sw=2
 " because stupid work decided to use 4 spaces on html
-
 autocmd FileType make       setlocal ts=2 sts=2 tw=2 noet
 autocmd Filetype html       setlocal ts=2 sts=2 sw=2
 autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
@@ -165,7 +160,6 @@ au Filetype typescript      setlocal ts=2 sts=2 sw=2 expandtab
 au BufNewFile,BufRead Jenkinsfile setf groovy
 
 " let g:SignatureForceRemoveGlobal = 0
-
 
 " deal with drag issues when in tmux
 " set mouse+=a
@@ -314,6 +308,28 @@ set diffopt+=vertical
 
 " suda.vim save as root
 let g:suda_smart_edit = 1
+
+" Prettier support
+let g:ale_fixers = {
+ \ 'javascript': ['eslint']
+ \ }
+
+let g:ale_sign_error = '✖'
+let g:ale_sign_warning = '⚠'
+let g:ale_fix_on_save = 1
+" manually trigger with ALEFix
+
+"coc
+
+"coc.vim tab complete
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+" coc.vim autocomplete on tab
+inoremap <silent><expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+
 "reference:
 "tabm <number> moves tab to that location.
 "example: tabm 0 moves tab to location 0 (first location)

@@ -52,9 +52,11 @@ Plugin 'Quramy/vim-js-pretty-template'
 Plugin 'maksimr/vim-jsbeautify'
 " allow motions on strings. is awesome
 Plugin 'wellle/targets.vim'
-" Plugin 'lfilho/cosco.vim'
-" Plugin 'metakirby5/codi.vim'
 Plugin 'lambdalisue/suda.vim'
+" code inspection
+Plugin 'dense-analysis/ale'
+Plugin 'neoclide/coc.nvim'
+
 
 call vundle#end()
 
