@@ -1,17 +1,19 @@
+- defaults:
+    link:
+      relink: true
+
 - clean: ['~']
+
 - link:
     ~/.vim:
       force: true
-      path: vim/
+      path: vim
     ~/.config/nvim:
       force: true
-      path: vim/
-    ~/.i3:
+      path: vim
+    ~/.config/i3:
       force: true
-      path: i3/
-    ~/.bashrc:
-      force: true
-      path: bashrc
+      path: i3
     ~/.vimrc:
       force: true
       path: vimrc
@@ -28,7 +30,7 @@
     ~/.profile:
       force: true
       path: profile
-    ~/.i3status.conf:
+    ~/.config/i3status/config:
       force: true
       path: i3status.conf
 

@@ -249,7 +249,7 @@ exec --no-startup-id exec variety
 # exec --no-startup-id synergy
 # exec --no-startup-id redshift-gtk
 
-exec --no-startup-id compton --config ~/.i3/compton.conf -b
+exec --no-startup-id compton --config ~/.config/i3/compton.conf -b
 # exec --no-startup-id exec compton --config ~/.i3/compton.conf -b
 # exec compton -bcCGf --inactive-dim 0.1 -e 0.8 --no-fading-openclose --clear-shadow --backend glx --vsync opengl
 # exec compton -bcCGfz --inactive-dim 0.1 -e 0.8  --backend glx --vsync opengl -D 2
@@ -321,7 +321,7 @@ gaps inner 20
 exec --no-startup-id xset dpms 0 0 1200
 
 # toggle keyboard layout
-bindsym $sup+space exec ~/.i3/layout.sh
+bindsym $sup+space exec ~/.config/i3/layout.sh
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id ~/.screenlayout/layout.sh
+# exec --no-startup-id ~/.screenlayout/layout.sh
 exec --no-startup-id radeon-profile
