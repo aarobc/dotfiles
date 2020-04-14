@@ -33,4 +33,7 @@
     ~/.config/i3status/config:
       force: true
       path: i3status.conf
+    ~/.config/kitty/kitty.conf:
+      force: true
+      path: kitty.conf
 
