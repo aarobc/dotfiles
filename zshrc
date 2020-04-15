@@ -57,6 +57,7 @@ alias vue='docker run -it --rm -v "$PWD":"$PWD" -w "$PWD"  -u "$(id -u)" aarobc/
 alias dcr='dc run --rm'
 alias dcrp='dcr --service-ports'
 
+alias drt='docker run --rm -it'
 alias v='$HOME/dotfiles/scripts/vimterm.py'
 alias xclip='xclip -selection clipboard'
 alias hibernate='$HOME/dotfiles/scripts/hibernate.sh'
@@ -66,6 +67,7 @@ alias nautilus='nautilus --no-desktop'
 alias phpd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html php php'
 alias yarnd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html node yarn'
 alias quickhttp='docker run --rm -it -v $PWD:/web:ro -p 8080:80 aarobc/quickhttp'
+alias has='dc -f ~/Documents/docker/homeassistant-cli/docker-compose.yml hass-cli'
 
 alias gitclean="git branch --merged master | grep -v '^[ *]*master$' | xargs git branch -d"
 alias gitcleanup='git remote prune origin'
@@ -88,7 +90,6 @@ export PATH=$path
 export GIT_EDITOR=vim
 export EDITOR=vim
 export VISUAL=vim
-
 
 # You may need to manually set your language environment
 #export LANG=en_US.UTF-8
@@ -127,9 +128,8 @@ function extract {
       case $1 in
           *.tar.bz2)   tar xvjf $1    ;;
           *.tar.gz)    tar xvzf $1    ;;
-          *.tar.xz)    tar xf $1    ;;
+          *.tar.xz)    tar xf $1      ;;
           *.bz2)       bunzip2 $1     ;;
-          *.rar)       rar x $1       ;;
           *.gz)        gunzip $1      ;;
           *.tar)       tar xvf $1     ;;
           *.tbz2)      tar xvjf $1    ;;

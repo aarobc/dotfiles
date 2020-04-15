@@ -24,16 +24,19 @@ set $sup Mod4
 # font pango:SFNS Text MediumP4 14px
 font pango:SFNS Text Medium 14px
  # border only, no titlebar
-new_window pixel 1
-new_float pixel 1
+default_border pixel 1
+default_floating_border pixel
 hide_edge_borders both
-# class border backgr indicator
 
-# client.focused #9fbc00 #9fbc00 #111111
-# client.focused #03ff00 #03ff00 #ecf0f1
-client.unfocused #444444 #444444 #000000
-client.focused_inactive #444444 #444444 #2c2c2f
-client.urgent #383a3b #383a3b #ee0000
+
+# class                 border  backgr. text    indicator child_border
+client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
+client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
+client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+
+client.background       #ffffff
 
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -59,11 +62,9 @@ bindsym $mod+Shift+apostrophe kill
 
 # start dmenu (a program launcher)
 bindsym $mod+e exec --no-startup-id dmenu_run
+# bindsym $mod+e exec --no-startup-id bemenu
 # bindsym $mod+e exec j4-dmenu-desktop --dmenu="dmenu -i"
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+
 
 # move desktop monitor
 bindsym $mod+Shift+Control+h move workspace to output left
@@ -223,7 +224,8 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightne
 # }
 
 bar {
-    i3bar_command i3bar -t
+# unknown command for sway?
+    # i3bar_command i3bar -t
     # tray_output primary
     status_command i3status
 #     # output DVI-I-1
@@ -234,7 +236,7 @@ bar {
     font pango:DejaVu Sans Mono 10
 #     separator_symbol "//"
 #     strip_workspace_numbers yes
-    colors{
+    colors {
         background #23232310
         # statusline #DCDCDC10
     }
@@ -286,7 +288,6 @@ for_window [class="Nm-connection-editor"] floating enable
 # assign [class="Pidgin"] →  1
 # get rid of annoying popup on hangout screen sharing
 # doesn't work
-for_window [title="*Hangouts is sharing your screen*"] floating enable
 for_window [title="Friends List"] floating enable
 for_window [title="Steam - News"] floating enable
 for_window [title="[^Steam]" class="Steam"] floating enable
@@ -300,6 +301,7 @@ for_window [title="Uplay"] floating enable
 for_window [title="Volume Control"] floating enable
 for_window [title="^Lutris$"] floating enable
 for_window [title="^Battlefield™ 1"] floating enable
+for_window [title="Rockstar Games Launcher"] floating enable
 # for_window [title="Radeon Profile"] floating enable
 
 
