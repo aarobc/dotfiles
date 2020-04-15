@@ -318,10 +318,12 @@ gaps inner 20
 # exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # set the screen timeout for 20 mins
-exec --no-startup-id xset dpms 0 0 1200
+# exec --no-startup-id xset dpms 0 0 1200
 
 # toggle keyboard layout
 bindsym $sup+space exec ~/.config/i3/layout.sh
+
+# startup apps
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
-# exec --no-startup-id ~/.screenlayout/layout.sh
+exec_always --no-startup-id autorandr --change
 exec --no-startup-id radeon-profile
