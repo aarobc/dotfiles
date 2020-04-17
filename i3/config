@@ -302,6 +302,7 @@ for_window [title="Volume Control"] floating enable
 for_window [title="^Lutris$"] floating enable
 for_window [title="^Battlefield™ 1"] floating enable
 for_window [title="Rockstar Games Launcher"] floating enable
+for_window [title="zoom"] floating enable
 # for_window [title="Radeon Profile"] floating enable
 
 
