@@ -36,4 +36,7 @@
     ~/.Xmodmap:
       force: true
       path: Xmodmap
+    ~/.config/i3blocks/config:
+      force: true
+      path: i3blocks.conf
 
