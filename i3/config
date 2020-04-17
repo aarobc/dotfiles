@@ -284,6 +284,7 @@ for_window [title="Volume Control"] floating enable
 for_window [class="jetbrains-toolbox"] floating enable
 for_window [class="Nitrogen"] floating enable
 for_window [title="Task Manager - Google Chrome"] floating enable
+for_window [class="^zoom$"] floating enable
 
 # for_window [class="^jetbrains-.+"][window_type=dialog] focus
 for_window [instance="sun-awt-X11-XWindowPeer"] border pixel 0
@@ -313,3 +314,4 @@ bindsym $sup+space exec ~/.config/i3/layout.sh
 # startup apps
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id jetbrains-toolbox
+exec_always --no-startup-id ~/apps/i3-chrome-tab-dragging/i3-chrome-tab-dragging.py

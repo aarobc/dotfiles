@@ -71,7 +71,7 @@ alias quickhttp='docker run --rm -it -v $PWD:/usr/share/nginx/html:ro -p 8080:80
 
 alias gitclean="git branch --merged master | grep -v '^[ *]*master$' | xargs git branch -d"
 alias gitcleanup='git remote prune origin'
-alias clearlaravel='dcr chat bash -c "./artisan cache:clear && ./artisan config:clear && ./artisan config:cache"'
+alias clearlaravel='dcr chat sh -c "./artisan cache:clear && ./artisan config:clear && ./artisan config:cache"'
 alias pr='~/dotfiles/scripts/go-to-source pr'
 
 # alias twiliod='docker run --rm -it -v $HOME/.twilio-cli:/root/.twilio-cli -v $PWD:$PWD --workdir $PWD aarobc/twilio-cli twilio'

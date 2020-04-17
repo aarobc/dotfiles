@@ -51,11 +51,7 @@ export PATH=$PATH
 # mac keyboard remap
 # xmodmap ~/.xmodmaprc
 # synclient HorizTwoFingerScroll=1 HorizEdgeScroll=0 VertEdgeScroll=0 VertScrollDelta=-247 HorizScrollDelta=-247
-xmodmap -e 'clear Lock' #ensures you're not stuck in CAPS on mode
-# xmodmap -e 'keycode 0x42=Escape' #remaps the keyboard so CAPS LOCK=ESC
-
-setxkbmap -option ctrl:nocaps
-xmodmap -e "keycode 66 = Escape NoSymbol Escape"
+xmodmap ~/.Xmodmap
 
 # TODO: set up this to be started by a daemon something or other
 # this is probably not a great idea
