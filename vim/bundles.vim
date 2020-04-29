@@ -15,9 +15,13 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'Raimondi/delimitMate'
 Plugin 'wesQ3/vim-windowswap'
 Plugin 'vim-scripts/Tabmerge'
+
+" javascript
 Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
-"Plugin 'jelera/vim-javascript-syntax'
+Plugin 'maxmellon/vim-jsx-pretty'
+" Plugin 'leafgarland/typescript-vim'
+
+" php
 Plugin 'StanAngeloff/php.vim'
 Plugin 'vim-scripts/phpfolding.vim'
 
@@ -47,9 +51,6 @@ Plugin 'othree/html5.vim'
 " Plugin 'nixprime/cpsm'
 Plugin 'godlygeek/tabular'
 
-Plugin 'leafgarland/typescript-vim'
-Plugin 'Quramy/vim-js-pretty-template'
-Plugin 'maksimr/vim-jsbeautify'
 " allow motions on strings. is awesome
 Plugin 'wellle/targets.vim'
 Plugin 'lambdalisue/suda.vim'

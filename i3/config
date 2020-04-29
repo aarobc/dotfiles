@@ -52,8 +52,8 @@ bindsym $mod+$sup+Escape mode "Passthrough Mode - Press Alt+F12 to exit"
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec --no-startup-id gnome-terminal
-# bindsym $mod+Return exec --no-startup-id kitty
+# bindsym $mod+Return exec --no-startup-id gnome-terminal
+bindsym $mod+Return exec --no-startup-id kitty
 # bindsym $mod+Return exec --no-startup-id termite
 # bindsym $mod+Return exec --no-startup-id lxterminal
 
@@ -314,4 +314,6 @@ bindsym $sup+space exec ~/.config/i3/layout.sh
 # startup apps
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id jetbrains-toolbox
+exec --no-startup-id slack
 exec_always --no-startup-id ~/apps/i3-chrome-tab-dragging/i3-chrome-tab-dragging.py
+# exec_always --no-startup-id flashfocus
