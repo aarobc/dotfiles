@@ -127,26 +127,23 @@ noremap E $
 au BufRead,BufNewFile *.ino set filetype=cpp
 au BufRead,BufNewFile *.vue set filetype=html
 
-"save file as root
-cmap w!! w !sudo tee > /dev/null %
-
 "javascript folding
-function! s:JavascriptFileType()
-    "set nofoldenable
-    " set foldlevelstart=0
-    " fold methods available: syntax indent marker
-    " set foldmethod=indent
-    " set foldignore=
-    " set foldnestmax=1
-
-
-    " "Refocus" folds
-    nnoremap ,z zMzvzz
-
-    " Make zO recursively open whatever top level fold we're in, no matter where the
-    " cursor happens to be.
-    nnoremap zO zCzO
-endfunction
+" function! s:JavascriptFileType()
+"     "set nofoldenable
+"     " set foldlevelstart=0
+"     " fold methods available: syntax indent marker
+"     " set foldmethod=indent
+"     " set foldignore=
+"     " set foldnestmax=1
+"
+"
+"     " "Refocus" folds
+"     nnoremap ,z zMzvzz
+"
+"     " Make zO recursively open whatever top level fold we're in, no matter where the
+"     " cursor happens to be.
+"     nnoremap zO zCzO
+" endfunction
 
 " set conceallevel=1
 
@@ -154,6 +151,7 @@ endfunction
 autocmd FileType make       setlocal ts=2 sts=2 tw=2 noet
 autocmd Filetype html       setlocal ts=2 sts=2 sw=2
 autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
+au Filetype javascriptreact setlocal ts=2 sts=2 sw=2 expandtab
 autocmd Filetype php        setlocal ts=4 sts=4 sw=4
 au Filetype yaml            setlocal ts=2 sts=2 sw=2 expandtab
 au Filetype typescript      setlocal ts=2 sts=2 sw=2 expandtab
@@ -296,8 +294,6 @@ function! ToggleMouse()
         set mouse=a
     endif
 endfunc
-
-map <c-f> :call HtmlBeautify()<cr>
 
 com! FormatJSON %!python -m json.tool
 " fix weird bug that makes underscores (_) invisible with kitty
