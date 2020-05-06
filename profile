@@ -1,7 +1,8 @@
 
 export EDITOR=/usr/bin/vim
 export QT_QPA_PLATFORMTHEME="qt5ct"
-export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
+# export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
+export GTK_THEME=Adwaita:dark
 
 
 if [ -d "$HOME/.local/bin" ]; then
@@ -23,19 +24,6 @@ export PATH=$PATH
 # remove duplicate entrys from path
 # path=$(printf "%s" "$PATH" | awk -v RS=':' '!a[$1]++ { if (NR > 1) printf RS; printf $1 }')
 # export PATH=$path
-
-
-# if hash xcape 2>/dev/null; then
-#     xcape -e 'Caps_Lock=Escape'
-# # else
-# #     echo "no xcape"
-# fi
-
-# if hash amixer 2>/dev/null; then
-#     amixer -c 1 set Capture 20 2>/dev/null
-# # else
-#     # echo "no amixer"
-# fi
 
 # ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
 
