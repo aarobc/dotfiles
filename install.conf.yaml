@@ -33,7 +33,10 @@
     ~/.config/i3status/config:
       force: true
       path: i3status.conf
-    ~/.config/kitty/kitty.conf:
+    ~/.Xmodmap:
       force: true
-      path: kitty.conf
+      path: Xmodmap
+    ~/.config/i3blocks/config:
+      force: true
+      path: i3blocks.conf
 

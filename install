@@ -7,6 +7,8 @@ CONFIG="install.conf.yaml"
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 cd "${BASEDIR}"
+git clone https://github.com/vivien/i3blocks-contrib ~/.config/i3blocks || \
+        echo "already cloned"
 git submodule update --init --recursive ~/dotfiles/zgen
 git submodule update --init --recursive ~/dotfiles/vim/bundle/Vundle.vim
 
