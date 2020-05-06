@@ -39,11 +39,11 @@ set $k 55
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # font pango:Source Code Pro for Powerline 10px
 # font pango:SFNS Text MediumP4 14px
-font pango:SFNS Text Medium 14px
- # border only, no titlebar
-default_border pixel 1
+font                    pango:SFNS Text Medium 14px
+#border only, no titlebar
+default_border          pixel 1
 default_floating_border pixel
-hide_edge_borders both
+hide_edge_borders       both
 
 
 # class                 border  backgr. text    indicator child_border
@@ -60,11 +60,11 @@ client.background       #ffffff
 floating_modifier $mod
 
 mode  "Passthrough Mode - Press Alt+F12 to exit" {
-        bindsym $mod+F12 mode "default"
-        bindsym $mod+$sup+Escape mode "default"
+  bindsym $mod+F12         mode "default"
+  bindsym $mod+$sup+Escape mode "default"
 }
 
-bindsym $mod+F12 mode "Passthrough Mode - Press Alt+F12 to exit"
+bindsym $mod+F12         mode "Passthrough Mode - Press Alt+F12 to exit"
 bindsym $mod+$sup+Escape mode "Passthrough Mode - Press Alt+F12 to exit"
 
 # start a terminal
@@ -82,7 +82,6 @@ bindcode $mod+$e exec --no-startup-id dmenu_run
 # bindcode $mod+$e exec --no-startup-id bemenu
 # bindcode $mod+$e exec j4-dmenu-desktop --dmenu="dmenu -i"
 
-
 # move desktop monitor
 bindcode $mod+Shift+Control+$h move workspace to output left
 bindcode $mod+Shift+Control+$s move workspace to output right
@@ -94,9 +93,9 @@ bindcode $mod+$n focus up
 bindcode $mod+$s focus right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
 bindsym $mod+Right focus right
 
 # move focused window
@@ -106,9 +105,9 @@ bindcode $mod+Shift+$n move up
 bindcode $mod+Shift+$s move right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Down  move down
+bindsym $mod+Shift+Up    move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
@@ -121,8 +120,8 @@ bindcode $mod+$k split v
 bindcode $mod+$u fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
-bindcode $mod+$o layout stacking
-bindcode $mod+$comma layout tabbed
+bindcode $mod+$o      layout stacking
+bindcode $mod+$comma  layout tabbed
 bindcode $mod+$period layout default
 
 # toggle tiling / floating
@@ -170,26 +169,26 @@ bindcode $mod+Shift+$period exec "i3-nagbar -t warning -m 'You pressed the exit 
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-# These bindings trigger as soon as you enter the resize mode
+  # These bindings trigger as soon as you enter the resize mode
 
-# Pressing left will shrink the window’s width.
-# Pressing right will grow the window’s width.
-# Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindcode $h resize shrink width 10 px or 10 ppt
-        bindcode $t resize grow height 10 px or 10 ppt
-        bindcode $n resize shrink height 10 px or 10 ppt
-        bindcode $s resize grow width 10 px or 10 ppt
+  # Pressing left will shrink the window’s width.
+  # Pressing right will grow the window’s width.
+  # Pressing up will shrink the window’s height.
+  # Pressing down will grow the window’s height.
+  bindcode $h resize shrink width 10 px or 10 ppt
+  bindcode $t resize grow height 10 px or 10 ppt
+  bindcode $n resize shrink height 10 px or 10 ppt
+  bindcode $s resize grow width 10 px or 10 ppt
 
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+  # same bindings, but for the arrow keys
+  bindsym Left resize shrink width 10 px or 10 ppt
+  bindsym Down resize grow height 10 px or 10 ppt
+  bindsym Up resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow width 10 px or 10 ppt
 
-        # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
 }
 
 bindcode $mod+$p mode "resize"
@@ -198,14 +197,14 @@ bindcode $mod+$p mode "resize"
 # Audio shortcuts
 bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 3%-
 bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 3%+
-bindsym XF86AudioMute exec amixer -D pulse sset Master toggle
+bindsym XF86AudioMute        exec amixer -D pulse sset Master toggle
 
 #window switchy like ubuntu
 bindsym Control+$mod+Right workspace next
-bindsym Control+$mod+Left workspace prev
+bindsym Control+$mod+Left  workspace prev
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
+bindsym XF86MonBrightnessUp   exec xbacklight -inc 10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
 
 #lock screen
@@ -262,19 +261,15 @@ bar {
 }
 
 
-#wallpaper thingy
+# wallpaper changer
+exec --no-startup-id exec variety
 # exec --no-startup-id nitrogen --restore
 
-#auto wallpaper changer
-exec --no-startup-id exec variety
 # exec --no-startup-id synergy
 # exec --no-startup-id redshift-gtk
 
 exec --no-startup-id compton --config ~/.config/i3/compton.conf -b
 
-# natural scrolling:
-# exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Scrolling Distance" -107, -106
-# exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Two-Finger Scrolling" 1 1
 #network manager
 exec --no-startup-id exec nm-applet
 # exec --no-startup-id wicd-gtk
@@ -290,31 +285,24 @@ exec --no-startup-id pasystray
 # exec --no-startup-id 'amixer -c 1 set Capture 20'
 
 #hangouts popup set to floating
-for_window [class="Chromium-browser" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] floating enable
+for_window [instance="crx_knipolnnllmklapflnccelgolnpehhpl"] floating enable
 # shutter floating
-for_window [class="Shutter"] floating enable
-for_window [class="Nm-connection-editor"] floating enable
-#move hangouts always to desktop 1
-# assign [class="google-chrome" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] →  1
-#pidgin always desktop 1
-# assign [class="Pidgin"] →  1
-# get rid of annoying popup on hangout screen sharing
-# doesn't work
-for_window [title="Friends List"] floating enable
-for_window [title="Steam - News"] floating enable
-for_window [title="[^Steam]" class="Steam"] floating enable
-for_window [title="^Kerbal Space Program$"] fullscreen enable
-# for_window [title="Origin"] floating enable
-for_window [instance="origin.exe"] floating enable
-for_window [title="Blizzard Battle.net"] floating enable
-for_window [class="UDKGame-Linux"] floating enable
-for_window [title="Minecraft Launcher"] floating enable
-for_window [title="Uplay"] floating enable
-for_window [title="Volume Control"] floating enable
-for_window [title="^Lutris$"] floating enable
-for_window [title="^Battlefield™ 1"] floating enable
+for_window [class="Shutter"]                 floating enable
+for_window [class="Nm-connection-editor"]    floating enable
+for_window [title="Friends List"]            floating enable
+for_window [title="Steam - News"]            floating enable
+for_window [title="[^Steam]" class="Steam"]  floating enable
+for_window [title="^Kerbal Space Program$"]  fullscreen enable
+for_window [instance="origin.exe"]           floating enable
+for_window [title="Blizzard Battle.net"]     floating enable
+for_window [class="UDKGame-Linux"]           floating enable
+for_window [title="Minecraft Launcher"]      floating enable
+for_window [title="Uplay"]                   floating enable
+for_window [title="Volume Control"]          floating enable
+for_window [title="^Lutris$"]                floating enable
+for_window [title="^Battlefield™ 1"]         floating enable
 for_window [title="Rockstar Games Launcher"] floating enable
-for_window [title="zoom"] floating enable
+for_window [title="^zoom$"]                  floating enable
 # for_window [title="Radeon Profile"] floating enable
 
 
@@ -323,6 +311,6 @@ gaps inner 20
 # exec --no-startup-id xset dpms 0 0 1200
 
 # startup apps
-exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id        /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec_always --no-startup-id autorandr --change
-exec --no-startup-id radeon-profile
+exec --no-startup-id        radeon-profile

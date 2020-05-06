@@ -25,9 +25,7 @@ Plugin 'vim-scripts/phpfolding.vim'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
-" Plugin 'joeytwiddle/sexy_scroller.vim'
 Plugin 'christoomey/vim-tmux-navigator'
-"Plugin 'Valloric/YouCompleteMe'
 " for marks
 Plugin 'kshenoy/vim-signature'
 Plugin 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
@@ -44,7 +42,7 @@ Plugin 'tpope/vim-obsession'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'othree/html5.vim'
 " Plugin 'nixprime/cpsm'
-Plugin 'godlygeek/tabular'
+Plugin 'junegunn/vim-easy-align'
 
 Plugin 'leafgarland/typescript-vim'
 Plugin 'Quramy/vim-js-pretty-template'
