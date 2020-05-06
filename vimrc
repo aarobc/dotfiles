@@ -254,6 +254,10 @@ let g:syntastic_check_on_wq = 0
 "vim-go:
 let g:go_autodetect_gopath = 1
 
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 "move between splits:
 nnoremap <C-H> <C-W><C-H>
