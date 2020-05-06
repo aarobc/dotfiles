@@ -19,12 +19,12 @@ autocmd BufEnter * :syntax sync fromstart
 " typescript template syntax
 autocmd FileType typescript JsPreTmpl html
 autocmd FileType typescript syn clear foldBraces
-" colorscheme Tomorrow
+
 "attempt to fix weird background color issues
 "shouldn't need to mess with this because tmux alias yay
 "set term=screen-256color
 "set term=xterm-256color
-set shell=/bin/bash
+set shell=/bin/zsh
 
 set lazyredraw
 set nowrap
@@ -35,18 +35,23 @@ autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 set backspace=indent,eol,start
 
-" set smartindent
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
+" to disable the global markers
+" set shada="NONE"
+" set tabstop=4
+" set softtabstop=4
+" set shiftwidth=4
 set expandtab
 set background=dark
 set autoindent
+" set smartindent
 "generic folding settings
-set foldmethod=indent   "fold based on indent
-set foldnestmax=1      "deepest fold is 10 levels
+set foldmethod=syntax
+set foldcolumn=1
+let javaScript_fold=1
+set foldnestmax=10      "allowed depth of sub-folds
 set nofoldenable        "dont fold by default
-set foldlevel=1         "this is just what i use
+set foldlevelstart=99   "needed for some reason to not fold everything
+" set foldlevel=1         "this is just what i use
 
 set mouse=r
 set number
@@ -113,8 +118,8 @@ noremap B ^
 noremap E $
 
 " vim quickscope repurposing t to jump to second blue match
-noremap t 2f
-noremap T 2F
+" noremap t 2f
+" noremap T 2F
 
 "open file looking thing in new tab
 "map gf :tabedit <cfile><CR>
@@ -122,40 +127,37 @@ noremap T 2F
 au BufRead,BufNewFile *.ino set filetype=cpp
 au BufRead,BufNewFile *.vue set filetype=html
 
-"save file as root
-cmap w!! w !sudo tee > /dev/null %
-
 "javascript folding
-function! s:JavascriptFileType()
-    "set nofoldenable
-    set foldlevelstart=0
-    " fold methods available: syntax indent marker
-    set foldmethod=indent
-    set foldignore=
-    set foldnestmax=1
-
-
-    " "Refocus" folds
-    nnoremap ,z zMzvzz
-
-    " Make zO recursively open whatever top level fold we're in, no matter where the
-    " cursor happens to be.
-    nnoremap zO zCzO
-endfunction
-
-autocmd vimrc FileType javascript call s:JavascriptFileType()
+" function! s:JavascriptFileType()
+"     "set nofoldenable
+"     " set foldlevelstart=0
+"     " fold methods available: syntax indent marker
+"     " set foldmethod=indent
+"     " set foldignore=
+"     " set foldnestmax=1
+"
+"
+"     " "Refocus" folds
+"     nnoremap ,z zMzvzz
+"
+"     " Make zO recursively open whatever top level fold we're in, no matter where the
+"     " cursor happens to be.
+"     nnoremap zO zCzO
+" endfunction
 
 " set conceallevel=1
 
-
-" autocmd Filetype html setlocal ts=2 sts=2 sw=2
 " because stupid work decided to use 4 spaces on html
+autocmd FileType make       setlocal ts=2 sts=2 tw=2 noet
 autocmd Filetype html       setlocal ts=2 sts=2 sw=2
 autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
-autocmd Filetype php setlocal ts=4 sts=4 sw=4
-autocmd Filetype yml setlocal ts=2 sts=2 sw=2
+au Filetype javascriptreact setlocal ts=2 sts=2 sw=2 expandtab
+autocmd Filetype php        setlocal ts=4 sts=4 sw=4
+au Filetype yaml            setlocal ts=2 sts=2 sw=2 expandtab
+au Filetype typescript      setlocal ts=2 sts=2 sw=2 expandtab
+au BufNewFile,BufRead Jenkinsfile setf groovy
 
-
+" let g:SignatureForceRemoveGlobal = 0
 
 " deal with drag issues when in tmux
 " set mouse+=a
@@ -284,6 +286,8 @@ nnoremap <C-w>S <C-w>L
 nnoremap <C-w>T <C-w>J
 nnoremap <C-w>N <C-w>K
 
+com! ToJson %s/\(\w*\):/"\1"/
+
 function! ToggleMouse()
     " check if mouse is enabled
     if &mouse == 'a'
@@ -295,10 +299,36 @@ function! ToggleMouse()
     endif
 endfunc
 
-map <c-f> :call HtmlBeautify()<cr>
-
-
 com! FormatJSON %!python -m json.tool
+" fix weird bug that makes underscores (_) invisible with kitty
+set linespace=5
+
+" vim-fugitive gdiff direction
+set diffopt+=vertical
+
+" suda.vim save as root
+let g:suda_smart_edit = 1
+
+" Prettier support
+let g:ale_fixers = {
+ \ 'javascript': ['eslint']
+ \ }
+
+let g:ale_sign_error = '✖'
+let g:ale_sign_warning = '⚠'
+let g:ale_fix_on_save = 1
+" manually trigger with ALEFix
+
+"coc
+
+"coc.vim tab complete
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+" coc.vim autocomplete on tab
+inoremap <silent><expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
 "reference:
 "tabm <number> moves tab to that location.
@@ -308,3 +338,7 @@ com! FormatJSON %!python -m json.tool
 " :s/row\['\(\w*\)'\]/row->\1/g
 "move existing window into new tab:
 ":tabedit %<CR>
+
+"freedom in visual mode
+" :set virtualedit=all
+" then use Afoo to instert multiple columns

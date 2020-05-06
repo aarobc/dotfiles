@@ -13,7 +13,8 @@ def outputs():
 
 
 outs = outputs()
-# pprint.pprint(outs)
+# stupid workaround until I can always make primary first in list
+outs.reverse()
 c = outs[0]['current_workspace']
 pprint.pprint(c)
 many = len(outs)

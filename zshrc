@@ -7,6 +7,7 @@
 # load zgen
 ZSH_DISABLE_COMPFIX=true
 source ~/dotfiles/zgen/zgen.zsh
+# source ~/.profile
 
 #custom theme
 source ~/dotfiles/agnoster.zsh-theme
@@ -46,7 +47,6 @@ zstyle ':completion:*:*:docker-*:*' option-stacking yes
 alias gitreset='git fetch --all && git reset --hard'
 alias tmux='tmux -2'
 alias gitl='git log --pretty=format:"%h - %an, %ar : %s"'
-alias dc='docker-compose'
 alias dm='docker-machine'
 alias logoff='i3-msg exit'
 alias gitroot='git rev-parse --show-toplevel'
@@ -54,38 +54,32 @@ alias rootOrcwd='[ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 && gitr
 
 alias vue='docker run -it --rm -v "$PWD":"$PWD" -w "$PWD"  -u "$(id -u)" aarobc/vue-cli vue'
 
+alias dc='docker-compose'
 alias dcr='dc run --rm'
 alias dcrp='dcr --service-ports'
+alias dce='dc exec'
 
-alias drt='docker run --rm -it'
-alias v='$HOME/dotfiles/scripts/vimterm.py'
+alias v=$HOME/dotfiles/scripts/vimterm.py
 alias xclip='xclip -selection clipboard'
-alias hibernate='$HOME/dotfiles/scripts/hibernate.sh'
+alias hibernate=$HOME/dotfiles/scripts/hibernate.sh
 alias gitaddall='echo -e "a\n*\nq\n"|git add -i'
 alias used='du -Sh | sort -rh | head -n 15'
 alias nautilus='nautilus --no-desktop'
 alias phpd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html php php'
 alias yarnd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html node yarn'
-alias quickhttp='docker run --rm -it -v $PWD:/web:ro -p 8080:80 aarobc/quickhttp'
-alias has='dc -f ~/Documents/docker/homeassistant-cli/docker-compose.yml hass-cli'
+alias quickhttp='docker run --rm -it -v $PWD:/usr/share/nginx/html:ro -p 8080:80 -p 4443:443 nginx:alpine'
 
 alias gitclean="git branch --merged master | grep -v '^[ *]*master$' | xargs git branch -d"
 alias gitcleanup='git remote prune origin'
+alias clearlaravel='dcr chat sh -c "./artisan cache:clear && ./artisan config:clear && ./artisan config:cache"'
+alias pr='~/dotfiles/scripts/go-to-source pr'
+
+# alias twiliod='docker run --rm -it -v $HOME/.twilio-cli:/root/.twilio-cli -v $PWD:$PWD --workdir $PWD aarobc/twilio-cli twilio'
 
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
 fi
 
-path="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-path="$path:/usr/games"
-path="$path:/usr/bin/core_perl"
-path="$path:/opt/android-studio/bin"
-# path="$path:/$HOME/Android/Sdk/platform-tools"
-path="$path:/$HOME/go/bin"
-path="$path:$HOME/.local/bin"
-path="$path:$HOME/.npm-global/bin"
-export PATH=$path
-# export PATH="$HOME/dotfiles/vim/bundle/powerline/scripts:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 export GIT_EDITOR=vim
 export EDITOR=vim
@@ -100,6 +94,10 @@ export TERM=xterm-256color
 #if [[ -r /usr/local/lib/python2.7/dist-packages/powerline/bindings/zsh/powerline.zsh ]]; then
     #source /usr/local/lib/python2.7/dist-packages/powerline/bindings/zsh/powerline.zsh
 #fi
+
+# for the path for now:
+export PATH=~/.node_modules/bin:$PATH
+export N_PREFIX=$HOME/.local
 
 function qdns {
   if [ $1 ]
@@ -149,6 +147,52 @@ function extract {
 function rotate() {
   ffmpeg -i "$1" -c copy -metadata:s:v:0 rotate=180 "$2"
 }
+#hoping that this fixes the annoying issue when it doesn't workO
+# if hash setxkbmap 2>/dev/null; then
+#     # disable caps lock if it's on just in case
+#     python -c 'from ctypes import *; X11 = cdll.LoadLibrary("libX11.so.6"); display = X11.XOpenDisplay(None); X11.XkbLockModifiers(display, c_uint(0x0100), c_uint(2), c_uint(0)); X11.XCloseDisplay(display)'
+#     setxkbmap -option 'caps:ctrl_modifier'
+# fi
+
+# workaround to allow sudo to be used with aliases
+alias sudo='sudo '
+
+function runfast() {
+  if [ -z "$1" ]
+  then
+    echo "no args"
+    return 0
+  fi
+
+  bs=`du -csh --block-size=1M . | grep total | grep -Eo '[0-9]*'`
+  big=$((($bs | 15) + 1))M
+
+  ramdir=/media/ramdisk
+
+  echo "Creating temp ramdisk at $ramdir with size $big..."
+  sudo mkdir -p $ramdir
+  sudo mount -t tmpfs -o size=$big tmpfs $ramdir/
+  echo "setting permissions..."
+  sudo chown `whoami`:`whoami` $ramdir
+  echo "copying contents..."
+  cp -r ./. $ramdir/
+  cd $ramdir
+  echo "running command"
+  echo "$@"
+  eval "$@"
+  cd -
+  sleep 1
+  echo "unmounting ramdisk"
+  sudo umount $ramdir
+}
+
+
+#temp workaround for microphone volume issue
+if hash amixer 2>/dev/null; then
+    NOPe=`amixer -c 1 set Capture 20 2>/dev/null`
+else
+    # echo "no amixer"
+fi
 
 # including this ensures that new gnome-terminal tabs keep the parent `pwd` !
 if [ -e /etc/profile.d/vte.sh ]; then
