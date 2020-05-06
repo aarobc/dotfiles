@@ -9,6 +9,12 @@ if [ -d "$HOME/.local/bin" ]; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
+# wayland/sway
+export XKB_DEFAULT_LAYOUT=us
+export XKB_DEFAULT_VARIANT=dvorak
+export XKB_DEFAULT_MODEL=pc101
+export XKB_DEFAULT_OPTIONS=caps:escape
+
 PATH="$PATH:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 PATH="$PATH:$HOME/dotfiles/vim/bundle/powerline/scripts"
 PATH="$PATH:/usr/games"
@@ -43,11 +49,11 @@ xmodmap ~/.Xmodmap
 
 # TODO: set up this to be started by a daemon something or other
 # this is probably not a great idea
-polkitbin='/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1'
-
-if [ -f "$polkitbin" ]; then
-  $polkitbin &
-fi
+# polkitbin='/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1'
+#
+# if [ -f "$polkitbin" ]; then
+#   $polkitbin &
+# fi
 
 # workaround for annoying thing
 # killall pulseaudio
