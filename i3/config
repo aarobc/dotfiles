@@ -52,8 +52,8 @@ bindsym $mod+$sup+Escape mode "Passthrough Mode - Press Alt+F12 to exit"
 
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
-# bindsym $mod+Return exec --no-startup-id gnome-terminal
-bindsym $mod+Return exec --no-startup-id kitty
+bindsym $mod+Return exec --no-startup-id gnome-terminal
+# bindsym $mod+Return exec --no-startup-id kitty
 # bindsym $mod+Return exec --no-startup-id termite
 # bindsym $mod+Return exec --no-startup-id lxterminal
 
