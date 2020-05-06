@@ -1,13 +1,30 @@
-# Should you change your keyboard layout somewhen, delete
-# this file and re-run i3-config-wizard(1).
-
 # i3 config file (v4)
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-# exec xrandr --output DFP7 --auto --left-of DFP5
 # mod = alt, $sup = Windows key
-set $mod Mod1
-set $sup Mod4
+set $mod    Mod1
+set $sup    Mod4
+
+set $apos   24
+set $comma  25
+set $period 26
+set $p      27
+
+set $r 32
+set $l 33
+
+set $o 39
+set $e 40
+set $u 41
+
+set $d 43
+set $h 44
+set $t 45
+set $n 46
+set $s 47
+
+set $j 54
+set $k 55
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
@@ -58,23 +75,23 @@ bindsym $mod+Return exec --no-startup-id kitty
 # bindsym $mod+Return exec --no-startup-id lxterminal
 
 # kill focused window
-bindsym $mod+Shift+apostrophe kill
+bindcode $mod+Shift+$apos kill
 
 # start dmenu (a program launcher)
-bindsym $mod+e exec --no-startup-id dmenu_run
-# bindsym $mod+e exec --no-startup-id bemenu
-# bindsym $mod+e exec j4-dmenu-desktop --dmenu="dmenu -i"
+bindcode $mod+$e exec --no-startup-id dmenu_run
+# bindcode $mod+$e exec --no-startup-id bemenu
+# bindcode $mod+$e exec j4-dmenu-desktop --dmenu="dmenu -i"
 
 
 # move desktop monitor
-bindsym $mod+Shift+Control+h move workspace to output left
-bindsym $mod+Shift+Control+s move workspace to output right
+bindcode $mod+Shift+Control+$h move workspace to output left
+bindcode $mod+Shift+Control+$s move workspace to output right
 
 # change focus
-bindsym $mod+h focus left
-bindsym $mod+t focus down
-bindsym $mod+n focus up
-bindsym $mod+s focus right
+bindcode $mod+$h focus left
+bindcode $mod+$t focus down
+bindcode $mod+$n focus up
+bindcode $mod+$s focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -83,10 +100,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+t move down
-bindsym $mod+Shift+n move up
-bindsym $mod+Shift+s move right
+bindcode $mod+Shift+$h move left
+bindcode $mod+Shift+$t move down
+bindcode $mod+Shift+$n move up
+bindcode $mod+Shift+$s move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -95,18 +112,18 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+d split h
+bindcode $mod+$d split h
 
 # split in vertical orientation
-bindsym $mod+k split v
+bindcode $mod+$k split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+u fullscreen
+bindcode $mod+$u fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+o layout stacking
-bindsym $mod+comma layout tabbed
-bindsym $mod+period layout toggle split
+bindcode $mod+$o layout stacking
+bindcode $mod+$comma layout tabbed
+bindcode $mod+$period layout default
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -119,8 +136,6 @@ bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
-workspace "1" output eDP1
-workspace "8" output HDMI1
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -147,11 +162,11 @@ bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
 
 # reload the configuration file
-bindsym $mod+Shift+j reload
+bindcode $mod+Shift+$j reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+bindcode $mod+Shift+$r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+period exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindcode $mod+Shift+$period exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -161,10 +176,10 @@ mode "resize" {
 # Pressing right will grow the window’s width.
 # Pressing up will shrink the window’s height.
         # Pressing down will grow the window’s height.
-        bindsym h resize shrink width 10 px or 10 ppt
-        bindsym t resize grow height 10 px or 10 ppt
-        bindsym n resize shrink height 10 px or 10 ppt
-        bindsym s resize grow width 10 px or 10 ppt
+        bindcode $h resize shrink width 10 px or 10 ppt
+        bindcode $t resize grow height 10 px or 10 ppt
+        bindcode $n resize shrink height 10 px or 10 ppt
+        bindcode $s resize grow width 10 px or 10 ppt
 
         # same bindings, but for the arrow keys
         bindsym Left resize shrink width 10 px or 10 ppt
@@ -177,7 +192,7 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-bindsym $mod+p mode "resize"
+bindcode $mod+$p mode "resize"
 
 
 # Audio shortcuts
@@ -192,9 +207,13 @@ bindsym Control+$mod+Left workspace prev
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
-# todo: figure out xrandr
-# xrandr --output LVDS1 --brightness 0.5
 
+#lock screen
+# bindsym $mod+l exec "gnome-screensaver-command -l"
+bindcode $mod+$l exec "i3lock -c 000000"
+
+# toggle keyboard layout
+bindsym $sup+space exec ~/.config/i3/layout.sh
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -252,10 +271,6 @@ exec --no-startup-id exec variety
 # exec --no-startup-id redshift-gtk
 
 exec --no-startup-id compton --config ~/.config/i3/compton.conf -b
-# exec --no-startup-id exec compton --config ~/.i3/compton.conf -b
-# exec compton -bcCGf --inactive-dim 0.1 -e 0.8 --no-fading-openclose --clear-shadow --backend glx --vsync opengl
-# exec compton -bcCGfz --inactive-dim 0.1 -e 0.8  --backend glx --vsync opengl -D 2
-# exec compton -bcCGfz -o 1 -D 5
 
 # natural scrolling:
 # exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "Synaptics Scrolling Distance" -107, -106
@@ -273,9 +288,6 @@ exec --no-startup-id pasystray
 
 # fix the freaking sound
 # exec --no-startup-id 'amixer -c 1 set Capture 20'
-#lock screen
-# bindsym $mod+l exec "gnome-screensaver-command -l"
-bindsym $mod+l exec "i3lock -c 000000"
 
 #hangouts popup set to floating
 for_window [class="Chromium-browser" instance="crx_knipolnnllmklapflnccelgolnpehhpl"] floating enable
@@ -307,24 +319,8 @@ for_window [title="zoom"] floating enable
 
 
 gaps inner 20
-# gaps outer 5
-
-# testing layout config setup
-# exec --no-startup-id i3-msg 'workspace 3:Web; exec chromium-browser'
-# exec --no-startup-id i3-msg 'workspace 1; exec pidgin'
-# exec --no-startup-id i3-msg 'workspace 3; exec chromium-browser'
-# exec --no-startup-id i3-msg 'workspace 10; exec virtualbox'
-
-# fix the monitor
-# exec --no-startup-id $HOME/.screenlayout/othree.sh
-# polybar
-# exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-
 # set the screen timeout for 20 mins
 # exec --no-startup-id xset dpms 0 0 1200
-
-# toggle keyboard layout
-bindsym $sup+space exec ~/.config/i3/layout.sh
 
 # startup apps
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
