@@ -215,9 +215,9 @@ bindcode $mod+$l exec "i3lock -c 000000"
 bindsym $sup+space exec ~/.config/i3/layout.sh
 
 bar {
+    # status_command i3status
     status_command i3blocks
-    # status_command 2>/tmp/i3blocks.err i3blocks -vvv | tee /tmp/i3blocks.out
-    i3bar_command i3bar -t
+    # i3bar_command i3bar -t
     position    top
     font pango:DejaVu Sans Mono 10
     colors{
@@ -225,24 +225,6 @@ bar {
         # statusline #DCDCDC10
     }
 }
-
-# bar {
-#     i3bar_command i3bar -t
-#     # tray_output primary
-#     status_command i3status
-# #     # output DVI-I-1
-#     # output eDP1
-#     # status_command polybar bar1
-#     position    top
-#     # height 60
-#     font pango:DejaVu Sans Mono 10
-# #     separator_symbol "//"
-# #     strip_workspace_numbers yes
-#     colors{
-#         background #23232310
-#         # statusline #DCDCDC10
-#     }
-# }
 
 
 # wallpaper changer
@@ -289,6 +271,7 @@ for_window [title="^Battlefield™ 1"]         floating enable
 for_window [title="Rockstar Games Launcher"] floating enable
 for_window [title="^zoom$"]                  floating enable
 for_window [class="Nm-connection-editor"] floating enable
+for_window [title="^JetBrains Toolbox"] floating enable
 
 # for_window [class="^jetbrains-.+"][window_type=dialog] focus
 for_window [instance="sun-awt-X11-XWindowPeer"] border pixel 0

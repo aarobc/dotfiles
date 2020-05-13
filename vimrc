@@ -309,11 +309,12 @@ set diffopt+=vertical
 " suda.vim save as root
 let g:suda_smart_edit = 1
 
-" Prettier support
+" eslint support
 let g:ale_fixers = {
- \ 'javascript': ['eslint']
- \ }
-
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['eslint'],
+\   'javascriptreact': ['eslint'],
+\}
 let g:ale_sign_error = '✖'
 let g:ale_sign_warning = '⚠'
 let g:ale_fix_on_save = 1
