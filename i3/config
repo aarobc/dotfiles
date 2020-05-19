@@ -226,9 +226,10 @@ bar {
     }
 }
 
-mouse_warping output
 
 
+# fix the freaking sound
+# exec --no-startup-id 'amixer -c 1 set Capture 20'
 
 #hangouts popup set to floating
 for_window [instance="crx_knipolnnllmklapflnccelgolnpehhpl"] floating enable
@@ -252,11 +253,6 @@ for_window [title="^zoom$"]                  floating   enable
 for_window [class="Nm-connection-editor"]    floating   enable
 for_window [title="^JetBrains Toolbox"]      floating   enable
 
-for_window [instance="sun-awt-X11-XWindowPeer"] border pixel 0
-# for_window [class="^jetbrains-.+"][window_type=dialog] focus
-
-# startup apps
-
 # wallpaper changer
 exec --no-startup-id exec variety
 # exec --no-startup-id nitrogen --restore
@@ -278,14 +274,21 @@ exec --no-startup-id pasystray
 # exec --no-startup-id blueman-applet
 # exec --no-startup-id blueproximity
 
+# for_window [class="^jetbrains-.+"][window_type=dialog] focus
+for_window [instance="sun-awt-X11-XWindowPeer"] border pixel 0
+mouse_warping output
 
 gaps inner 20
 # set the screen timeout for 20 mins
 exec --no-startup-id xset dpms 0 0 1200
-
 exec --no-startup-id autokey-gtk
 
+# startup apps
+exec --no-startup-id        /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec_always --no-startup-id autorandr --change
-exec        --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id        radeon-profile
 exec_always --no-startup-id ~/apps/i3-chrome-tab-dragging/i3-chrome-tab-dragging.py
-exec        --no-startup-id radeon-profile
+
+# work specific startup apps
+exec        --no-startup-id jetbrains-toolbox --minimize
+exec        --no-startup-id slack
