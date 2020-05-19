@@ -227,6 +227,32 @@ bar {
 }
 
 
+
+# fix the freaking sound
+# exec --no-startup-id 'amixer -c 1 set Capture 20'
+
+#hangouts popup set to floating
+for_window [instance="crx_knipolnnllmklapflnccelgolnpehhpl"] floating enable
+# shutter floating
+for_window [class="Shutter"]                 floating   enable
+for_window [class="Nm-connection-editor"]    floating   enable
+for_window [title="Friends List"]            floating   enable
+for_window [title="Steam - News"]            floating   enable
+for_window [title="[^Steam]" class="Steam"]  floating   enable
+for_window [title="^Kerbal Space Program$"]  fullscreen enable
+for_window [instance="origin.exe"]           floating   enable
+for_window [title="Blizzard Battle.net"]     floating   enable
+for_window [class="UDKGame-Linux"]           floating   enable
+for_window [title="Minecraft Launcher"]      floating   enable
+for_window [title="Uplay"]                   floating   enable
+for_window [title="Volume Control"]          floating   enable
+for_window [title="^Lutris$"]                floating   enable
+for_window [title="^Battlefield™ 1"]         floating   enable
+for_window [title="Rockstar Games Launcher"] floating   enable
+for_window [title="^zoom$"]                  floating   enable
+for_window [class="Nm-connection-editor"]    floating   enable
+for_window [title="^JetBrains Toolbox"]      floating   enable
+
 # wallpaper changer
 exec --no-startup-id exec variety
 # exec --no-startup-id nitrogen --restore
@@ -248,31 +274,6 @@ exec --no-startup-id pasystray
 # exec --no-startup-id blueman-applet
 # exec --no-startup-id blueproximity
 
-# fix the freaking sound
-# exec --no-startup-id 'amixer -c 1 set Capture 20'
-
-#hangouts popup set to floating
-for_window [instance="crx_knipolnnllmklapflnccelgolnpehhpl"] floating enable
-# shutter floating
-for_window [class="Shutter"]                 floating enable
-for_window [class="Nm-connection-editor"]    floating enable
-for_window [title="Friends List"]            floating enable
-for_window [title="Steam - News"]            floating enable
-for_window [title="[^Steam]" class="Steam"]  floating enable
-for_window [title="^Kerbal Space Program$"]  fullscreen enable
-for_window [instance="origin.exe"]           floating enable
-for_window [title="Blizzard Battle.net"]     floating enable
-for_window [class="UDKGame-Linux"]           floating enable
-for_window [title="Minecraft Launcher"]      floating enable
-for_window [title="Uplay"]                   floating enable
-for_window [title="Volume Control"]          floating enable
-for_window [title="^Lutris$"]                floating enable
-for_window [title="^Battlefield™ 1"]         floating enable
-for_window [title="Rockstar Games Launcher"] floating enable
-for_window [title="^zoom$"]                  floating enable
-for_window [class="Nm-connection-editor"] floating enable
-for_window [title="^JetBrains Toolbox"] floating enable
-
 # for_window [class="^jetbrains-.+"][window_type=dialog] focus
 for_window [instance="sun-awt-X11-XWindowPeer"] border pixel 0
 mouse_warping output
@@ -287,6 +288,6 @@ exec --no-startup-id        /usr/lib/policykit-1-gnome/polkit-gnome-authenticati
 exec_always --no-startup-id autorandr --change
 exec --no-startup-id        radeon-profile
 
-exec --no-startup-id jetbrains-toolbox
+exec --no-startup-id jetbrains-toolbox --minimize
 exec --no-startup-id slack
 exec_always --no-startup-id ~/apps/i3-chrome-tab-dragging/i3-chrome-tab-dragging.py
