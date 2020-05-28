@@ -286,7 +286,6 @@ exec --no-startup-id autokey-gtk
 # startup apps
 exec --no-startup-id        /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
 exec_always --no-startup-id autorandr --change
-exec --no-startup-id        radeon-profile
 exec_always --no-startup-id ~/apps/i3-chrome-tab-dragging/i3-chrome-tab-dragging.py
 
 # work specific startup apps
