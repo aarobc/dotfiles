@@ -148,14 +148,18 @@ au BufRead,BufNewFile *.vue set filetype=html
 " set conceallevel=1
 
 " because stupid work decided to use 4 spaces on html
-autocmd FileType make       setlocal ts=2 sts=2 tw=2 noet
-autocmd Filetype html       setlocal ts=2 sts=2 sw=2
-autocmd Filetype javascript setlocal ts=2 sts=2 sw=2
+" autocmd filetype type args
+
+au FileType make            setlocal ts=2 sts=2 tw=2 noet
+au Filetype html            setlocal ts=2 sts=2 sw=2
+au Filetype javascript      setlocal ts=2 sts=2 sw=2
 au Filetype javascriptreact setlocal ts=2 sts=2 sw=2 expandtab
-autocmd Filetype php        setlocal ts=4 sts=4 sw=4
+au Filetype php             setlocal ts=4 sts=4 sw=4
 au Filetype yaml            setlocal ts=2 sts=2 sw=2 expandtab
 au Filetype typescript      setlocal ts=2 sts=2 sw=2 expandtab
-au BufNewFile,BufRead Jenkinsfile setf groovy
+au Filetype json            setlocal ts=2 sts=2 sw=2 expandtab
+
+au      BufNewFile,BufRead Jenkinsfile setf groovy
 
 " let g:SignatureForceRemoveGlobal = 0
 
