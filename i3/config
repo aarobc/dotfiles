@@ -283,7 +283,7 @@ gaps inner 20
 # set the screen timeout for 20 mins
 exec --no-startup-id xset dpms 0 0 1200
 
-exec --no-startup-id autokey-gtk
+# exec --no-startup-id autokey-gtk
 
 exec_always --no-startup-id autorandr --change
 exec        --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1
