@@ -17,8 +17,6 @@ colorscheme molokai
 "run syntax check on entire document
 autocmd BufEnter * :syntax sync fromstart
 " typescript template syntax
-autocmd FileType typescript JsPreTmpl html
-autocmd FileType typescript syn clear foldBraces
 
 "attempt to fix weird background color issues
 "shouldn't need to mess with this because tmux alias yay
@@ -127,6 +125,9 @@ noremap E $
 au BufRead,BufNewFile *.ino set filetype=cpp
 au BufRead,BufNewFile *.vue set filetype=html
 
+" workaround for neovim and tcomment plugin bug
+au BufNewFile,BufRead *.jsx setlocal filetype=javascript.jsx
+
 "javascript folding
 " function! s:JavascriptFileType()
 "     "set nofoldenable
@@ -159,6 +160,7 @@ au Filetype yaml            setlocal ts=2 sts=2 sw=2 expandtab
 au Filetype typescript      setlocal ts=2 sts=2 sw=2 expandtab
 au Filetype json            setlocal ts=2 sts=2 sw=2 expandtab
 
+
 au      BufNewFile,BufRead Jenkinsfile setf groovy
 
 " let g:SignatureForceRemoveGlobal = 0
@@ -173,9 +175,8 @@ endif
 "nerdTree
 nnoremap <C-f> :NERDTree<CR>
 
-" Use compact syntax for prettified multi-line comments
-let g:NERDCompactSexyComs = 1
-
+" tcomment:
+" let g:polyglot_disabled = ['jsx']
 
 "swap the layouts of horozontal and vertical
 "noremap <C-w>h :windo wincmd H<CR>
