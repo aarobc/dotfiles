@@ -57,7 +57,7 @@ alias vue='docker run -it --rm -v "$PWD":"$PWD" -w "$PWD"  -u "$(id -u)" aarobc/
 
 alias dc='docker-compose'
 alias dcr='dc run --rm'
-alias dcrp='dcr --service-ports'
+alias dcrp='dcr --service-ports --use-aliases'
 alias dce='dc exec'
 
 alias v=$HOME/dotfiles/scripts/vimterm.py

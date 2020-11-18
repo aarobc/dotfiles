@@ -192,7 +192,6 @@ noremap <C-B> :CtrlPBuffer<CR>
 let g:ctrlp_prompt_mappings = {
     \ 'PrtSelectMove("j")':   ['<c-t>', '<down>'],
     \ 'PrtSelectMove("k")':   ['<c-n>', '<up>'],
-    \ 'AcceptSelection("t")': ['<c-y>'],
     \ 'CreateNewFile()':      ['<c-f>'],
     \ 'ToggleType(1)':        ['<c-u>', '<c-up>'],
     \ 'PrtClear()':           ['<c-g>'],

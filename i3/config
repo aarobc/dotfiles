@@ -47,7 +47,7 @@ hide_edge_borders       both
 
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #4c7899 #285577 #ffffff #2e9ef4   #285577
+client.focused          #4c7899 #285577 #ffffff #2e9ef4   #1F8400
 client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
 client.unfocused        #333333 #222222 #888888 #292d2e   #222222
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
@@ -214,21 +214,31 @@ bindcode $mod+$l exec "i3lock -c 000000"
 # toggle keyboard layout
 bindsym $sup+space exec ~/.config/i3/layout.sh
 
+# multiple bars to try making tray show only on inactive
 bar {
+
+    output         DisplayPort-1
+    output         DP-2
     status_command i3blocks
     position       top
-    tray_output    DP-2
     font           pango:DejaVu Sans Mono 10
     colors {
         background #23232310
     }
 }
 
-# fix the freaking sound
-# exec --no-startup-id 'amixer -c 1 set Capture 20'
+bar {
 
-#hangouts popup set to floating
-for_window [instance="crx_knipolnnllmklapflnccelgolnpehhpl"] floating enable
+    output         primary
+    status_command i3blocks
+    position       top
+    tray_output    none
+    font           pango:DejaVu Sans Mono 10
+    colors         {
+        background #23232310
+    }
+}
+
 # shutter floating
 for_window [class="Shutter"]                 floating   enable
 for_window [class="Nm-connection-editor"]    floating   enable
@@ -277,7 +287,7 @@ mouse_warping output
 gaps inner 20
 # set the screen timeout for 20 mins
 exec --no-startup-id xset dpms 0 0 1200
-exec --no-startup-id autokey-gtk
+# exec --no-startup-id autokey-gtk
 
 # startup apps
 exec        --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -285,5 +295,5 @@ exec_always --no-startup-id autorandr --change
 
 # work specific startup apps
 exec        --no-startup-id jetbrains-toolbox --minimize
-exec        --no-startup-id slack
+# exec        --no-startup-id slack
 exec        --no-startup-id flameshot
