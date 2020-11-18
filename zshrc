@@ -23,6 +23,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/command-not-found
     zgen load zsh-users/zsh-syntax-highlighting
     zgen load zsh-users/zsh-completions/docker-machine
+    # zgen load popstas/zsh-command-time
 
     # completion-only repositories. Add optional path argument to specify
     # what subdirectory of the repository to add to your fpath.
@@ -56,7 +57,7 @@ alias vue='docker run -it --rm -v "$PWD":"$PWD" -w "$PWD"  -u "$(id -u)" aarobc/
 
 alias dc='docker-compose'
 alias dcr='dc run --rm'
-alias dcrp='dcr --service-ports'
+alias dcrp='dcr --service-ports --use-aliases'
 alias dce='dc exec'
 
 alias v=$HOME/dotfiles/scripts/vimterm.py
@@ -67,7 +68,7 @@ alias used='du -Sh | sort -rh | head -n 15'
 alias nautilus='nautilus --no-desktop'
 alias phpd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html php php'
 alias yarnd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html node yarn'
-alias quickhttp='docker run --rm -it -v $PWD:/usr/share/nginx/html:ro -p 8080:80 -p 4443:443 nginx:alpine'
+alias quickhttp='docker run --rm -it -v $PWD:/usr/share/nginx/html:ro -p 8080:80 -p 4443:443 aarobc/quickhttp'
 
 alias gitclean="git branch --merged master | grep -v '^[ *]*master$' | xargs git branch -d"
 alias gitcleanup='git remote prune origin'
