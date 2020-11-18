@@ -1,0 +1,20 @@
+{
+  "window_command_mappings": [
+    {
+      "class": "Gnome-terminal",
+      "command": "gnome-terminal"
+    },
+    {
+      "class": "chromium-browser",
+      "command": ["chromium", "--restore-last-session"]
+    }
+  ],
+  "window_swallow_criteria": {
+    "Chromium": ["class", "instance"]
+  },
+  "terminals": [
+    "Gnome-terminal",
+    "Alacritty",
+    "kitty"
+  ]
+}
