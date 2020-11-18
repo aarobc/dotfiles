@@ -53,6 +53,7 @@ Plugin 'lambdalisue/suda.vim'
 " code inspection
 Plugin 'dense-analysis/ale'
 Plugin 'neoclide/coc.nvim'
+Plugin 'fatih/vim-go'
 
 
 call vundle#end()
