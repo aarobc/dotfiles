@@ -5,6 +5,10 @@
       "command": "gnome-terminal"
     },
     {
+      "class": "jetbrains-phpstorm",
+      "command": "phpstorm"
+    },
+    {
       "class": "chromium-browser",
       "command": ["chromium", "--restore-last-session"]
     }

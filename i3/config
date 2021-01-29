@@ -216,9 +216,8 @@ bindsym $sup+space exec ~/.config/i3/layout.sh
 
 # multiple bars to try making tray show only on inactive
 bar {
-
-    output         DisplayPort-1
-    output         DP-2
+    output         DP-3
+    output         DisplayPort-2
     status_command i3blocks
     position       top
     font           pango:DejaVu Sans Mono 10
