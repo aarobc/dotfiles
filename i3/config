@@ -164,7 +164,7 @@ bindsym $mod+Shift+0 move container to workspace 10
 # reload the configuration file
 bindcode $mod+Shift+$j reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindcode $mod+Shift+$r restart
+bindcode $mod+Shift+$r exec swaymsg reload
 # exit i3 (logs you out of your X session)
 bindcode $mod+Shift+$period exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
@@ -232,19 +232,19 @@ bar {
     }
 }
 
-bar {
-
-    output         primary
-    output         DP-2
-    # status_command i3blocks
-    # swaybar_command waybar
-    position       top
-    tray_output    none
-    font           pango:DejaVu Sans Mono 10
-    colors         {
-        background #23232310
-    }
-}
+# bar {
+#
+#     output         primary
+#     output         DP-2
+#     status_command i3blocks
+#     # swaybar_command waybar
+#     position       top
+#     tray_output    none
+#     font           pango:DejaVu Sans Mono 10
+#     colors         {
+#         background #23232310
+#     }
+# }
 
 # shutter floating
 for_window [class="Shutter"]                 floating   enable
