@@ -10,10 +10,17 @@ if [ -d "$HOME/.local/bin" ]; then
 fi
 
 # wayland/sway
-export XKB_DEFAULT_LAYOUT=us
-export XKB_DEFAULT_VARIANT=dvorak
-export XKB_DEFAULT_MODEL=pc101
-export XKB_DEFAULT_OPTIONS=caps:escape
+if [ "$XDG_SESSION_DESKTOP" = "sway" ]; then
+    export XKB_DEFAULT_LAYOUT=us
+    export XKB_DEFAULT_VARIANT=dvorak
+    export XKB_DEFAULT_MODEL=pc101
+    export XKB_DEFAULT_OPTIONS=caps:escape
+    export KITTY_ENABLE_WAYLAND=1
+    export MOZ_ENABLE_WAYLAND=1
+    export XDG_SESSION_TYPE=wayland
+    export XDG_CURRENT_DESKTOP=sway
+fi
+
 
 PATH="$PATH:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 PATH="$PATH:$HOME/dotfiles/vim/bundle/powerline/scripts"
@@ -27,34 +34,8 @@ PATH="$PATH:$HOME/.local/share/JetBrains/Toolbox/bin"
 PATH="$PATH:/snap/bin"
 
 export PATH=$PATH
-# remove duplicate entrys from path
-# path=$(printf "%s" "$PATH" | awk -v RS=':' '!a[$1]++ { if (NR > 1) printf RS; printf $1 }')
-# export PATH=$path
-
-# ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
-
-# path="$path:/opt/android-studio/bin"
-# path="$path:/opt/android-studio-3/bin"
-# xrandr --output eDP1 --auto --left-of HDMI3 --output HDMI3 --auto --scale 2x2 --right-of DP1
-# xrandr --output eDP1 --mode 1920x1200 --left-of HDMI3 --output HDMI3  --right-of DP1
-# xrandr --output eDP1 --mode 2560x1600 --left-of HDMI3 --output HDMI3  --right-of DP1
-#xrandr --output eDP1 --mode 2560x1600 --left-of HDMI3
-# natural scrolling
-# xinput set-button-map 14 1 2 3 5 4 7 6 8 9 10 11 12
 
 # mac keyboard remap
 # xmodmap ~/.xmodmaprc
 # synclient HorizTwoFingerScroll=1 HorizEdgeScroll=0 VertEdgeScroll=0 VertScrollDelta=-247 HorizScrollDelta=-247
 xmodmap ~/.Xmodmap
-
-# TODO: set up this to be started by a daemon something or other
-# this is probably not a great idea
-# polkitbin='/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1'
-#
-# if [ -f "$polkitbin" ]; then
-#   $polkitbin &
-# fi
-
-# workaround for annoying thing
-# killall pulseaudio
-# alsa force-reload
