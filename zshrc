@@ -74,6 +74,7 @@ alias gitclean="git branch --merged master | grep -v '^[ *]*master$' | xargs git
 alias gitcleanup='git remote prune origin'
 alias clearlaravel='dcr chat sh -c "./artisan cache:clear && ./artisan config:clear && ./artisan config:cache"'
 alias pr='~/dotfiles/scripts/go-to-source pr'
+alias displays='swaymsg -t get_outputs'
 
 # alias twiliod='docker run --rm -it -v $HOME/.twilio-cli:/root/.twilio-cli -v $PWD:$PWD --workdir $PWD aarobc/twilio-cli twilio'
 

@@ -45,3 +45,6 @@
     ~/.config/i3-resurrect:
       force: true
       path: i3-resurrect
+    ~/.config/sway:
+      force: true
+      path: sway
