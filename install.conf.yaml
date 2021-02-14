@@ -48,3 +48,6 @@
     ~/.config/sway:
       force: true
       path: sway
+    ~/.config/waybar/config:
+      force: true
+      path: waybar.json
