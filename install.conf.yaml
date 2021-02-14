@@ -11,9 +11,6 @@
     ~/.config/nvim:
       force: true
       path: vim
-    ~/.config/i3:
-      force: true
-      path: i3
     ~/.vimrc:
       force: true
       path: vimrc
@@ -36,9 +33,6 @@
     ~/.Xmodmap:
       force: true
       path: Xmodmap
-    ~/.config/i3blocks/config:
-      force: true
-      path: i3blocks.conf
     ~/.config/kitty/kitty.conf:
       force: true
       path: kitty.conf
@@ -48,6 +42,6 @@
     ~/.config/sway:
       force: true
       path: sway
-    ~/.config/waybar/config:
+    ~/.config/waybar:
       force: true
-      path: waybar.json
+      path: waybar
