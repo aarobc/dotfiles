@@ -1,0 +1,18 @@
+#!/bin/sh
+
+script="$(slurp -pf '
+first(
+    recurse(.floating_nodes[]?, .nodes[]?)
+        | select(.visible)
+        | select(.rect
+            | select(%x >= .x)
+            | select(%x <= .x + .width)
+            | select(%y >= .y)
+            | select(%y <= .y + .height)))
+')"
+
+[ "$script" != "" ] &&
+    swaymsg -t get_tree | jq "$script"
+
+# look into this
+#  swaymsg -t get_tree | jq -r '..|objects|select(.representation)|[.name+" ("+.output+"): "+ .representation, (.floating_nodes[].app_id + .floating_nodes[].window_properties.class)]|join(" + ")'

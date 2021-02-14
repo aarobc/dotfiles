@@ -1,22 +1,258 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
-# Read `man 5 sway` for a complete reference.
+# mod = alt, $sup = Windows key
+set $mod    Mod1
+set $sup    Mod4
 
-include ~/.config/i3/config
-# for notifications
-exec mako
+set $apos   24
+set $comma  25
+set $period 26
+set $p      27
+
+set $r 32
+set $l 33
+
+set $o 39
+set $e 40
+set $u 41
+
+set $d 43
+set $h 44
+set $t 45
+set $n 46
+set $s 47
+
+set $j 54
+set $k 55
+
+font                    pango:SFNS Text Medium 14px
+#border only, no titlebar
+default_border          pixel 1
+default_floating_border pixel
+# hide_edge_borders       both
+
+
+# class                 border  backgr. text    indicator child_border
+client.focused          #4c7899 #285577 #ffffff #2e9ef4   #1F8400
+client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
+client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+
+client.background       #ffffff
+
+popup_during_fullscreen smart
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+mode  "Passthrough Mode - Press Alt+F12 to exit" {
+  bindsym $mod+F12         mode "default"
+  bindsym $mod+$sup+Escape mode "default"
+}
+
+bindsym $mod+F12         mode "Passthrough Mode - Press Alt+F12 to exit"
+bindsym $mod+$sup+Escape mode "Passthrough Mode - Press Alt+F12 to exit"
+
+# start a terminal
+bindsym $mod+Return exec --no-startup-id kitty
+
+# kill focused window
+bindcode $mod+Shift+$apos kill
+
+# start dmenu (a program launcher)
+bindcode $mod+$e exec --no-startup-id dmenu_run
+
+# move desktop monitor
+bindcode $mod+Shift+Control+$h move workspace to output left
+bindcode $mod+Shift+Control+$s move workspace to output right
+
+# change focus
+bindcode $mod+$h focus left
+bindcode $mod+$t focus down
+bindcode $mod+$n focus up
+bindcode $mod+$s focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindcode $mod+Shift+$h move left
+bindcode $mod+Shift+$t move down
+bindcode $mod+Shift+$n move up
+bindcode $mod+Shift+$s move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Down  move down
+bindsym $mod+Shift+Up    move up
+bindsym $mod+Shift+Right move right
+
+# split in horizontal orientation
+bindcode $mod+$d split h
+
+# split in vertical orientation
+bindcode $mod+$k split v
+
+# enter fullscreen mode for the focused container
+bindcode $mod+$u fullscreen
+
+# change container layout (stacked, tabbed, toggle split)
+bindcode $mod+$o      layout stacking
+bindcode $mod+$comma  layout tabbed
+bindcode $mod+$period layout default
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+#
+# # move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# reload the configuration file
+bindcode $mod+Shift+$j reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindcode $mod+Shift+$r exec swaymsg reload
+# exit i3 (logs you out of your X session)
+bindcode $mod+Shift+$period exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+  # These bindings trigger as soon as you enter the resize mode
+
+  # Pressing left will shrink the window’s width.
+  # Pressing right will grow the window’s width.
+  # Pressing up will shrink the window’s height.
+  # Pressing down will grow the window’s height.
+  bindcode $h resize shrink width 10 px or 10 ppt
+  bindcode $t resize grow height 10 px or 10 ppt
+  bindcode $n resize shrink height 10 px or 10 ppt
+  bindcode $s resize grow width 10 px or 10 ppt
+
+  # same bindings, but for the arrow keys
+  bindsym Left resize shrink width 10 px or 10 ppt
+  bindsym Down resize grow height 10 px or 10 ppt
+  bindsym Up resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow width 10 px or 10 ppt
+
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+
+bindcode $mod+$p mode "resize"
+
+
+# Audio shortcuts
+bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 3%-
+bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 3%+
+bindsym XF86AudioMute        exec amixer -D pulse sset Master toggle
+
+#window switchy like ubuntu
+bindsym Control+$mod+Right workspace next
+bindsym Control+$mod+Left  workspace prev
+
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp   exec xbacklight -inc 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
+
+#lock screen
+# bindsym $mod+l exec "gnome-screensaver-command -l"
+bindcode $mod+$l exec "i3lock -c 000000"
+
+# toggle keyboard layout
+bindsym $sup+space exec ~/dotfiles/scripts/layout.sh
+
+# multiple bars to try making tray show only on inactive
+bar {
+
+    output         DP-3
+    output         DisplayPort-2
+    swaybar_command waybar
+    position       top
+    font           pango:DejaVu Sans Mono 10
+}
+
+for_window [class="Nm-connection-editor"]     floating   enable
+for_window [title="Friends List"]             floating   enable
+for_window [title="Steam - News"]             floating   enable
+for_window [title="^Kerbal Space Program$"]   fullscreen enable
+for_window [instance="origin.exe"]            floating   enable
+for_window [title="Blizzard Battle.net"]      floating   enable
+for_window [class="UDKGame-Linux"]            floating   enable
+for_window [title="Minecraft Launcher"]       floating   enable
+for_window [title="Uplay"]                    floating   enable
+for_window [title="Volume Control"]           floating   enable
+for_window [title="^Lutris$"]                 floating   enable
+for_window [title="^Battlefield™ 1"]          floating   enable
+for_window [title="Rockstar Games Launcher"]  floating   enable
+for_window [title="^zoom$"]                   floating   enable
+for_window [class="Nm-connection-editor"]     floating   enable
+for_window [title="^JetBrains Toolbox"]       floating   enable
+for_window [title="^Variety Preferences"]     floating   enable
+for_window [title="is sharing your screen.$"] floating   enable, border none, sticky enable
+for_window [instance="sun-awt-X11-XWindowPeer"] border pixel 0
+
+# wallpaper changer
+exec variety
+
+# exec --no-startup-id synergy
+# makes it brown in the evening
+# exec --no-startup-id redshift-gtk
+
+#network manager
+exec nm-applet
+#volume icon
+# exec --no-startup-id exec volumeicon
+exec pasystray
+# exec --no-startup-id gnome-sound-applet
+# exec --no-startup-id blueman-applet
+# exec --no-startup-id blueproximity
+
+mouse_warping output
+
+gaps inner 20
+
+# startup apps
+exec        --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+exec mako --default-timeout 30000
 
 ### Output configuration
 output DP-2 resolution 2560x1440@144Hz
 
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-#
-# Example configuration:
-#
-#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
@@ -49,11 +285,7 @@ exec swayidle -w \
 
 
 
-# Reload the configuration file
-# bindsym $mod+Shift+c reload
-# bindcode $mod+Shift+$r swaymsg reload
-
 # Exit sway (logs you out of your Wayland session)
 # bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
-# include /etc/sway/config.d/*
+include /etc/sway/config.d/*
