@@ -10,17 +10,18 @@ if [ -d "$HOME/.local/bin" ]; then
 fi
 
 # wayland/sway
-if [ "$XDG_SESSION_DESKTOP" = "sway" ]; then
-    export XKB_DEFAULT_LAYOUT=us
-    export XKB_DEFAULT_VARIANT=dvorak
-    export XKB_DEFAULT_MODEL=pc101
-    export XKB_DEFAULT_OPTIONS=caps:escape
-    export KITTY_ENABLE_WAYLAND=1
-    export MOZ_ENABLE_WAYLAND=1
-    export XDG_SESSION_TYPE=wayland
-    export XDG_CURRENT_DESKTOP=sway
-fi
+# if [ "$XDG_SESSION_DESKTOP" = "sway" ]; then
 
+export XDG_SESSION_DESKTOP=sway
+export XKB_DEFAULT_LAYOUT=us
+export XKB_DEFAULT_VARIANT=dvorak
+export XKB_DEFAULT_MODEL=pc101
+export XKB_DEFAULT_OPTIONS=caps:escape
+export KITTY_ENABLE_WAYLAND=1
+export MOZ_ENABLE_WAYLAND=1
+export XDG_SESSION_TYPE=wayland
+export XDG_CURRENT_DESKTOP=sway
+# fi
 
 PATH="$PATH:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 PATH="$PATH:$HOME/dotfiles/vim/bundle/powerline/scripts"

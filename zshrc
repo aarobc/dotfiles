@@ -7,7 +7,7 @@
 # load zgen
 ZSH_DISABLE_COMPFIX=true
 source ~/dotfiles/zgen/zgen.zsh
-# source ~/.profile
+source ~/.profile
 
 #custom theme
 source ~/dotfiles/agnoster.zsh-theme
