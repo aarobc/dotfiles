@@ -144,7 +144,8 @@ bindcode $mod+Shift+$j reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindcode $mod+Shift+$r exec swaymsg reload
 # exit i3 (logs you out of your X session)
-bindcode $mod+Shift+$period exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+# bindcode $mod+Shift+$period exec "swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindcode $mod+Shift+$period exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -188,7 +189,7 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightne
 
 #lock screen
 # bindsym $mod+l exec "gnome-screensaver-command -l"
-bindcode $mod+$l exec "i3lock -c 000000"
+bindcode $mod+$l exec "swaylock -c 000000"
 
 # toggle keyboard layout
 bindsym $sup+space exec ~/dotfiles/scripts/layout.sh
@@ -221,6 +222,7 @@ for_window [class="Nm-connection-editor"]     floating   enable
 for_window [title="^JetBrains Toolbox"]       floating   enable
 for_window [title="^Variety Preferences"]     floating   enable
 for_window [title="is sharing your screen.$"] floating   enable, border none, sticky enable
+for_window [title="null"] floating enable
 for_window [instance="sun-awt-X11-XWindowPeer"] border pixel 0
 
 # wallpaper changer
@@ -232,19 +234,15 @@ exec variety
 
 #network manager
 exec nm-applet
-#volume icon
-# exec --no-startup-id exec volumeicon
-exec pasystray
-# exec --no-startup-id gnome-sound-applet
-# exec --no-startup-id blueman-applet
-# exec --no-startup-id blueproximity
+
+exec blueman-applet
 
 mouse_warping output
 
 gaps inner 20
 
 # startup apps
-exec        --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
 exec mako --default-timeout 30000
 
@@ -252,7 +250,7 @@ exec mako --default-timeout 30000
 output DP-2 resolution 2560x1440@144Hz
 
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
@@ -261,31 +259,12 @@ output DP-2 resolution 2560x1440@144Hz
 # Example configuration:
 #
 exec swayidle -w \
-         timeout 300 'swaylock -f -c 000000' \
          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
          before-sleep 'swaylock -f -c 000000'
+ # timeout 300 'swaylock -f -c 000000' \
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
-
-### Input configuration
-#
-# Example configuration:
-#
-#   input "2:14:SynPS/2_Synaptics_TouchPad" {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#       middle_emulation enabled
-#   }
-#
-# You can get the names of your inputs by running: swaymsg -t get_inputs
-# Read `man 5 sway-input` for more information about this section.
-
-
-
-# Exit sway (logs you out of your Wayland session)
-# bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
 include /etc/sway/config.d/*
