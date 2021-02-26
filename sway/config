@@ -204,26 +204,25 @@ bar {
     font           pango:DejaVu Sans Mono 10
 }
 
-for_window [class="Nm-connection-editor"]     floating   enable
-for_window [title="Friends List"]             floating   enable
-for_window [title="Steam - News"]             floating   enable
-for_window [title="^Kerbal Space Program$"]   fullscreen enable
-for_window [instance="origin.exe"]            floating   enable
-for_window [title="Blizzard Battle.net"]      floating   enable
-for_window [class="UDKGame-Linux"]            floating   enable
-for_window [title="Minecraft Launcher"]       floating   enable
-for_window [title="Uplay"]                    floating   enable
-for_window [title="Volume Control"]           floating   enable
-for_window [title="^Lutris$"]                 floating   enable
-for_window [title="^Battlefield™ 1"]          floating   enable
-for_window [title="Rockstar Games Launcher"]  floating   enable
-for_window [title="^zoom$"]                   floating   enable
-for_window [class="Nm-connection-editor"]     floating   enable
-for_window [title="^JetBrains Toolbox"]       floating   enable
-for_window [title="^Variety Preferences"]     floating   enable
-for_window [title="is sharing your screen.$"] floating   enable, border none, sticky enable
-for_window [title="null"] floating enable
-for_window [instance="sun-awt-X11-XWindowPeer"] border pixel 0
+for_window [class="Nm-connection-editor"]      floating   enable
+for_window [title="Friends List"]              floating   enable
+for_window [title="Steam - News"]              floating   enable
+for_window [title="^Kerbal Space Program$"]    fullscreen enable
+for_window [instance="origin.exe"]             floating   enable
+for_window [title="Blizzard Battle.net"]       floating   enable
+for_window [class="UDKGame-Linux"]             floating   enable
+for_window [title="Minecraft Launcher"]        floating   enable
+for_window [title="Uplay"]                     floating   enable
+for_window [title="Volume Control"]            floating   enable
+for_window [title="^Lutris$"]                  floating   enable
+for_window [title="^Battlefield™ 1"]           floating   enable
+for_window [title="Rockstar Games Launcher"]   floating   enable
+for_window [title="^zoom$"]                    floating   enable
+for_window [class="Nm-connection-editor"]      floating   enable
+for_window [title="^JetBrains Toolbox"]        floating   enable
+for_window [title="^Variety Preferences"]      floating   enable
+for_window [title="is sharing your screen.$"]  floating   enable, border none, sticky enable
+for_window [app_id="nm-connection-editor"]     floating   enable
 
 # wallpaper changer
 exec variety
@@ -233,7 +232,7 @@ exec variety
 # exec --no-startup-id redshift-gtk
 
 #network manager
-exec nm-applet
+exec nm-applet --indicator
 
 exec blueman-applet
 

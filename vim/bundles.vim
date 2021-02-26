@@ -51,6 +51,7 @@ Plugin 'fatih/vim-go'
 
 Plugin 'sheerun/vim-polyglot'
 Plugin 'tomtom/tcomment_vim'
+Plugin 'neoclide/jsonc.vim'
 
 
 call vundle#end()
