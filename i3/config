@@ -270,14 +270,12 @@ exec --no-startup-id compton --config ~/.config/i3/compton.conf -b
 
 #network manager
 exec --no-startup-id exec nm-applet
-# exec --no-startup-id wicd-gtk
 
 #volume icon
 # exec --no-startup-id exec volumeicon
 exec --no-startup-id pasystray
 # exec --no-startup-id gnome-sound-applet
 exec --no-startup-id blueman-applet
-# exec --no-startup-id blueproximity
 
 # for_window [class="^jetbrains-.+"][window_type=dialog] focus
 for_window [instance="sun-awt-X11-XWindowPeer"] border pixel 0
