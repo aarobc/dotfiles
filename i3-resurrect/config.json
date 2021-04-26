@@ -9,12 +9,12 @@
       "command": "phpstorm"
     },
     {
-      "class": "chromium-browser",
-      "command": ["chromium", "--restore-last-session"]
+      "class": "chromium-browser"
     }
   ],
   "window_swallow_criteria": {
-    "Chromium": ["class", "instance"]
+    "Chromium": ["title", "instance"],
+    "Chromium-browser": ["title", "instance"]
   },
   "terminals": [
     "Gnome-terminal",
