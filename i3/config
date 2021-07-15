@@ -267,7 +267,7 @@ exec --no-startup-id exec variety
 # makes it brown in the evening
 # exec --no-startup-id redshift-gtk
 
-exec --no-startup-id picom --config ~/.config/i3/compton.conf -b
+exec --no-startup-id sleep 5 && picom --config ~/.config/i3/compton.conf -b
 
 #network manager
 exec --no-startup-id exec nm-applet
@@ -283,20 +283,27 @@ exec --no-startup-id dunst
 # for_window [class="^jetbrains-.+"][window_type=dialog] focus
 for_window [instance="sun-awt-X11-XWindowPeer"] border pixel 0
 
-for_window [class="^.*"] border pixel 0
+# for_window [class="^.*"] border pixel 0
 
 mouse_warping output
 
 gaps inner 20
 # set the screen timeout for 20 mins
-exec --no-startup-id xset dpms 0 0 1200
-# exec --no-startup-id autokey-gtk
+exec_al --no-startup-id xset dpms 0 0 1200
 
 # startup apps
 exec        --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec_always --no-startup-id autorandr --change
 
+# autokey workaround
+# exec --no-startup-id xhost +localhost
+exec --no-startup-id xhost +
+# start autokey
+exec --no-startup-id autokey-gtk
+
 # work specific startup apps
 exec        --no-startup-id jetbrains-toolbox --minimize
 # exec        --no-startup-id slack
 exec        --no-startup-id flameshot
+
+include custom.conf

@@ -11,14 +11,19 @@
     {
       "class": "chromium",
       "command": ["chromium", "--restore-last-session"]
+    },
+    {
+      "class": "chromium-browser",
+      "command": ["chromium", "--restore-last-session"]
     }
   ],
   "window_swallow_criteria": {
-    "Chromium": ["title", "instance"],
-    "Chromium-browser": ["title", "instance"],
-    "jetbrains-phpstorm": ["title", "instance", "name"],
-    "jetbrains-datagrip": ["title", "instance", "name"]
-
+    "Chromium": ["title"],
+    "Chromium-browser": ["title"],
+    "jetbrains-phpstorm": ["class", "title"],
+    "jetbrains-datagrip": ["class", "title"],
+    "Firefox": ["class"],
+    "firefox": ["class"]
   },
   "terminals": [
     "Gnome-terminal",

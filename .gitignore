@@ -5,3 +5,4 @@ vim/sessions
 *.swp
 mackbd*
 i3/res
+i3/custom.conf

@@ -23,6 +23,7 @@ if ! zgen saved; then
     zgen oh-my-zsh plugins/command-not-found
     zgen load zsh-users/zsh-syntax-highlighting
     zgen load zsh-users/zsh-completions/docker-machine
+    zgen load agkozak/zsh-z
     # zgen load popstas/zsh-command-time
 
     # completion-only repositories. Add optional path argument to specify
