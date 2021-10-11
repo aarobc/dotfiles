@@ -1,6 +1,6 @@
-# mod = alt, $sup = Windows key
-set $mod    Mod1
-set $sup    Mod4
+# Mod1 = alt, Mod4 = Windows key
+set $mod    Mod4
+set $sup    Mod1
 
 set $apos   24
 set $comma  25
@@ -223,9 +223,15 @@ for_window [title="^JetBrains Toolbox"]        floating   enable
 for_window [title="^Variety Preferences"]      floating   enable
 for_window [title="is sharing your screen.$"]  floating   enable, border none, sticky enable
 for_window [app_id="nm-connection-editor"]     floating   enable
+for_window [title="select new Steam library folder:$"]     floating   enable
+for_window [title="^Firefox — Sharing Indicator$"] floating enable, move absolute position 3000 30
+
+# auto kill any windows starting up
+for_window [class="^Steam$" title="^Steam - News"] kill
 
 # wallpaper changer
-exec variety
+# disabling for now because of the issue with keyboard sticking
+# exec variety
 
 # exec --no-startup-id synergy
 # makes it brown in the evening

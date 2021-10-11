@@ -39,4 +39,4 @@ export PATH=$PATH
 # mac keyboard remap
 # xmodmap ~/.xmodmaprc
 # synclient HorizTwoFingerScroll=1 HorizEdgeScroll=0 VertEdgeScroll=0 VertScrollDelta=-247 HorizScrollDelta=-247
-xmodmap ~/.Xmodmap
+# xmodmap ~/.Xmodmap
