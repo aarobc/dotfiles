@@ -145,6 +145,12 @@ function extract {
   fi
 }
 
+function ke {
+ tp=`kubectl get pods --selector=app=$1 -o jsonpath='{.items[0].metadata.name}'`
+ echo $tp
+ kubectl exec -it $tp -- ${@:2}
+}
+
 # rotate video with ffmpeg
 function rotate() {
   ffmpeg -i "$1" -c copy -metadata:s:v:0 rotate=180 "$2"

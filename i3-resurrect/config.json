@@ -10,11 +10,11 @@
     },
     {
       "class": "chromium",
-      "command": ["chromium", "--restore-last-session"]
+      "command": ["/usr/bin/chromium", "--restore-last-session"]
     },
     {
       "class": "chromium-browser",
-      "command": ["chromium", "--restore-last-session"]
+      "command": ["/usr/bin/chromium", "--restore-last-session"]
     }
   ],
   "window_swallow_criteria": {
