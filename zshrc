@@ -24,6 +24,8 @@ if ! zgen saved; then
     zgen load zsh-users/zsh-syntax-highlighting
     zgen load zsh-users/zsh-completions/docker-machine
     # zgen load popstas/zsh-command-time
+    # directory jumping
+    zgen load agkozak/zsh-z
 
     # completion-only repositories. Add optional path argument to specify
     # what subdirectory of the repository to add to your fpath.

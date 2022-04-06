@@ -264,7 +264,7 @@ let g:go_autodetect_gopath = 1
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-let g:easy_align_ignore_groups = []
+let g:easy_align_ignore_groups = ['string']
 
 "move between splits:
 nnoremap <C-H> <C-W><C-H>
