@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# only sway supported for this rn
+if [ "$1" == "check" ]; then
+    swaymsg -t get_inputs -r | jq -r '[.[] | select(.type == "keyboard")][0].xkb_active_layout_name | match("\\((.*)\\)").captures[0].string'
+    exit 0
+fi
 
 # check if sway
 ee=`loginctl show-session $(loginctl | grep $(whoami) | awk '{print $1}') -p Type --value`
@@ -11,10 +16,10 @@ if [ $ee == 'wayland' ]; then
     #
     if [[ $active == *"Dvorak"* ]]; then
       swaymsg input "* xkb_layout us"
-      notify-send "qwerty"
+      # notify-send "qwerty"
     else
       swaymsg input "* xkb_layout dvorak"
-      notify-send "dvorak"
+      # notify-send "dvorak"
     fi
 
     exit
@@ -32,4 +37,3 @@ fi
 
 xmodmap -e 'clear Lock' #ensures you're not stuck in CAPS on mode
 xmodmap -e "keycode 66 = Escape NoSymbol Escape"
-# xmodmap -e 'keycode 0x42=Escape' #remaps the keyboard so CAPS LOCK=ESC

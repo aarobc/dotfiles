@@ -99,8 +99,8 @@ bindcode $mod+$k split v
 bindcode $mod+$u fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
-bindcode $mod+$o      layout stacking
-bindcode $mod+$comma  layout tabbed
+# bindcode $mod+$o      layout stacking
+# bindcode $mod+$comma  layout tabbed
 bindcode $mod+$period layout default
 
 # toggle tiling / floating
@@ -204,6 +204,8 @@ bar {
     font           pango:DejaVu Sans Mono 10
 }
 
+# easyalign: gaip ctrl+x regex
+
 for_window [class="Nm-connection-editor"]      floating   enable
 for_window [title="Friends List"]              floating   enable
 for_window [title="Steam - News"]              floating   enable
@@ -223,8 +225,12 @@ for_window [title="^JetBrains Toolbox"]        floating   enable
 for_window [title="^Variety Preferences"]      floating   enable
 for_window [title="is sharing your screen.$"]  floating   enable, border none, sticky enable
 for_window [app_id="nm-connection-editor"]     floating   enable
-for_window [title="select new Steam library folder:$"]     floating   enable
-for_window [title="^Firefox — Sharing Indicator$"] floating enable, move absolute position 3000 30
+for_window [app_id="gnome-calculator"]         floating   enable
+for_window [title="^Steam Guard - Computer Authorization Required$"]         floating   enable
+for_window [title="^2K Launcher | Civilization VI$"]         floating   enable
+
+for_window [title="select new Steam library folder:$"] floating enable
+for_window [title="^Firefox — Sharing Indicator$"]     floating enable, move absolute position 3000 30
 
 # auto kill any windows starting up
 for_window [class="^Steam$" title="^Steam - News"] kill
@@ -252,7 +258,9 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec mako --default-timeout 30000
 
 ### Output configuration
-output DP-2 resolution 2560x1440@144Hz
+
+output DP-2 pos 0    0
+output DP-3 pos 3840 0 res 2560x1440@144Hz
 
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill

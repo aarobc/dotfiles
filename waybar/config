@@ -15,7 +15,7 @@
         "cpu",
         "memory",
         "temperature",
-        "sway/language",
+        "custom/layout",
         "clock",
         "tray"
     ],
@@ -31,6 +31,13 @@
         "return-type": "json",
         "exec":        "$HOME/dotfiles/scripts/setScreen.sh",
         "on-click":    "$HOME/dotfiles/scripts/setScreen.sh click"
+    },
+
+    "custom/layout": {
+        "exec":          "sleep .1 && $HOME/dotfiles/scripts/layout.sh check",
+        "on-click":      "$HOME/dotfiles/scripts/layout.sh",
+        "exec-on-event": true,
+        "interval":      "once",
     },
 
     "custom/shot": {
