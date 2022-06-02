@@ -1,6 +1,5 @@
 "------------------------------------------------------------------[Vundle]----
 source ~/.vim/bundles.vim
-
 "------------------------------------------------------------------[General]----
 " Create the 'vimrc' autocmd group, used below, and immediately clear it in
 " case this file is being sourced a second time.
@@ -219,24 +218,24 @@ let g:javascript_enable_domhtmlcss = 1
 "map <F6> <Esc>:EnablePHPFolds<Cr>
 "map <F7> <Esc>:DisablePHPFolds<Cr>
 "to prevent annoying behavior of the folding plugin
-let g:DisableAutoPHPFolding = 1
+" let g:DisableAutoPHPFolding = 1
 
-function! PhpSyntaxOverride()
-    "folding stuff
-    let php_folding=0
-    setlocal foldmethod=manual
-    " EnableFastPHPFolds
-    EnablePHPFolds
-    normal zR
-    "syntax stuff
-    hi! def link phpDocTags  phpDefine
-    hi! def link phpDocParam phpType
-endfunction
-
-augroup phpSyntaxOverride
-    autocmd!
-    autocmd FileType php call PhpSyntaxOverride()
-augroup END
+" function! PhpSyntaxOverride()
+"     "folding stuff
+"     let php_folding=0
+"     setlocal foldmethod=manual
+"     " EnableFastPHPFolds
+"     EnablePHPFolds
+"     normal zR
+"     "syntax stuff
+"     hi! def link phpDocTags  phpDefine
+"     hi! def link phpDocParam phpType
+" endfunction
+"
+" augroup phpSyntaxOverride
+"     autocmd!
+"     autocmd FileType php call PhpSyntaxOverride()
+" augroup END
 
 " check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
 set autoread
@@ -328,13 +327,13 @@ let g:ale_fix_on_save = 1
 "coc
 
 "coc.vim tab complete
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-" coc.vim autocomplete on tab
-inoremap <silent><expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~ '\s'
+" endfunction
+"
+" " coc.vim autocomplete on tab
+" inoremap <silent><expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
 "reference:
 "tabm <number> moves tab to that location.

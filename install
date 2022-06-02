@@ -8,7 +8,12 @@ BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 cd "${BASEDIR}"
 git clone https://github.com/vivien/i3blocks-contrib ~/.config/i3blocks || \
-        echo "already cloned"
+        echo "already cloned i3blocks"
+
+git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+ ~/.local/share/nvim/site/pack/packer/start/packer.nvim  || \
+        echo "already cloned packer"
+
 git submodule update --init --recursive ~/dotfiles/zgen
 git submodule update --init --recursive ~/dotfiles/vim/bundle/Vundle.vim
 
@@ -19,7 +24,8 @@ dotbot -d "${BASEDIR}" -c "${CONFIG}" "${@}"
 
 # install vundle
 vim +PluginInstall +qall
+vim +PluginClean +qall
+vim +PackerInstall +qall
 
 #configuring the fonts
 # fc-cache -vf ~/.fonts
-

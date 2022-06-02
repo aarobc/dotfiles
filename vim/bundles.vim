@@ -35,7 +35,6 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-obsession'
-" Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'othree/html5.vim'
 " Plugin 'nixprime/cpsm'
@@ -44,12 +43,10 @@ Plugin 'junegunn/vim-easy-align'
 " allow motions on strings. is awesome
 Plugin 'wellle/targets.vim'
 Plugin 'lambdalisue/suda.vim'
+
 " code inspection
 Plugin 'dense-analysis/ale'
-Plugin 'neoclide/coc.nvim'
-
 Plugin 'sheerun/vim-polyglot'
 Plugin 'tomtom/tcomment_vim'
-
 
 call vundle#end()
