@@ -75,11 +75,10 @@ set splitright
 "allow vilual block cursor to go anywhere
 set virtualedit=block
 
-"powerline/airline stuffs:
-" Always show statusline
+" Powerline/airline stuffs:
+" always show statusline
 set laststatus=2
 let g:airline_powerline_fonts = 1
-" let g:airline_theme='powerlineish'
 let g:airline_theme='murmur'
 " let g:airline_theme='molokai'
 " let g:airline_theme='luna'
@@ -98,8 +97,6 @@ if ! has('gui_running')
     augroup END
 endif
 
-"potatoes
-"green
 " vnoremap yy "py
 
 "easier window navigation
@@ -127,28 +124,8 @@ au BufRead,BufNewFile *.vue set filetype=html
 " workaround for neovim and tcomment plugin bug
 au BufNewFile,BufRead *.jsx setlocal filetype=javascript.jsx
 
-"javascript folding
-" function! s:JavascriptFileType()
-"     "set nofoldenable
-"     " set foldlevelstart=0
-"     " fold methods available: syntax indent marker
-"     " set foldmethod=indent
-"     " set foldignore=
-"     " set foldnestmax=1
-"
-"
-"     " "Refocus" folds
-"     nnoremap ,z zMzvzz
-"
-"     " Make zO recursively open whatever top level fold we're in, no matter where the
-"     " cursor happens to be.
-"     nnoremap zO zCzO
-" endfunction
-
+" folding
 " set conceallevel=1
-
-" because stupid work decided to use 4 spaces on html
-" autocmd filetype type args
 
 au FileType make            setlocal ts=2 sts=2 tw=2 noet
 au Filetype html            setlocal ts=2 sts=2 sw=2
@@ -159,8 +136,7 @@ au Filetype yaml            setlocal ts=2 sts=2 sw=2 expandtab
 au Filetype typescript      setlocal ts=2 sts=2 sw=2 expandtab
 au Filetype json            setlocal ts=2 sts=2 sw=2 expandtab
 
-
-au      BufNewFile,BufRead Jenkinsfile setf groovy
+au BufNewFile,BufRead Jenkinsfile setf groovy
 
 " let g:SignatureForceRemoveGlobal = 0
 
@@ -171,8 +147,6 @@ if &term =~ '^screen'
     set ttymouse=xterm2
 endif
 
-"nerdTree
-nnoremap <C-f> :NERDTree<CR>
 
 " tcomment:
 " let g:polyglot_disabled = ['jsx']
@@ -214,28 +188,6 @@ nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
 
 "vim-javascript syntax plugin highlighting enable
 let g:javascript_enable_domhtmlcss = 1
-"map <F5> <Esc>:EnableFastPHPFolds<Cr>
-"map <F6> <Esc>:EnablePHPFolds<Cr>
-"map <F7> <Esc>:DisablePHPFolds<Cr>
-"to prevent annoying behavior of the folding plugin
-" let g:DisableAutoPHPFolding = 1
-
-" function! PhpSyntaxOverride()
-"     "folding stuff
-"     let php_folding=0
-"     setlocal foldmethod=manual
-"     " EnableFastPHPFolds
-"     EnablePHPFolds
-"     normal zR
-"     "syntax stuff
-"     hi! def link phpDocTags  phpDefine
-"     hi! def link phpDocParam phpType
-" endfunction
-"
-" augroup phpSyntaxOverride
-"     autocmd!
-"     autocmd FileType php call PhpSyntaxOverride()
-" augroup END
 
 " check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
 set autoread
@@ -271,20 +223,6 @@ nnoremap <C-T> <C-W><C-J>
 nnoremap <C-N> <C-W><C-K>
 nnoremap <C-S> <C-W><C-L>
 
-"neovim stuff; move between terminal splits
-if has('nvim')
-    tnoremap <Esc> <C-\><C-n>
-    tnoremap <C-h> <C-\><C-n><C-w>h
-    tnoremap <C-t> <C-\><C-n><C-w>j
-    tnoremap <C-n> <C-\><C-n><C-w>k
-    tnoremap <C-s> <C-\><C-n><C-w>l
-
-    nnoremap <C-h> <C-w>h
-    nnoremap <C-t> <C-w>j
-    nnoremap <C-n> <C-w>k
-    nnoremap <C-s> <C-w>l
-endif
-
 "moving splits around
 nnoremap <C-w>S <C-w>L
 nnoremap <C-w>T <C-w>J
@@ -295,15 +233,14 @@ com! ToJson %s/\(\w*\):/"\1"/
 function! ToggleMouse()
     " check if mouse is enabled
     if &mouse == 'a'
-        " disable mouse
-        set mouse=
+        set mouse=r " disable mouse
     else
-        " enable mouse everywhere
-        set mouse=a
+        set mouse=a " enable mouse everywhere
     endif
 endfunc
 
 com! FormatJSON %!python -m json.tool
+
 " fix weird bug that makes underscores (_) invisible with kitty
 set linespace=5
 
@@ -324,16 +261,15 @@ let g:ale_sign_warning = '⚠'
 let g:ale_fix_on_save = 1
 " manually trigger with ALEFix
 
-"coc
 
-"coc.vim tab complete
-" function! s:check_back_space() abort
-"   let col = col('.') - 1
-"   return !col || getline('.')[col - 1]  =~ '\s'
-" endfunction
-"
-" " coc.vim autocomplete on tab
-" inoremap <silent><expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+" fzf.vim
+command! -bang -nargs=* GGrep
+  \ call fzf#vim#grep(
+  \   'git grep --line-number -- '.shellescape(<q-args>), 0,
+  \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
+
+nnoremap <C-f> :GGrep<CR>
+
 
 "reference:
 "tabm <number> moves tab to that location.
