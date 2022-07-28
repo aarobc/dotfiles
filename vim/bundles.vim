@@ -28,9 +28,13 @@ Plugin 'unblevable/quick-scope'     " xor Vundle
 
 " git plugin
 Plugin 'tpope/vim-fugitive'
+" Plugin 'tpope/vim-rhubarb'
+Plugin 'tommcdo/vim-fubitive'
+
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-obsession'
+
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'junegunn/vim-easy-align'
 

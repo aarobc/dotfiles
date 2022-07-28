@@ -241,6 +241,9 @@ endfunc
 
 com! FormatJSON %!python -m json.tool
 
+com! FormatXML :%!python3 -c "import xml.dom.minidom, sys; print(xml.dom.minidom.parse(sys.stdin).toprettyxml())"
+nnoremap = :FormatXML<Cr>
+
 " fix weird bug that makes underscores (_) invisible with kitty
 set linespace=5
 
