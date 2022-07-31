@@ -30,6 +30,11 @@
       force: true
       path: profile
 
+    ~/.config/environment.d/60-dotfiles.conf:
+      force: true
+      create: true
+      path: environment
+
     ~/.config/i3status/config:
       force: true
       create: true

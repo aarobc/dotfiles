@@ -1,0 +1,27 @@
+
+EDITOR=/usr/bin/vim
+QT_QPA_PLATFORMTHEME="qt5ct"
+GTK_THEME=Adwaita:dark
+
+XDG_CURRENT_DESKTOP=sway
+XDG_SESSION_DESKTOP=sway
+XKB_DEFAULT_LAYOUT=us
+XKB_DEFAULT_VARIANT=dvorak
+XKB_DEFAULT_MODEL=pc101
+XKB_DEFAULT_OPTIONS=caps:escape
+KITTY_ENABLE_WAYLAND=1
+MOZ_ENABLE_WAYLAND=1
+XDG_SESSION_TYPE=wayland
+
+
+PATH=$PATH:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PATH=$PATH:$HOME/dotfiles/vim/bundle/powerline/scripts
+PATH=$PATH:/usr/games
+PATH=$PATH:/usr/bin/core_perl
+PATH=$PATH:/opt/android-studio/bin
+# path="$path:/$HOME/Android/Sdk/platform-tools"
+PATH=$PATH:$HOME/go/bin
+PATH=$PATH:$HOME/.npm-global/bin
+PATH=$PATH:$HOME/.local/share/JetBrains/Toolbox/bin
+PATH=$HOME/.local/bin:$PATH
+PATH=$PATH:/snap/bin

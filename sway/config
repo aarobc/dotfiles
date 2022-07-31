@@ -197,11 +197,12 @@ bindsym $sup+space exec ~/dotfiles/scripts/layout.sh
 # multiple bars to try making tray show only on inactive
 bar {
 
-    output         DP-3
-    output         DisplayPort-2
+    output          DP-3
+    output          DisplayPort-2
+    output          eDP-1
     swaybar_command waybar
-    position       top
-    font           pango:DejaVu Sans Mono 10
+    position        top
+    font            pango:DejaVu Sans Mono 10
 }
 
 # easyalign: gaip ctrl+x regex
@@ -279,5 +280,9 @@ exec swayidle -w \
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+}
 
 include /etc/sway/config.d/*
