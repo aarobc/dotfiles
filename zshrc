@@ -98,7 +98,8 @@ export TERM=xterm-256color
 #fi
 
 # for the path for now:
-export PATH=~/.node_modules/bin:$PATH
+PATH=~/.node_modules/bin:$PATH
+export PATH="$HOME/.local/bin:$PATH"
 export N_PREFIX=$HOME/.local
 
 function qdns {

@@ -20,7 +20,7 @@ git submodule update --init --recursive ~/dotfiles/vim/bundle/Vundle.vim
 git submodule foreach -q --recursive 'branch="$(git config -f ~/dotfiles/.gitmodules submodule.$name.branch)"; git checkout $branch master; git pull'
 
 
-dotbot -d "${BASEDIR}" -c "${CONFIG}" "${@}"
+~/.local/bin/dotbot -d "${BASEDIR}" -c "${CONFIG}" "${@}"
 
 # install vundle
 vim +PluginInstall +qall
