@@ -282,7 +282,11 @@ exec swayidle -w \
 # resumed. It will also lock your screen before your computer goes to sleep.
 input type:touchpad {
     tap enabled
+    click_method clickfinger
     natural_scroll enabled
 }
+
+output eDP-1 scale 1.5
+
 
 include /etc/sway/config.d/*
