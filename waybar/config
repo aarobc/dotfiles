@@ -26,12 +26,6 @@
         "enable-bar-scroll":         true,
         "all-outputs":               false
     },
-    "custom/share": {
-        "format":      " share ",
-        "return-type": "json",
-        "exec":        "$HOME/dotfiles/scripts/setScreen.sh",
-        "on-click":    "$HOME/dotfiles/scripts/setScreen.sh click"
-    },
 
     "custom/layout": {
         "exec":          "sleep .1 && $HOME/dotfiles/scripts/layout.sh check",
