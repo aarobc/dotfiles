@@ -17,5 +17,3 @@ PATH=$PATH:$HOME/dotfiles/vim/bundle/powerline/scripts
 PATH=$PATH:$HOME/.npm-global/bin
 PATH=$PATH:$HOME/.local/share/JetBrains/Toolbox/bin
 PATH=$HOME/.local/bin:$PATH
-
-# PATH="$PATH:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
