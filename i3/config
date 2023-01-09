@@ -120,7 +120,7 @@ bindcode $mod+$k split v
 bindcode $mod+$u fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
-bindcode $mod+$o      layout stacking
+# bindcode $mod+$o      layout stacking
 # disabling for now because I keep hitting it
 # bindcode $mod+$comma  layout tabbed
 bindcode $mod+$period layout default
@@ -302,8 +302,11 @@ exec --no-startup-id xhost +
 exec --no-startup-id autokey-gtk
 
 # work specific startup apps
-exec        --no-startup-id jetbrains-toolbox --minimize
-# exec        --no-startup-id slack
-exec        --no-startup-id flameshot
+exec --no-startup-id jetbrains-toolbox --minimize
+exec --no-startup-id slack
+exec --no-startup-id flameshot
+
+# activity tracking
+exec --no-startup-id arbtt-capture -r 5
 
 include custom.conf

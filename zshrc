@@ -75,6 +75,7 @@ alias quickhttp='docker run --rm -it -v $PWD:/usr/share/nginx/html:ro -p 8080:80
 alias gitclean="git branch --merged master | grep -v '^[ *]*master$' | xargs git branch -d"
 alias gitcleanup='git remote prune origin'
 alias pr='~/dotfiles/scripts/go-to-source pr'
+alias stats='arbtt-stats -o current-day'
 
 # alias twiliod='docker run --rm -it -v $HOME/.twilio-cli:/root/.twilio-cli -v $PWD:$PWD --workdir $PWD aarobc/twilio-cli twilio'
 

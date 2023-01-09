@@ -135,6 +135,7 @@ au Filetype php             setlocal ts=4 sts=4 sw=4
 au Filetype yaml            setlocal ts=2 sts=2 sw=2 expandtab
 au Filetype typescript      setlocal ts=2 sts=2 sw=2 expandtab
 au Filetype json            setlocal ts=2 sts=2 sw=2 expandtab
+au FileType python          setlocal noet ts=2 sw=2
 
 au BufNewFile,BufRead Jenkinsfile setf groovy
 
@@ -273,6 +274,10 @@ command! -bang -nargs=* GGrep
 
 nnoremap <C-f> :GGrep<CR>
 
+" swapping marks
+" map ` Marks.activateGotoMode swap
+" map m Marks.activateCreateMode swap
+
 
 "reference:
 "tabm <number> moves tab to that location.
@@ -286,3 +291,6 @@ nnoremap <C-f> :GGrep<CR>
 "freedom in visual mode
 " :set virtualedit=all
 " then use Afoo to instert multiple columns
+
+" open current line with vim-fugitive:
+" :.GBrowse
