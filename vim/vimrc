@@ -348,3 +348,8 @@ inoremap <silent><expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<C
 "freedom in visual mode
 " :set virtualedit=all
 " then use Afoo to instert multiple columns
+
+" color highlighting
+" set tgc
+"toggle color codes:
+" :ColorToggle

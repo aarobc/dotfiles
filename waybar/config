@@ -16,6 +16,7 @@
         "memory",
         "temperature",
         "custom/layout",
+        "battery",
         "clock",
         "tray"
     ],

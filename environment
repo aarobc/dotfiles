@@ -12,6 +12,7 @@ XKB_DEFAULT_OPTIONS=caps:escape
 KITTY_ENABLE_WAYLAND=1
 MOZ_ENABLE_WAYLAND=1
 XDG_SESSION_TYPE=wayland
+_JAVA_AWT_WM_NONREPARENTING=1
 
 PATH=$PATH:$HOME/dotfiles/vim/bundle/powerline/scripts
 PATH=$PATH:$HOME/.npm-global/bin
