@@ -25,17 +25,18 @@ set $k 55
 
 font                    pango:SFNS Text Medium 14px
 #border only, no titlebar
-default_border          pixel 1
-default_floating_border pixel
+default_border          pixel 3
+default_floating_border pixel 1
+
+smart_gaps on
+smart_borders on
 # hide_edge_borders       both
 
-
-# class                 border  backgr. text    indicator child_border
-client.focused          #4c7899 #285577 #ffffff #2e9ef4   #1F8400
+# class                 border  backgr  text    indicator child
+client.focused          #4c7899 #285577 #ffffff #2e9ef4   #65FF32
 client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
-client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+client.unfocused        #333333 #222222 #888888 #292d2e   #22222200
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
-client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
 client.background       #ffffff
 
@@ -190,14 +191,13 @@ bindsym XF86MonBrightnessDown exec light -U 5 # decrease screen brightness
 
 #lock screen
 # bindsym $mod+l exec "gnome-screensaver-command -l"
-bindcode $mod+$l exec "swaylock -c 000000"
+bindcode $mod+$l exec "swaylock -i /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_2048x1536.png"
 
 # toggle keyboard layout
 bindsym $sup+space exec ~/dotfiles/scripts/layout.sh
 
 # multiple bars to try making tray show only on inactive
 bar {
-
     output          DP-3
     output          DisplayPort-2
     output          eDP-1
@@ -242,6 +242,7 @@ for_window [class="^Steam$" title="^Steam - News"] kill
 # exec variety
 
 # exec --no-startup-id synergy
+
 # makes it brown in the evening
 # exec --no-startup-id redshift-gtk
 
@@ -249,6 +250,7 @@ for_window [class="^Steam$" title="^Steam - News"] kill
 exec nm-applet --indicator
 
 exec blueman-applet
+exec dunst
 
 mouse_warping output
 
@@ -261,8 +263,9 @@ exec mako --default-timeout 30000
 
 ### Output configuration
 
-output DP-2 pos 0    0
-output DP-3 pos 3840 0 res 2560x1440@144Hz
+# output DP-2 pos 0 0
+# # output DP-1 pos 0 0
+# output DP-3 pos 1920 0 res 2840x2160@60Hz
 
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_2048x1536.png fill
@@ -274,8 +277,12 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_2048x1536.png fill
 # Example configuration:
 #
 exec swayidle -w \
-         timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-         before-sleep 'swaylock -f -c 000000'
+  timeout 600 'swaymsg "output * dpms off"' \
+  resume 'swaymsg "output * dpms on"' \
+  before-sleep 'swaylock -f -i /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_2048x1536.png'
+
+# auto layout management
+exec kanshi
  # timeout 300 'swaylock -f -c 000000' \
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -287,7 +294,11 @@ input type:touchpad {
     natural_scroll enabled
 }
 
-output eDP-1 scale 1.5
+set $laptop eDP-1
+bindswitch lid:on output $laptop disable
+bindswitch lid:off output $laptop enable
+
+# output eDP-1 scale 1.7
 
 
 include /etc/sway/config.d/*

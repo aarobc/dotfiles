@@ -7,7 +7,7 @@
 # load zgen
 ZSH_DISABLE_COMPFIX=true
 source ~/dotfiles/zgen/zgen.zsh
-source ~/.profile
+# source ~/.profile
 
 #custom theme
 source ~/dotfiles/agnoster.zsh-theme
@@ -55,8 +55,9 @@ alias logoff='i3-msg exit'
 alias gitroot='git rev-parse --show-toplevel'
 alias rootOrcwd='[ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 && gitroot || pwd'
 
-alias vue='docker run -it --rm -v "$PWD":"$PWD" -w "$PWD"  -u "$(id -u)" aarobc/vue-cli vue'
+# alias vue='docker run -it --rm -v "$PWD":"$PWD" -w "$PWD"  -u "$(id -u)" aarobc/vue-cli vue'
 
+# alias dc='docker compose'
 alias dc='docker-compose'
 alias dcr='dc run --rm'
 alias dcrp='dcr --service-ports --use-aliases'
@@ -100,6 +101,8 @@ export TERM=xterm-256color
 #fi
 
 # for the path for now:
+PATH=~/.local/bin:$PATH
+PATH=~/.npm-global/bin:$PATH
 export PATH=~/.node_modules/bin:$PATH
 export N_PREFIX=$HOME/.local
 

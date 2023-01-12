@@ -46,12 +46,13 @@ Plugin 'wellle/targets.vim'
 Plugin 'lambdalisue/suda.vim'
 " code inspection
 Plugin 'dense-analysis/ale'
-Plugin 'neoclide/coc.nvim'
+" Plugin 'neoclide/coc.nvim'
 Plugin 'fatih/vim-go'
 
 Plugin 'sheerun/vim-polyglot'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'neoclide/jsonc.vim'
+Plugin 'chrisbra/Colorizer'
 
 
 call vundle#end()
