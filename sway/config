@@ -60,7 +60,8 @@ bindsym $mod+Return exec --no-startup-id kitty
 bindcode $mod+Shift+$apos kill
 
 # start dmenu (a program launcher)
-bindcode $mod+$e exec --no-startup-id dmenu_run
+# bindcode $mod+$e exec --no-startup-id dmenu_run
+bindcode $mod+$e exec --no-startup-id bemenu-run -p "▶" --nb '#000000A0' --ab '#000000A0' -i -c -W .3 -H 25
 
 # move desktop monitor
 bindcode $mod+Shift+Control+$h move workspace to output left
@@ -295,7 +296,8 @@ input type:touchpad {
 }
 
 set $laptop eDP-1
-bindswitch lid:on output $laptop disable
+# bindswitch lid:on output $laptop disable
+# bindswitch lid:on systemctl suspend
 bindswitch lid:off output $laptop enable
 
 # output eDP-1 scale 1.7

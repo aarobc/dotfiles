@@ -89,6 +89,7 @@ fi
 export GIT_EDITOR=vim
 export EDITOR=vim
 export VISUAL=vim
+export ZSHZ_CASE=smart
 
 # You may need to manually set your language environment
 #export LANG=en_US.UTF-8
