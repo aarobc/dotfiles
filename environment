@@ -1,6 +1,6 @@
 
 EDITOR=/usr/bin/vim
-QT_QPA_PLATFORMTHEME="qt5ct"
+QT_QPA_PLATFORMTHEME=qt5ct
 GTK_THEME=Adwaita:dark
 
 XDG_CURRENT_DESKTOP=sway
@@ -18,3 +18,4 @@ PATH=$PATH:$HOME/dotfiles/vim/bundle/powerline/scripts
 PATH=$PATH:$HOME/.npm-global/bin
 PATH=$PATH:$HOME/.local/share/JetBrains/Toolbox/bin
 PATH=$HOME/.local/bin:$PATH
+NODE_PATH=$HOME/.npm-global/lib/node_modules
