@@ -54,7 +54,7 @@ bindsym $mod+F12         mode "Passthrough Mode - Press Alt+F12 to exit"
 bindsym $mod+$sup+Escape mode "Passthrough Mode - Press Alt+F12 to exit"
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id kitty
+bindsym $mod+Return exec --no-startup-id foot
 
 # kill focused window
 bindcode $mod+Shift+$apos kill
@@ -302,5 +302,11 @@ bindswitch lid:off output $laptop enable
 
 # output eDP-1 scale 1.7
 
+assign [app_id="firefox"] workspace number 2
+assign [app_id="slack"]   workspace number 1
+
+workspace 1 output eDP-1
+workspace 2 output DP-1
+workspace 6 output DP-3
 
 include /etc/sway/config.d/*

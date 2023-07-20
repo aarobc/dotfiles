@@ -46,6 +46,7 @@
 
     ~/.config/kitty/kitty.conf:
       force: true
+      create: true
       path: kitty.conf
 
     ~/.config/i3-resurrect:
@@ -59,3 +60,8 @@
     ~/.config/waybar:
       force: true
       path: waybar
+
+    ~/.config/foot/foot.ini:
+      force: true
+      create: true
+      path: foot.ini
