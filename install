@@ -1,7 +1,11 @@
 #!/bin/bash -xe
 
 
-pip install dotbot
+if ! command -v dotbot &> /dev/null
+then
+    pip install dotbot
+fi
+
 CONFIG="install.conf.yaml"
 #
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -22,4 +26,3 @@ vim +PluginInstall +qall
 
 #configuring the fonts
 # fc-cache -vf ~/.fonts
-
