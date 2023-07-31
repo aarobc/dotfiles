@@ -15,11 +15,11 @@ if [ $ee == 'wayland' ]; then
     # notify-send "$active"
     #
     if [[ $active == *"Dvorak"* ]]; then
-      swaymsg input "* xkb_layout us"
-      # notify-send "qwerty"
+      # swaymsg input "* xkb_layout us"
+      notify-send "qwerty not allowed"
     else
-      swaymsg input "* xkb_layout dvorak"
-      # notify-send "dvorak"
+      swaymsg input "* xkb_variant dvorak"
+      notify-send "dvorak"
     fi
 
     exit
