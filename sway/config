@@ -190,6 +190,11 @@ bindsym Control+$mod+Left  workspace prev
 bindsym XF86MonBrightnessUp   exec light -A 5 # increase screen brightness
 bindsym XF86MonBrightnessDown exec light -U 5 # decrease screen brightness
 
+# media controls
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
 #lock screen
 # bindsym $mod+l exec "gnome-screensaver-command -l"
 bindcode $mod+$l exec "swaylock -i /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_2048x1536.png"
