@@ -336,6 +336,10 @@ endfunction
 " coc.vim autocomplete on tab
 inoremap <silent><expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
+" let g:rhubarb_gbrowse_host_order = ['bitbucket', 'github']
+" let g:rhubarb_gbrowse_protocol_order = ['https', 'git']
+
+
 "reference:
 "tabm <number> moves tab to that location.
 "example: tabm 0 moves tab to location 0 (first location)
