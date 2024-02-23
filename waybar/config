@@ -37,7 +37,7 @@
 
     "custom/shot": {
         "format":   " shot ",
-        "on-click": "sleep .4 && grim -g \"$(slurp -d)\" - | wl-copy"
+        "on-click": "sleep .4 && grim -g \"$(slurp -d)\" - | tee >(wl-copy) ~/Pictures/screenshot.png > /dev/null"
     },
 
     "sway/mode": {
