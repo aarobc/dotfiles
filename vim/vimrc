@@ -328,13 +328,13 @@ let g:ale_fix_on_save = 1
 "coc
 
 "coc.vim tab complete
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-" coc.vim autocomplete on tab
-inoremap <silent><expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~ '\s'
+" endfunction
+"
+" " coc.vim autocomplete on tab
+" inoremap <silent><expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
 "reference:
 "tabm <number> moves tab to that location.

@@ -102,6 +102,8 @@ export TERM=xterm-256color
 # for the path for now:
 export PATH=~/.node_modules/bin:$PATH
 export N_PREFIX=$HOME/.local
+# export PATH="$HOME/.pyenv/bin:$PATH"
+# eval "$(pyenv init -)"
 
 function qdns {
   if [ $1 ]

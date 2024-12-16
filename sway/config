@@ -59,7 +59,7 @@ bindsym $mod+Return exec --no-startup-id kitty
 bindcode $mod+Shift+$apos kill
 
 # start dmenu (a program launcher)
-bindcode $mod+$e exec --no-startup-id dmenu_run
+bindcode $mod+$e exec --no-startup-id bemenu-run
 
 # move desktop monitor
 bindcode $mod+Shift+Control+$h move workspace to output left
@@ -197,8 +197,9 @@ bindsym $sup+space exec ~/dotfiles/scripts/layout.sh
 # multiple bars to try making tray show only on inactive
 bar {
 
-    output         DP-3
-    output         DisplayPort-2
+  output *
+    # output         DP-3
+    # output        'Acer Technologies XG270HU T1T03622SL00'
     swaybar_command waybar
     position       top
     font           pango:DejaVu Sans Mono 10
@@ -230,6 +231,7 @@ for_window [title="^Steam Guard - Computer Authorization Required$"]         flo
 for_window [title="^2K Launcher | Civilization VI$"]         floating   enable
 
 for_window [title="select new Steam library folder:$"] floating enable
+for_window [title="^PD Launcher "] floating enable
 for_window [title="^Firefox — Sharing Indicator$"]     floating enable, move absolute position 3000 30
 
 # auto kill any windows starting up
@@ -259,17 +261,18 @@ exec mako --default-timeout 30000
 
 ### Output configuration
 
-output DP-2 pos 0    0
-output DP-3 pos 3840 0 res 2560x1440@144Hz
+# output DP-2 pos 0    0
+# output DP-1 pos 3840 0 res 2560x1440@144Hz
 
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg ~/Pictures/wallpaper.jpg fill
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
 ### Idle configuration
 #
 # Example configuration:
+exec kanshi
 #
 exec swayidle -w \
          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
