@@ -23,9 +23,23 @@ set $s 47
 set $j 54
 set $k 55
 
+
+# swayfx
+#  blur enable
+#  blur_xray disable
+#  blur_passes 3
+#  blur_radius 5
+ shadows enable
+ corner_radius 10
+ layer_effects "waybar" shadows enable; corner_radius 10; blur enable
+#  default_dim_inactive .6
+#  dim_inactive_colors.unfocused #000000FF
+#  dim_inactive_colors.urgent #900000FF
+
+# standard stuff
 font                    pango:SFNS Text Medium 14px
 #border only, no titlebar
-default_border          pixel 3
+default_border          pixel 1
 default_floating_border pixel 1
 
 smart_gaps on
@@ -50,6 +64,7 @@ mode  "Passthrough Mode - Press Alt+F12 to exit" {
   bindsym $mod+$sup+Escape mode "default"
 }
 
+bindcode Ctrl+51 exec 1password --fill
 bindsym $mod+F12         mode "Passthrough Mode - Press Alt+F12 to exit"
 bindsym $mod+$sup+Escape mode "Passthrough Mode - Press Alt+F12 to exit"
 
@@ -66,6 +81,9 @@ bindcode $mod+$e exec --no-startup-id bemenu-run -p "▶" --nb '#000000A0' --ab 
 # move desktop monitor
 bindcode $mod+Shift+Control+$h move workspace to output left
 bindcode $mod+Shift+Control+$s move workspace to output right
+
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
 
 # change focus
 bindcode $mod+$h focus left
@@ -187,8 +205,11 @@ bindsym Control+$mod+Right workspace next
 bindsym Control+$mod+Left  workspace prev
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp   exec light -A 5 # increase screen brightness
-bindsym XF86MonBrightnessDown exec light -U 5 # decrease screen brightness
+# bindsym XF86MonBrightnessUp   exec light -A 5 # increase screen brightness
+# bindsym XF86MonBrightnessDown exec light -U 5 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+
 
 # media controls
 bindsym XF86AudioPlay exec playerctl play-pause
@@ -215,6 +236,7 @@ bar {
 
 # easyalign: gaip ctrl+x regex
 
+for_window [instance="1password"]              floating   enable
 for_window [class="Nm-connection-editor"]      floating   enable
 for_window [title="Friends List"]              floating   enable
 for_window [title="Steam - News"]              floating   enable
@@ -235,8 +257,10 @@ for_window [title="^Variety Preferences"]      floating   enable
 for_window [title="is sharing your screen.$"]  floating   enable, border none, sticky enable
 for_window [app_id="nm-connection-editor"]     floating   enable
 for_window [app_id="gnome-calculator"]         floating   enable
-for_window [title="^Steam Guard - Computer Authorization Required$"]         floating   enable
-for_window [title="^2K Launcher | Civilization VI$"]         floating   enable
+for_window [app_id="org.gnome.Calculator"]     floating   enable
+
+for_window [title="^Steam Guard - Computer Authorization Required$"] floating enable
+for_window [title="^2K Launcher | Civilization VI$"]                 floating enable
 
 for_window [title="select new Steam library folder:$"] floating enable
 for_window [title="^Firefox — Sharing Indicator$"]     floating enable, move absolute position 3000 30
@@ -258,6 +282,8 @@ exec nm-applet --indicator
 
 exec blueman-applet
 exec dunst
+exec slack
+exec jetbrains-toolbox
 
 mouse_warping output
 
@@ -314,7 +340,14 @@ workspace 1 output eDP-1
 workspace 6 output DP-3
 workspace 2 output DP-1
 
+# swayfx specific config
+
 include /etc/sway/config.d/*
+# fix for the thingy?
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+
+
 
 # auto layout management
 exec kanshi

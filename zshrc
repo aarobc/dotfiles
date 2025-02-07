@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Path to your oh-my-zsh installation.
 
 # Set name of the theme to load.
@@ -10,11 +17,12 @@ source ~/dotfiles/zgen/zgen.zsh
 # source ~/.profile
 
 #custom theme
-source ~/dotfiles/agnoster.zsh-theme
+# source ~/dotfiles/agnoster.zsh-theme
 # check if there's no init script
 if ! zgen saved; then
     echo "Creating a zgen save"
 
+    zgen load romkatv/powerlevel10k powerlevel10k
     zgen oh-my-zsh
         # plugins
     zgen oh-my-zsh plugins/git
@@ -128,6 +136,11 @@ function qdns {
   fi
 }
 
+genuuid()
+{
+    od -x /dev/urandom | head -1 | awk '{OFS="-"; print $2$3,$4,$5,$6,$7$8$9}'
+}
+
 # Extract Files #
 function extract {
   if [ -f $1 ] ; then
@@ -195,6 +208,7 @@ function runfast() {
 }
 
 
+
 #temp workaround for microphone volume issue
 if hash amixer 2>/dev/null; then
     NOPe=`amixer -c 1 set Capture 20 2>/dev/null`
@@ -209,3 +223,6 @@ fi
 
 # set the option so you can use vim bindings in the shell
 # set -o vi
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
