@@ -9,14 +9,15 @@ fi
 # check if sway
 ee=`loginctl show-session $(loginctl | grep $(whoami) | awk '{print $1}') -p Type --value`
 
+notify-send "$ee"
 if [ $ee == 'wayland' ]; then
 
     active=`swaymsg -t get_inputs | jq 'map(select(has("xkb_active_layout_name")))[0].xkb_active_layout_name'`
-    # notify-send "$active"
+    notify-send "$active"
     #
     if [[ $active == *"Dvorak"* ]]; then
-      # swaymsg input "* xkb_layout us"
-      notify-send "qwerty not allowed"
+      swaymsg input "* xkb_layout us"
+      # notify-send "qwerty not allowed"
     else
       swaymsg input "* xkb_variant dvorak"
       notify-send "dvorak"

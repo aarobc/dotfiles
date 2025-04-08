@@ -25,16 +25,11 @@ set $k 55
 
 
 # swayfx
-#  blur enable
-#  blur_xray disable
-#  blur_passes 3
-#  blur_radius 5
- shadows enable
- corner_radius 10
- layer_effects "waybar" shadows enable; corner_radius 10; blur enable
-#  default_dim_inactive .6
-#  dim_inactive_colors.unfocused #000000FF
-#  dim_inactive_colors.urgent #900000FF
+
+#  shadows enable
+#  corner_radius 10
+#  layer_effects "waybar" shadows enable; corner_radius 10; blur enable
+
 
 # standard stuff
 font                    pango:SFNS Text Medium 14px
@@ -344,8 +339,8 @@ workspace 2 output DP-1
 
 include /etc/sway/config.d/*
 # fix for the thingy?
-exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
-exec hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+# exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+# exec hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
 
 
 
