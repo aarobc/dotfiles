@@ -49,7 +49,7 @@ Plugin 'lambdalisue/suda.vim'
 " code inspection
 Plugin 'dense-analysis/ale'
 " Plugin 'neoclide/coc.nvim'
-Plugin 'fatih/vim-go'
+" Plugin 'fatih/vim-go'
 
 Plugin 'sheerun/vim-polyglot'
 Plugin 'tomtom/tcomment_vim'

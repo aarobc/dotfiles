@@ -59,7 +59,7 @@ let mapleader=","
 set autochdir
 
 "when pasting into vim:
-set pastetoggle=<F10>
+" set pastetoggle=<F10>
 
 "---------------------------------[Search]----
 set hlsearch
@@ -258,7 +258,7 @@ let g:syntastic_check_on_wq = 0
 
 
 "vim-go:
-let g:go_autodetect_gopath = 1
+" let g:go_autodetect_gopath = 1
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
