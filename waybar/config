@@ -2,11 +2,9 @@
     "height": 25,
     "modules-left": [
         "hyprland/workspaces",
-        "sway/workspaces"
-//        ,"sway/mode"
+        "hyperland/submap"
      ],
 
-   // "modules-center": ["sway/window"],
     "modules-center": ["hyprland/window"],
     "modules-right": [
         "custom/share",
@@ -22,18 +20,19 @@
         "clock",
         "tray"
     ],
+    "hyprland/window": {
+        "separate-outputs": true
+    },
 
-  //  "sway/workspaces": {
-  //      "disable-scroll-wraparound": true,
-  //      "disable-scroll":            false,
-  //      "enable-bar-scroll":         true,
-  //      "all-outputs":               false
-  //  },
 
     "hyprland/workspaces": {
+        "enable-bar-scroll":         true, // doesn't work
         "format": "{icon}",
         "on-scroll-up": "hyprctl dispatch workspace e+1",
         "on-scroll-down": "hyprctl dispatch workspace e-1"
+    },
+    "hyperland/submap": {
+        "format": "<span style=\"italic\">{}</span>"
     },
 
 //    "custom/layout": {
@@ -49,9 +48,6 @@
         "on-click": "grim -g \"$(slurp)\" - | swappy -f -"
     },
 
-//    "sway/mode": {
-//        "format": "<span style=\"italic\">{}</span>"
-//    },
     "mpd": {
         "format":              "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ ",
         "format-disconnected": "Disconnected ",
