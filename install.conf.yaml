@@ -13,6 +13,10 @@
       force: true
       path: vim
 
+    ~/.config/hypr:
+      force: true
+      path: hypr
+
     ~/.config/nvim/init.vim:
       force: true
       create: true

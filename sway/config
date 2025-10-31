@@ -263,6 +263,13 @@ for_window [title="^Firefox — Sharing Indicator$"]     floating enable, move a
 # auto kill any windows starting up
 for_window [class="^Steam$" title="^Steam - News"] kill
 
+# try to fix the phpstorm dialog
+for_window [app_id="jetbrains-clion"] {
+  floating enable
+  resize set width 50ppt
+  resize set height 60ppt
+}
+
 # wallpaper changer
 # disabling for now because of the issue with keyboard sticking
 # exec variety
@@ -279,6 +286,10 @@ exec blueman-applet
 exec dunst
 exec slack
 exec jetbrains-toolbox
+
+# netskope for work:
+exec /opt/netskope/stagent/stAgentApp
+
 
 mouse_warping output
 
@@ -328,7 +339,7 @@ bindswitch lid:off output $laptop enable
 
 # output eDP-1 scale 1.7
 
-assign [app_id="firefox"] workspace number 2
+# assign [app_id="firefox"] workspace number 2
 assign [app_id="slack"]   workspace number 1
 
 workspace 1 output eDP-1

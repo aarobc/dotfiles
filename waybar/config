@@ -1,11 +1,13 @@
 {
     "height": 25,
     "modules-left": [
-        "sway/workspaces",
-        "sway/mode"
+        "hyprland/workspaces",
+        "sway/workspaces"
+//        ,"sway/mode"
      ],
 
-    "modules-center": ["sway/window"],
+   // "modules-center": ["sway/window"],
+    "modules-center": ["hyprland/window"],
     "modules-right": [
         "custom/share",
         "custom/shot",
@@ -21,19 +23,25 @@
         "tray"
     ],
 
-    "sway/workspaces": {
-        "disable-scroll-wraparound": true,
-        "disable-scroll":            false,
-        "enable-bar-scroll":         true,
-        "all-outputs":               false
+  //  "sway/workspaces": {
+  //      "disable-scroll-wraparound": true,
+  //      "disable-scroll":            false,
+  //      "enable-bar-scroll":         true,
+  //      "all-outputs":               false
+  //  },
+
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1"
     },
 
-    "custom/layout": {
-        "exec":          "sleep .1 && $HOME/dotfiles/scripts/layout.sh check",
-        "on-click":      "$HOME/dotfiles/scripts/layout.sh",
-        "exec-on-event": true,
-        "interval":      "once",
-    },
+//    "custom/layout": {
+//        "exec":          "sleep .1 && $HOME/dotfiles/scripts/layout.sh check",
+//        "on-click":      "$HOME/dotfiles/scripts/layout.sh",
+//        "exec-on-event": true,
+//        "interval":      "once",
+//    },
 
     "custom/shot": {
         "format":   " shot ",
@@ -41,9 +49,9 @@
         "on-click": "grim -g \"$(slurp)\" - | swappy -f -"
     },
 
-    "sway/mode": {
-        "format": "<span style=\"italic\">{}</span>"
-    },
+//    "sway/mode": {
+//        "format": "<span style=\"italic\">{}</span>"
+//    },
     "mpd": {
         "format":              "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ ",
         "format-disconnected": "Disconnected ",
