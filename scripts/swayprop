@@ -11,8 +11,7 @@ first(
             | select(%y <= .y + .height)))
 ')"
 
-[ "$script" != "" ] &&
-    swaymsg -t get_tree | jq "$script"
+swaymsg -t get_tree | jq "$script"
 
 # look into this
 #  swaymsg -t get_tree | jq -r '..|objects|select(.representation)|[.name+" ("+.output+"): "+ .representation, (.floating_nodes[].app_id + .floating_nodes[].window_properties.class)]|join(" + ")'

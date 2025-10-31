@@ -6,21 +6,20 @@ if [ "$1" == "check" ]; then
     exit 0
 fi
 
-# check if sway
-ee=`loginctl show-session $(loginctl | grep $(whoami) | awk '{print $1}') -p Type --value`
-
-notify-send "$ee"
-if [ $ee == 'wayland' ]; then
+if [ $XDG_SESSION_TYPE == 'wayland' ]; then
 
     active=`swaymsg -t get_inputs | jq 'map(select(has("xkb_active_layout_name")))[0].xkb_active_layout_name'`
-    notify-send "$active"
+    # notify-send "$active"
     #
     if [[ $active == *"Dvorak"* ]]; then
-      swaymsg input "* xkb_layout us"
-      # notify-send "qwerty not allowed"
+      swaymsg input type:keyboard xkb_layout us
+      swaymsg input type:keyboard xkb_variant basic
+      notify-send "qwerty"
     else
-      swaymsg input "* xkb_variant dvorak"
+      swaymsg input type:keyboard xkb_layout us
+      swaymsg input type:keyboard xkb_variant dvorak
       notify-send "dvorak"
+
     fi
 
     exit
@@ -36,5 +35,5 @@ else
 fi
 
 
-xmodmap -e 'clear Lock' #ensures you're not stuck in CAPS on mode
-xmodmap -e "keycode 66 = Escape NoSymbol Escape"
+# xmodmap -e 'clear Lock' #ensures you're not stuck in CAPS on mode
+# xmodmap -e "keycode 66 = Escape NoSymbol Escape"
