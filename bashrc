@@ -126,3 +126,5 @@ fi
 
 # for the multi-line prompt:
 PS1="[\[\033[32m\]\w]\[\033[0m\]\n\[\033[1;36m\]\u\[\033[1;33m\]-> \[\033[0m\]"
+
+export STM32_PRG_PATH=/home/ac/bin/STMicroelectronics/STM32Cube/STM32CubeProgrammer/bin

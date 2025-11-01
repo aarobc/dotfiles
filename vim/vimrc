@@ -58,8 +58,6 @@ let mapleader=","
 "set working directory to current file path
 set autochdir
 
-"when pasting into vim:
-set pastetoggle=<F10>
 
 "---------------------------------[Search]----
 set hlsearch
