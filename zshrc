@@ -5,15 +5,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Path to your oh-my-zsh installation.
-
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-# load zgen
 ZSH_DISABLE_COMPFIX=true
-source ~/dotfiles/zgen/zgen.zsh
+source ~/src/zgen/zgen.zsh
 # source ~/.profile
 
 #custom theme
@@ -39,15 +32,11 @@ if ! zgen saved; then
     # what subdirectory of the repository to add to your fpath.
     zgen load zsh-users/zsh-completions src
 
-    # theme
-    #zgen oh-my-zsh themes/arrow
-
     # save all to init script
     zgen save
 fi
 
 zstyle ':completion:*:*:docker:*' option-stacking yes
-zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
 # to fix zgen do:
 # zgen reset
@@ -66,7 +55,7 @@ alias rootOrcwd='[ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 && gitr
 # alias vue='docker run -it --rm -v "$PWD":"$PWD" -w "$PWD"  -u "$(id -u)" aarobc/vue-cli vue'
 
 # alias dc='docker compose'
-alias dc='docker-compose'
+alias dc='docker compose'
 alias dcr='dc run --rm'
 alias dcrp='dcr --service-ports --use-aliases'
 alias dce='dc exec'
@@ -105,9 +94,6 @@ export ZSHZ_CASE=smart
 export TERM=xterm-256color
 #[ -n "$TMUX" ] && export TERM=screen-256color
 
-#if [[ -r /usr/local/lib/python2.7/dist-packages/powerline/bindings/zsh/powerline.zsh ]]; then
-    #source /usr/local/lib/python2.7/dist-packages/powerline/bindings/zsh/powerline.zsh
-#fi
 
 # for the path for now:
 PATH=~/.local/bin:$PATH
@@ -208,13 +194,6 @@ function runfast() {
 }
 
 
-
-#temp workaround for microphone volume issue
-if hash amixer 2>/dev/null; then
-    NOPe=`amixer -c 1 set Capture 20 2>/dev/null`
-else
-    # echo "no amixer"
-fi
 
 # including this ensures that new gnome-terminal tabs keep the parent `pwd` !
 if [ -e /etc/profile.d/vte.sh ]; then
