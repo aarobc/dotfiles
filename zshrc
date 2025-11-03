@@ -196,12 +196,13 @@ function runfast() {
 
 
 # including this ensures that new gnome-terminal tabs keep the parent `pwd` !
-if [ -e /etc/profile.d/vte.sh ]; then
-    . /etc/profile.d/vte.sh
-fi
+# if [ -e /etc/profile.d/vte.sh ]; then
+#     . /etc/profile.d/vte.sh
+# fi
 
 # set the option so you can use vim bindings in the shell
 # set -o vi
 
+POWERLEVEL9K_CONFIG_FILE="~/.config/p10k.zsh"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f ~/.config/p10k.zsh ]] || source ~/.config/p10k.zsh
