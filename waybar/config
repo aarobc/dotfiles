@@ -26,25 +26,16 @@
 
 
     "hyprland/workspaces": {
-        "enable-bar-scroll":         true, // doesn't work
         "format": "{icon}",
-        "on-scroll-up": "hyprctl dispatch workspace e+1",
-        "on-scroll-down": "hyprctl dispatch workspace e-1"
+        "on-scroll-up":   "~/dotfiles/waybar/scroll.sh 1 && hyprctl dispatch workspace m+1",
+        "on-scroll-down": "~/dotfiles/waybar/scroll.sh 0 &&hyprctl dispatch workspace m-1"
     },
     "hyperland/submap": {
         "format": "<span style=\"italic\">{}</span>"
     },
 
-//    "custom/layout": {
-//        "exec":          "sleep .1 && $HOME/dotfiles/scripts/layout.sh check",
-//        "on-click":      "$HOME/dotfiles/scripts/layout.sh",
-//        "exec-on-event": true,
-//        "interval":      "once",
-//    },
-
     "custom/shot": {
         "format":   " shot ",
-        // "on-click": "sleep .3 && grim -g \"$(slurp -d)\" - | tee >(wl-copy) ~/Pictures/screenshot.png > /dev/null"
         "on-click": "grim -g \"$(slurp)\" - | swappy -f -"
     },
 
