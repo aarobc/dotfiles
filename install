@@ -10,7 +10,7 @@ CONFIG="install.conf.yaml"
 #
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-mkdir ~/src
+mkdir -p ~/src
 cd "${BASEDIR}"
 git clone https://github.com/tarjoilija/zgen.git "${HOME}/src/zgen" || echo "already cloned"
 git submodule update --init --recursive ~/dotfiles/vim/bundle/Vundle.vim
