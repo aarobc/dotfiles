@@ -27,8 +27,8 @@
 
     "hyprland/workspaces": {
         "format": "{icon}",
-        "on-scroll-up":   "~/dotfiles/waybar/scroll.sh 1",
-        "on-scroll-down": "~/dotfiles/waybar/scroll.sh 0"
+        "on-scroll-up":   "~/dotfiles/waybar/scroll.sh 0",
+        "on-scroll-down": "~/dotfiles/waybar/scroll.sh 1"
     },
     "hyperland/submap": {
         "format": "<span style=\"italic\">{}</span>"
