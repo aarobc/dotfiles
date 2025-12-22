@@ -23,22 +23,17 @@ set $s 47
 set $j 54
 set $k 55
 
-
-# swayfx
-
-#  shadows enable
-#  corner_radius 10
-#  layer_effects "waybar" shadows enable; corner_radius 10; blur enable
-
-
 # standard stuff
 font                    pango:SFNS Text Medium 14px
 #border only, no titlebar
 default_border          pixel 1
 default_floating_border pixel 1
 
-smart_gaps on
+gaps          inner 20
+smart_gaps    on
 smart_borders on
+mouse_warping output
+
 # hide_edge_borders       both
 
 # class                 border  backgr  text    indicator child
@@ -58,6 +53,11 @@ mode  "Passthrough Mode - Press Alt+F12 to exit" {
   bindsym $mod+F12         mode "default"
   bindsym $mod+$sup+Escape mode "default"
 }
+
+set $laptop eDP-1
+# bindswitch lid:on output $laptop disable
+# bindswitch lid:on systemctl suspend
+bindswitch lid:off output $laptop enable
 
 bindcode Ctrl+51 exec 1password --fill
 bindsym $mod+F12         mode "Passthrough Mode - Press Alt+F12 to exit"
@@ -161,6 +161,7 @@ bindcode $mod+Shift+$r exec swaymsg reload
 # exit i3 (logs you out of your X session)
 # bindcode $mod+Shift+$period exec "swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 bindcode $mod+Shift+$period exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -270,74 +271,14 @@ for_window [app_id="jetbrains-clion"] {
   resize set height 60ppt
 }
 
-# wallpaper changer
-# disabling for now because of the issue with keyboard sticking
-# exec variety
-
-# exec --no-startup-id synergy
-
-# makes it brown in the evening
-# exec --no-startup-id redshift-gtk
-
-#network manager
-exec nm-applet --indicator
-
-exec blueman-applet
-exec dunst
-exec slack
-exec jetbrains-toolbox
-
-# netskope for work:
-exec /opt/netskope/stagent/stAgentApp
-
-
-mouse_warping output
-
-gaps inner 20
-
-# startup apps
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-
-exec mako --default-timeout 30000
-
-### Output configuration
-
-# output DP-2 pos 0 0
-# # output DP-1 pos 0 0
-# output DP-3 pos 1920 0 res 2840x2160@60Hz
-
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg ~/Pictures/wallhaven-exrmzk.jpg fill
-# exec azote
-#
-# You can get the names of your outputs by running: swaymsg -t get_outputs
+output * bg ~/Pictures/wallpaper/wallhaven-cliff.jpg fill
 
-### Idle configuration
-#
-# Example configuration:
-#
-exec swayidle -w \
-  timeout 600 'swaymsg "output * dpms off"' \
-  resume 'swaymsg "output * dpms on"' \
-  before-sleep 'swaylock -f -i /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_2048x1536.png'
-
- # timeout 300 'swaylock -f -c 000000' \
-#
-# This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
-# resumed. It will also lock your screen before your computer goes to sleep.
 input type:touchpad {
     tap enabled
     click_method clickfinger
     natural_scroll enabled
 }
-
-set $laptop eDP-1
-# bindswitch lid:on output $laptop disable
-# bindswitch lid:on systemctl suspend
-bindswitch lid:off output $laptop enable
-
-# output eDP-1 scale 1.7
 
 # assign [app_id="firefox"] workspace number 2
 assign [app_id="slack"]   workspace number 1
@@ -346,14 +287,7 @@ workspace 1 output eDP-1
 workspace 6 output DP-3
 workspace 2 output DP-1
 
-# swayfx specific config
-
 include /etc/sway/config.d/*
-# fix for the thingy?
-# exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
-# exec hash dbus-update-activation-environment 2>/dev/null && dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
 
-
-
-# auto layout management
-exec kanshi
+# to allow segmented configs
+include ./startup/*
