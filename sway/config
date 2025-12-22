@@ -280,6 +280,14 @@ input type:touchpad {
     natural_scroll enabled
 }
 
+input type:keyboard {
+  xkb_layout us
+  xkb_variant dvorak
+
+  xkb_options caps:escape
+
+}
+
 # assign [app_id="firefox"] workspace number 2
 assign [app_id="slack"]   workspace number 1
 
