@@ -1,0 +1,14 @@
+exec nm-applet --indicator
+
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec blueman-applet
+exec mako --default-timeout 30000
+exec kanshi
+
+exec swayidle -w \
+  timeout 600 'swaymsg "output * dpms off"' \
+  resume 'swaymsg "output * dpms on"' \
+  before-sleep 'swaylock -f -i /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_2048x1536.png'
+
+# wallpaper utility
+# exec azote
