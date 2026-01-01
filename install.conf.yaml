@@ -44,6 +44,10 @@
       create: true
       path: i3status.conf
 
+    ~/.config/i3:
+      force: true
+      path: i3
+
     ~/.Xmodmap:
       force: true
       path: Xmodmap
@@ -52,10 +56,6 @@
       force: true
       create: true
       path: kitty.conf
-
-    ~/.config/i3-resurrect:
-      force: true
-      path: i3-resurrect
 
     ~/.config/sway:
       force: true
