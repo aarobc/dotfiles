@@ -91,7 +91,6 @@ export ZSHZ_CASE=smart
 # You may need to manually set your language environment
 #export LANG=en_US.UTF-8
 # Setting to 256 for working neovim syntax. must set to just xterm for vim
-export TERM=xterm-256color
 #[ -n "$TMUX" ] && export TERM=screen-256color
 
 
