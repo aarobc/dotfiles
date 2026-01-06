@@ -1,7 +1,7 @@
-.PHONY: install configs deps install-hypr install-sway
+.PHONY: install configs deps install-hypr install-sway install-yay
 
-deps:
-	sudo pacman -S foot kitty git docker
+deps: install-yay
+	sudo pacman -S foot kitty git docker neovim
 
 install-hypr:
 	sudo pacman -S hyprcursor hyprgraphics hypridle hyprland hyprland-guiutils \
@@ -11,6 +11,11 @@ install-hypr:
 install-sway:
 	sudo pacman -S sway swaybg swayidle swaylock swayosd
 
+install-yay:
+	sudo pacman -S --needed base-devel git
+	git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-bin
+	cd /tmp/yay-bin && makepkg -si
+	rm -rf /tmp/yay-bin
 
 configs:
 	@command -v dotbot &> /dev/null || pipx install dotbot
@@ -21,7 +26,6 @@ configs:
 	@git submodule foreach -q --recursive 'branch="$$(git config -f ~/dotfiles/.gitmodules submodule.$$name.branch)"; git checkout $$branch master; git pull'
 	@cd $(CURDIR) && dotbot -d "$(CURDIR)" -c install.conf.yaml $(ARGS)
 	@vim +PluginInstall +qall
-	# @fc-cache -vf ~/.fonts
 
 fix-hyp:
 	hyprpm purge-cache
