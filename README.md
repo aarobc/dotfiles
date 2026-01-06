@@ -1,16 +1,18 @@
-For best results you need:
+Intended for ach linux
 
-1. vim
-2. zsh
-3. git
-
-
-Clone into home directory, then run: 
-
-**./install** 
+- neovim
+- zsh
+- git
+- make
 
 
-dependencies possibly required:
+Clone into home directory, then run:
 
-python-devel
-python-yaml
+```
+make deps
+
+make config
+```
+
+Upon changing defined paths or config files, modify the `install.conf.yaml` file and re-run
+`make config`
