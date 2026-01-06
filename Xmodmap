@@ -1,0 +1,4 @@
+! clear caps lock
+clear lock
+! map caps lock to escape
+keycode 66 = Escape NoSymbol Escape
