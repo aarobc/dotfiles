@@ -22,3 +22,9 @@ configs:
 	@cd $(CURDIR) && dotbot -d "$(CURDIR)" -c install.conf.yaml $(ARGS)
 	@vim +PluginInstall +qall
 	# @fc-cache -vf ~/.fonts
+
+fix-hyp:
+	hyprpm purge-cache
+	hyprpm update
+	hyprpm add https://github.com/outfoxxed/hy3
+	hyprpm enable hy3
