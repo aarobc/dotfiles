@@ -1,5 +1,6 @@
 {
     "height": 25,
+    "layer": "top",
     "modules-left": [
         "hyprland/workspaces",
         "hyperland/submap",
