@@ -1,6 +1,7 @@
-#!/usr/bin/env -S node --experimental-default-type=module
+#!/usr/bin/env -S node
 
 import { spawn } from 'node:child_process'
+import { watchFile, readFileSync } from 'node:fs'
 import path from 'node:path'
 import { tmpdir } from 'node:os'
 
@@ -15,110 +16,115 @@ const nwg = spawn('nwg-displays', ['-m', TMP_MONITORS, '-w', TMP_WORKSPACES], {
   env: { ...process.env, PYTHONUNBUFFERED: '1' }
 })
 
-let isSaving = false
-let captureBuffer = []
 let debounceTimer = null
 
-nwg.stdout.on('data', (chunk) => {
-  const lines = chunk.toString().split('\n')
-
-  for (const line of lines) {
-    if (line.includes('[Saving]')) {
-      console.log('Detected "Apply". Processing...')
-      isSaving = true
-      captureBuffer = []
-      continue
+watchFile(TMP_MONITORS, { interval: 200 }, () => {
+  clearTimeout(debounceTimer)
+  debounceTimer = setTimeout(() => {
+    let content
+    try {
+      content = readFileSync(TMP_MONITORS, 'utf8')
+    } catch {
+      return
     }
 
-    if (isSaving && line.trim().startsWith('monitor=')) {
-      captureBuffer.push(line.trim())
-      
-      clearTimeout(debounceTimer)
-      debounceTimer = setTimeout(() => {
-        nwg.kill('SIGKILL')
+    const lines = content.split('\n')
+      .map(l => l.trim())
+      .filter(l => l.startsWith('monitor='))
 
-        const profile = formatKanshi(captureBuffer)
-        console.log(profile)
-        
-        copyAndExit(profile)
-      }, 100)
-    }
-  }
+    if (lines.length === 0) return
+
+    console.log('Detected file write. Processing...')
+    nwg.kill('SIGKILL')
+
+    const profile = formatKanshi(lines)
+    console.log(profile)
+
+    applyHyprctl(lines)
+      .then(() => console.log('✅ Applied via hyprctl!'))
+      .catch(err => console.error('⚠️  wlr-randr failed:', err.message))
+      .finally(() => copyAndExit(profile))
+  }, 200)
 })
 
-function formatKanshi (lines) {
-  const monitors = new Map()
-
-  // 1. Parse and Aggregate
-  for (const line of lines) {
-    const raw = line.replace('monitor=', '')
-    const parts = raw.split(',')
+function parseMonitors (lines) {
+  return lines.reduce((monitors, line) => {
+    const parts = line.replace('monitor=', '').split(',')
     const name = parts[0]
 
     if (!monitors.has(name)) {
-      monitors.set(name, { 
-        id: name, 
-        status: 'enable', // Default to enable
-        mode: null, 
-        pos: null, 
-        scale: null, 
-        transform: 'normal' 
-      })
+      monitors.set(name, { id: name, status: 'enable', mode: null, pos: null, scale: null, transform: 'normal' })
     }
     const config = monitors.get(name)
 
-    // Check for "disable" flag
     if (parts[1] === 'disable' || parts[1] === 'disabled') {
       config.status = 'disable'
-      config.mode = null // Clear mode if disabled
-    } 
-    // Check for "transform" line
-    else if (parts[1] === 'transform') {
+      config.mode = null
+    } else if (parts[1] === 'transform') {
       config.transform = mapTransform(parts[2])
-    } 
-    // Standard config line
-    else {
+    } else {
       config.mode = parts[1]
       config.pos = parts[2]
       config.scale = parts[3]
     }
-  }
 
-  // 2. Format & Align
-  const rows = []
-  
-  for (const m of monitors.values()) {
-    // Skip if enabled but missing mode (incomplete config line)
-    if (m.status === 'enable' && !m.mode) continue
+    return monitors
+  }, new Map())
+}
 
-    let id = m.id
-    if (id.startsWith('desc:')) id = `"${id.slice(5)}"`
+const TRANSFORM_CODE = { normal: 0, '90': 1, '180': 2, '270': 3, flipped: 4, 'flipped-90': 5, 'flipped-180': 6, 'flipped-270': 7 }
 
-    if (m.status === 'disable') {
-      rows.push({
-        id: `output ${id}`,
-        status: 'disable',
-        mode: '',
-        pos: '',
-        scale: '',
-        transform: ''
-      })
-    } else {
+function hyprctlMonitor (m) {
+  if (m.status === 'disable') return `${m.id},disable`
+
+  const parts = [m.id, m.mode, m.pos, m.scale]
+  if (m.transform !== 'normal') parts.push('transform', TRANSFORM_CODE[m.transform] ?? 0)
+  return parts.join(',')
+}
+
+async function applyHyprctl (lines) {
+  const configs = [...parseMonitors(lines).values()]
+    .filter(m => m.status === 'disable' || m.mode)
+    .map(hyprctlMonitor)
+
+  console.log('Running:\n' + configs.map(c => `  hyprctl keyword monitor "${c}"`).join('\n'))
+
+  return Promise.all(configs.map(config => new Promise((resolve, reject) => {
+    const proc = spawn('hyprctl', ['keyword', 'monitor', config], { stdio: ['ignore', 'ignore', 'pipe'] })
+    let stderr = ''
+    proc.stderr.on('data', d => { stderr += d })
+    proc.on('error', reject)
+    proc.on('exit', code => {
+      if (code === 0) resolve()
+      else reject(new Error(`${config}: ${stderr.trim() || `exit ${code}`}`))
+    })
+  })))
+}
+
+function formatKanshi (lines) {
+  const monitors = parseMonitors(lines)
+
+  const rows = [...monitors.values()]
+    .filter(m => !(m.status === 'enable' && !m.mode))
+    .map(m => {
+      const id = m.id.startsWith('desc:') ? `"${m.id.slice(5)}"` : m.id
+
+      if (m.status === 'disable') {
+        return { id: `output ${id}`, status: 'disable', mode: '', pos: '', scale: '', transform: '' }
+      }
+
       let mode = m.mode
       if (!mode.includes('Hz')) mode += 'Hz'
-      
-      const pos = m.pos.replace('x', ',')
 
-      rows.push({
+      return {
         id: `output ${id}`,
         status: 'enable',
         mode: `mode ${mode}`,
-        pos: `position ${pos}`,
+        pos: `position ${m.pos.replace('x', ',')}`,
         scale: `scale ${m.scale}`,
         transform: `transform ${m.transform}`
-      })
-    }
-  }
+      }
+    })
 
   // Calculate padding widths
   const wId = Math.max(...rows.map(r => r.id.length))
@@ -141,6 +147,7 @@ function formatKanshi (lines) {
 
   return `profile {\n${alignedOutputs.join('\n')}\n}`
 }
+
 
 function mapTransform (code) {
   const map = {
