@@ -94,9 +94,10 @@ export ZSHZ_CASE=smart
 #[ -n "$TMUX" ] && export TERM=screen-256color
 
 
+# see also ./profile that's symlinked within ~/.config/environment.d/
 # for the path for now:
-PATH=~/.local/bin:$PATH
-PATH=~/.npm-global/bin:$PATH
+# PATH=~/.local/bin:$PATH
+# PATH=~/.npm-global/bin:$PATH
 export PATH=~/.node_modules/bin:$PATH
 export N_PREFIX=$HOME/.local
 

@@ -1,6 +1,5 @@
 
 EDITOR=/usr/bin/vim
-QT_QPA_PLATFORMTHEME=qt5ct
 GTK_THEME=Adwaita:dark
 
 # XDG_CURRENT_DESKTOP=sway
@@ -13,10 +12,10 @@ GTK_THEME=Adwaita:dark
 KITTY_ENABLE_WAYLAND=1
 XDG_SESSION_TYPE=wayland
 _JAVA_AWT_WM_NONREPARENTING=0
-DOMOO=hi
 
-# PATH=$PATH:$HOME/dotfiles/vim/bundle/powerline/scripts
+PATH=$HOME/.local/bin:$PATH
 PATH=$PATH:$HOME/.npm-global/bin
 PATH=$PATH:$HOME/.local/share/JetBrains/Toolbox/bin
-PATH=$HOME/.local/bin:$PATH
+PATH=$PATH:$HOME/.cargo/bin
+
 NODE_PATH=$HOME/.npm-global/lib/node_modules
