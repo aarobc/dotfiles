@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "no args"
+    exit 0
+fi
+
+bs=$(du -csh --block-size=1M . | grep total | grep -Eo '[0-9]*')
+big=$((($bs | 15) + 1))M
+
+ramdir=/media/ramdisk
+
+echo "Creating temp ramdisk at $ramdir with size $big..."
+sudo mkdir -p $ramdir
+sudo mount -t tmpfs -o size=$big tmpfs $ramdir/
+echo "setting permissions..."
+sudo chown $(whoami):$(whoami) $ramdir
+echo "copying contents..."
+cp -r ./. $ramdir/
+cd $ramdir
+echo "running command"
+echo "$@"
+eval "$@"
+cd -
+sleep 1
+echo "unmounting ramdisk"
+sudo umount $ramdir
