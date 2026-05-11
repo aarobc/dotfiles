@@ -51,7 +51,8 @@ alias logoff='i3-msg exit'
 alias gitroot='git rev-parse --show-toplevel'
 alias rootOrcwd='[ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 && gitroot || pwd'
 
-alias dc='docker compose'
+# to preserve autocomplete behavior in the legacy setup
+alias dc='docker-compose'
 alias dcr='dc run --rm'
 alias dcrp='dcr --service-ports --use-aliases'
 alias dce='dc exec'
