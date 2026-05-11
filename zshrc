@@ -9,8 +9,6 @@ ZSH_DISABLE_COMPFIX=true
 source ~/src/zgen/zgen.zsh
 # source ~/.profile
 
-#custom theme
-# source ~/dotfiles/agnoster.zsh-theme
 # check if there's no init script
 if ! zgen saved; then
     echo "Creating a zgen save"
@@ -53,9 +51,6 @@ alias logoff='i3-msg exit'
 alias gitroot='git rev-parse --show-toplevel'
 alias rootOrcwd='[ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1 && gitroot || pwd'
 
-# alias vue='docker run -it --rm -v "$PWD":"$PWD" -w "$PWD"  -u "$(id -u)" aarobc/vue-cli vue'
-
-# alias dc='docker compose'
 alias dc='docker compose'
 alias dcr='dc run --rm'
 alias dcrp='dcr --service-ports --use-aliases'
@@ -89,11 +84,6 @@ export EDITOR=vim
 export VISUAL=vim
 export ZSHZ_CASE=smart
 
-# You may need to manually set your language environment
-#export LANG=en_US.UTF-8
-# Setting to 256 for working neovim syntax. must set to just xterm for vim
-#[ -n "$TMUX" ] && export TERM=screen-256color
-
 
 # see also ./profile that's symlinked within ~/.config/environment.d/
 # for the path for now:
@@ -103,104 +93,30 @@ export PATH=$PATH:~/dotfiles/scripts
 export PATH=~/.node_modules/bin:$PATH
 export N_PREFIX=$HOME/.local
 
-function qdns {
-  if [ $1 ]
-  then
-    echo $1
-    ip=`dig $1 +short`
-    echo -e "IP:\n$ip"
-    echo -e "www:\n`dig www.$1 +short`"
-
-    # mx stuff
-    mx=`dig mx $1 +short`
-    mailip=`dig mail.$1 +short`
-    ns=`dig ns $1 +short`
-
-    echo -e "mx:\n$mx"
-    echo -e "mail IP:\n$mailip"
-    echo -e "NS:\n$ns"
-  else
-    echo "No domain specified"
-  fi
-}
 
 genuuid()
 {
     od -x /dev/urandom | head -1 | awk '{OFS="-"; print $2$3,$4,$5,$6,$7$8$9}'
 }
 
-# Extract Files #
-function extract {
-  if [ -f $1 ] ; then
-      case $1 in
-          *.tar.bz2)   tar xvjf $1    ;;
-          *.tar.gz)    tar xvzf $1    ;;
-          *.tar.xz)    tar xf $1      ;;
-          *.bz2)       bunzip2 $1     ;;
-          *.gz)        gunzip $1      ;;
-          *.tar)       tar xvf $1     ;;
-          *.tbz2)      tar xvjf $1    ;;
-          *.tgz)       tar xvzf $1    ;;
-          *.zip)       unzip $1       ;;
-          *.Z)         uncompress $1  ;;
-          *.7z)        7z x $1        ;;
-          *.rar)       unrar e $1     ;;
-          *)           echo "don't know how to extract '$1'..." ;;
-      esac
-  else
-      echo "'$1' is not a valid file!"
-  fi
-}
 
 # rotate video with ffmpeg
 function rotate() {
   ffmpeg -i "$1" -c copy -metadata:s:v:0 rotate=180 "$2"
 }
-#hoping that this fixes the annoying issue when it doesn't workO
-# if hash setxkbmap 2>/dev/null; then
-#     # disable caps lock if it's on just in case
-#     python -c 'from ctypes import *; X11 = cdll.LoadLibrary("libX11.so.6"); display = X11.XOpenDisplay(None); X11.XkbLockModifiers(display, c_uint(0x0100), c_uint(2), c_uint(0)); X11.XCloseDisplay(display)'
-#     setxkbmap -option 'caps:ctrl_modifier'
-# fi
 
 # workaround to allow sudo to be used with aliases
 alias sudo='sudo '
 
-function runfast() {
-  if [ -z "$1" ]
-  then
-    echo "no args"
-    return 0
-  fi
-
-  bs=`du -csh --block-size=1M . | grep total | grep -Eo '[0-9]*'`
-  big=$((($bs | 15) + 1))M
-
-  ramdir=/media/ramdisk
-
-  echo "Creating temp ramdisk at $ramdir with size $big..."
-  sudo mkdir -p $ramdir
-  sudo mount -t tmpfs -o size=$big tmpfs $ramdir/
-  echo "setting permissions..."
-  sudo chown `whoami`:`whoami` $ramdir
-  echo "copying contents..."
-  cp -r ./. $ramdir/
-  cd $ramdir
-  echo "running command"
-  echo "$@"
-  eval "$@"
-  cd -
-  sleep 1
-  echo "unmounting ramdisk"
-  sudo umount $ramdir
+function gewt() {
+    local branch_name="$1"
+    command gewt "$@" && cd "$(dirname "$(git rev-parse --show-toplevel)")/$branch_name"
 }
 
-
-
-# including this ensures that new gnome-terminal tabs keep the parent `pwd` !
-# if [ -e /etc/profile.d/vte.sh ]; then
-#     . /etc/profile.d/vte.sh
-# fi
+function gnwt() {
+    local branch_name="$1"
+    command gnwt "$@" && cd "$(dirname "$(git rev-parse --show-toplevel)")/$branch_name"
+}
 
 # set the option so you can use vim bindings in the shell
 # set -o vi
