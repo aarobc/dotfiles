@@ -16,6 +16,8 @@ set t_Co=256
 colorscheme molokai
 "run syntax check on entire document
 autocmd BufEnter * :syntax sync fromstart
+autocmd BufRead,BufNewFile .env.* set filetype=sh
+
 " typescript template syntax
 
 "attempt to fix weird background color issues

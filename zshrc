@@ -18,7 +18,8 @@ if ! zgen saved; then
     zgen load romkatv/powerlevel10k powerlevel10k
     zgen oh-my-zsh
         # plugins
-    zgen oh-my-zsh plugins/git
+    # zgen oh-my-zsh plugins/git
+    zgen oh-my-zsh plugins/gitfast
     zgen oh-my-zsh plugins/sudo
     zgen oh-my-zsh plugins/docker
     zgen oh-my-zsh plugins/command-not-found
@@ -98,6 +99,7 @@ export ZSHZ_CASE=smart
 # for the path for now:
 # PATH=~/.local/bin:$PATH
 # PATH=~/.npm-global/bin:$PATH
+export PATH=$PATH:~/dotfiles/scripts
 export PATH=~/.node_modules/bin:$PATH
 export N_PREFIX=$HOME/.local
 
