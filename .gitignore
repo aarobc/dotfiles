@@ -1,4 +1,4 @@
-vim/bundle/*
+vim/plugged/
 vim/shada
 vim/init.vim
 vim/sessions
