@@ -17,3 +17,4 @@
 
 # mac keyboard remap
 # synclient HorizTwoFingerScroll=1 HorizEdgeScroll=0 VertEdgeScroll=0 VertScrollDelta=-247 HorizScrollDelta=-247
+export PATH="$HOME/bin:$PATH"

@@ -125,3 +125,4 @@ function gnwt() {
 POWERLEVEL9K_CONFIG_FILE="~/.config/p10k.zsh"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.config/p10k.zsh ]] || source ~/.config/p10k.zsh
+export GEMINI_SYSTEM_MD=~/.config/gemini/GEMINI.md
