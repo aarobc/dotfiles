@@ -1,56 +1,65 @@
-set nocompatible
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim/
-call vundle#begin()
+" ----------------------------------------------------------------------------
+" Auto-install vim-plug if not present
+" ----------------------------------------------------------------------------
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo ' . data_dir . '/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'gregsexton/MatchTag'
-Plugin 'tomasr/molokai'
-Plugin 'scrooloose/nerdtree'
-Plugin 'Raimondi/delimitMate'
-Plugin 'wesQ3/vim-windowswap'
-Plugin 'vim-scripts/Tabmerge'
+" ----------------------------------------------------------------------------
+" Plugins
+" ----------------------------------------------------------------------------
+call plug#begin('~/.vim/plugged')
 
-" javascript
-" Plugin 'pangloss/vim-javascript'
-" Plugin 'maxmellon/vim-jsx-pretty'
-" Plugin 'leafgarland/typescript-vim'
+" The following are examples of different formats:
+" Plug 'user/repo'
+" Plug 'user/repo', { 'branch': 'main' }
+" Plug 'user/repo', { 'for': 'php' }  " On-demand loading
 
-" php
-" Plugin 'StanAngeloff/php.vim'
-" Plugin 'vim-scripts/phpfolding.vim'
+Plug 'gregsexton/MatchTag'
+Plug 'tomasr/molokai'
+Plug 'scrooloose/nerdtree'
+Plug 'Raimondi/delimitMate'
+Plug 'wesQ3/vim-windowswap'
+Plug 'vim-scripts/Tabmerge'
 
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
-Plugin 'christoomey/vim-tmux-navigator'
-" for marks
-Plugin 'kshenoy/vim-signature'
-" Plugin 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
-" Plugin 'sirtaj/vim-openscad'
-" Plugin 'klen/python-mode'
-Plugin 'unblevable/quick-scope'     " xor Vundle
-" git plugin
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-obsession'
-" Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'ctrlpvim/ctrlp.vim'
-" Plugin 'othree/html5.vim'
-" Plugin 'nixprime/cpsm'
-Plugin 'junegunn/vim-easy-align'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'kshenoy/vim-signature'
+Plug 'unblevable/quick-scope'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-obsession'
+Plug 'tommcdo/vim-fubitive'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/vim-easy-align'
 
-" allow motions on strings. is awesome
-Plugin 'wellle/targets.vim'
-Plugin 'lambdalisue/suda.vim'
-" code inspection
-Plugin 'dense-analysis/ale'
-Plugin 'neoclide/coc.nvim'
-Plugin 'fatih/vim-go'
+Plug 'wellle/targets.vim'
+Plug 'lambdalisue/suda.vim'
+Plug 'dense-analysis/ale'
+Plug 'sheerun/vim-polyglot'
+Plug 'tomtom/tcomment_vim'
+Plug 'neoclide/jsonc.vim'
+Plug 'chrisbra/Colorizer'
 
-Plugin 'sheerun/vim-polyglot'
-Plugin 'tomtom/tcomment_vim'
+" Commented out / disabled plugins (preserved for reference)
+" Plug 'pangloss/vim-javascript'
+" Plug 'maxmellon/vim-jsx-pretty'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'StanAngeloff/php.vim'
+" Plug 'vim-scripts/phpfolding.vim'
+" Plug 'docker/docker' , {'rtp': '/contrib/syntax/vim/'}
+" Plug 'sirtaj/vim-openscad'
+" Plug 'klen/python-mode'
+" Plug 'tpope/vim-rhubarb'
+" Plug 'nathanaelkane/vim-indent-guides'
+" Plug 'othree/html5.vim'
+" Plug 'nixprime/cpsm'
+" Plug 'neoclide/coc.nvim'
+" Plug 'fatih/vim-go'
 
-
-call vundle#end()
+call plug#end()

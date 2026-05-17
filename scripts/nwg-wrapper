@@ -1,0 +1,183 @@
+#!/usr/bin/env -S node
+
+import { spawn } from 'node:child_process'
+import { watchFile, readFileSync } from 'node:fs'
+import path from 'node:path'
+import { tmpdir } from 'node:os'
+
+const timestamp = Date.now()
+const TMP_MONITORS = path.join(tmpdir(), `nwg-monitors-${timestamp}.conf`)
+const TMP_WORKSPACES = path.join(tmpdir(), `nwg-workspaces-${timestamp}.conf`)
+
+console.log('Starting nwg-displays (One-Shot Mode)...')
+console.log('Arrange monitors -> Apply -> Script copies aligned config & exits.\n')
+
+const nwg = spawn('nwg-displays', ['-m', TMP_MONITORS, '-w', TMP_WORKSPACES], {
+  env: { ...process.env, PYTHONUNBUFFERED: '1' }
+})
+
+let debounceTimer = null
+
+watchFile(TMP_MONITORS, { interval: 200 }, () => {
+  clearTimeout(debounceTimer)
+  debounceTimer = setTimeout(() => {
+    let content
+    try {
+      content = readFileSync(TMP_MONITORS, 'utf8')
+    } catch {
+      return
+    }
+
+    const lines = content.split('\n')
+      .map(l => l.trim())
+      .filter(l => l.startsWith('monitor='))
+
+    if (lines.length === 0) return
+
+    console.log('Detected file write. Processing...')
+    nwg.kill('SIGKILL')
+
+    const profile = formatKanshi(lines)
+    console.log(profile)
+
+    applyHyprctl(lines)
+      .then(() => console.log('✅ Applied via hyprctl!'))
+      .catch(err => console.error('⚠️  wlr-randr failed:', err.message))
+      .finally(() => copyAndExit(profile))
+  }, 200)
+})
+
+function parseMonitors (lines) {
+  return lines.reduce((monitors, line) => {
+    const parts = line.replace('monitor=', '').split(',')
+    const name = parts[0]
+
+    if (!monitors.has(name)) {
+      monitors.set(name, { id: name, status: 'enable', mode: null, pos: null, scale: null, transform: 'normal' })
+    }
+    const config = monitors.get(name)
+
+    if (parts[1] === 'disable' || parts[1] === 'disabled') {
+      config.status = 'disable'
+      config.mode = null
+    } else if (parts[1] === 'transform') {
+      config.transform = mapTransform(parts[2])
+    } else {
+      config.mode = parts[1]
+      config.pos = parts[2]
+      config.scale = parts[3]
+    }
+
+    return monitors
+  }, new Map())
+}
+
+const TRANSFORM_CODE = { normal: 0, '90': 1, '180': 2, '270': 3, flipped: 4, 'flipped-90': 5, 'flipped-180': 6, 'flipped-270': 7 }
+
+function hyprctlMonitor (m) {
+  if (m.status === 'disable') return `${m.id},disable`
+
+  const parts = [m.id, m.mode, m.pos, m.scale]
+  if (m.transform !== 'normal') parts.push('transform', TRANSFORM_CODE[m.transform] ?? 0)
+  return parts.join(',')
+}
+
+async function applyHyprctl (lines) {
+  const configs = [...parseMonitors(lines).values()]
+    .filter(m => m.status === 'disable' || m.mode)
+    .map(hyprctlMonitor)
+
+  console.log('Running:\n' + configs.map(c => `  hyprctl keyword monitor "${c}"`).join('\n'))
+
+  return Promise.all(configs.map(config => new Promise((resolve, reject) => {
+    const proc = spawn('hyprctl', ['keyword', 'monitor', config], { stdio: ['ignore', 'ignore', 'pipe'] })
+    let stderr = ''
+    proc.stderr.on('data', d => { stderr += d })
+    proc.on('error', reject)
+    proc.on('exit', code => {
+      if (code === 0) resolve()
+      else reject(new Error(`${config}: ${stderr.trim() || `exit ${code}`}`))
+    })
+  })))
+}
+
+function formatKanshi (lines) {
+  const monitors = parseMonitors(lines)
+
+  const rows = [...monitors.values()]
+    .filter(m => !(m.status === 'enable' && !m.mode))
+    .map(m => {
+      const id = m.id.startsWith('desc:') ? `"${m.id.slice(5)}"` : m.id
+
+      if (m.status === 'disable') {
+        return { id: `output ${id}`, status: 'disable', mode: '', pos: '', scale: '', transform: '' }
+      }
+
+      let mode = m.mode
+      if (!mode.includes('Hz')) mode += 'Hz'
+
+      return {
+        id: `output ${id}`,
+        status: 'enable',
+        mode: `mode ${mode}`,
+        pos: `position ${m.pos.replace('x', ',')}`,
+        scale: `scale ${m.scale}`,
+        transform: `transform ${m.transform}`
+      }
+    })
+
+  // Calculate padding widths
+  const wId = Math.max(...rows.map(r => r.id.length))
+  const wStatus = Math.max(...rows.map(r => r.status.length))
+  const wMode = Math.max(...rows.map(r => r.mode.length))
+  const wPos = Math.max(...rows.map(r => r.pos.length))
+  const wScale = Math.max(...rows.map(r => r.scale.length))
+
+  // Build Strings
+  const alignedOutputs = rows.map(r => {
+    // Base: ID + Status
+    let line = `\t${r.id.padEnd(wId)}  ${r.status.padEnd(wStatus)}`
+    
+    // Append details only if enabled
+    if (r.status === 'enable') {
+      line += `  ${r.mode.padEnd(wMode)}  ${r.pos.padEnd(wPos)}  ${r.scale.padEnd(wScale)}  ${r.transform}`
+    }
+    return line.trimEnd() // Remove trailing spaces for disabled lines
+  })
+
+  return `profile {\n${alignedOutputs.join('\n')}\n}`
+}
+
+
+function mapTransform (code) {
+  const map = {
+    '0': 'normal',
+    '1': '90',
+    '2': '180',
+    '3': '270',
+    '4': 'flipped',
+    '5': 'flipped-90',
+    '6': 'flipped-180',
+    '7': 'flipped-270'
+  }
+  return map[code] || 'normal'
+}
+
+function copyAndExit (text) {
+  const copier = spawn('wl-copy', [], {
+    detached: true, 
+    stdio: ['pipe', 'ignore', 'ignore'] 
+  })
+
+  copier.on('error', (err) => {
+    console.error('⚠️  wl-copy failed:', err.message)
+    process.exit(1)
+  })
+
+  copier.stdin.write(text)
+  copier.stdin.end()
+  copier.unref() 
+
+  console.log('✅ Copied to clipboard!')
+  process.exit(0)
+}

@@ -1,60 +1,19 @@
-
-export EDITOR=/usr/bin/vim
-export QT_QPA_PLATFORMTHEME="qt5ct"
-# export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
-export GTK_THEME=Adwaita:dark
-
-
-if [ -d "$HOME/.local/bin" ]; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
-
 # wayland/sway
-export XKB_DEFAULT_LAYOUT=us
-export XKB_DEFAULT_VARIANT=dvorak
-export XKB_DEFAULT_MODEL=pc101
-export XKB_DEFAULT_OPTIONS=caps:escape
-
-PATH="$PATH:$HOME/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-PATH="$PATH:$HOME/dotfiles/vim/bundle/powerline/scripts"
-PATH="$PATH:/usr/games"
-PATH="$PATH:/usr/bin/core_perl"
-PATH="$PATH:/opt/android-studio/bin"
-# path="$path:/$HOME/Android/Sdk/platform-tools"
-PATH="$PATH:$HOME/go/bin"
-PATH="$PATH:$HOME/.npm-global/bin"
-PATH="$PATH:$HOME/.local/share/JetBrains/Toolbox/bin"
-PATH="$PATH:/snap/bin"
-
-export PATH=$PATH
-# remove duplicate entrys from path
-# path=$(printf "%s" "$PATH" | awk -v RS=':' '!a[$1]++ { if (NR > 1) printf RS; printf $1 }')
-# export PATH=$path
-
-# ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
-
-# path="$path:/opt/android-studio/bin"
-# path="$path:/opt/android-studio-3/bin"
-# xrandr --output eDP1 --auto --left-of HDMI3 --output HDMI3 --auto --scale 2x2 --right-of DP1
-# xrandr --output eDP1 --mode 1920x1200 --left-of HDMI3 --output HDMI3  --right-of DP1
-# xrandr --output eDP1 --mode 2560x1600 --left-of HDMI3 --output HDMI3  --right-of DP1
-#xrandr --output eDP1 --mode 2560x1600 --left-of HDMI3
-# natural scrolling
-# xinput set-button-map 14 1 2 3 5 4 7 6 8 9 10 11 12
+# if [ "$XDG_SESSION_DESKTOP" != "sway" ]; then
+#     msg="not sway, exporting vars from .config/environment.d manually..."
+#     notify-send $msg
+#     echo $msg
+#     set -o allexport
+#     for f in ~/.config/environment.d/*; do source $f; done
+#     set +o allexport
+#
+#     # remove duplicates in PATH
+#     export PATH=$(echo -n $PATH | awk -v RS=: '!($0 in a) {a[$0]; printf("%s%s", length(a) > 1 ? ":" : "", $0)}')
+# else
+#     notify-send "already loaded"
+# fi
+#
+# gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
 
 # mac keyboard remap
-# xmodmap ~/.xmodmaprc
 # synclient HorizTwoFingerScroll=1 HorizEdgeScroll=0 VertEdgeScroll=0 VertScrollDelta=-247 HorizScrollDelta=-247
-xmodmap ~/.Xmodmap
-
-# TODO: set up this to be started by a daemon something or other
-# this is probably not a great idea
-# polkitbin='/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1'
-#
-# if [ -f "$polkitbin" ]; then
-#   $polkitbin &
-# fi
-
-# workaround for annoying thing
-# killall pulseaudio
-# alsa force-reload

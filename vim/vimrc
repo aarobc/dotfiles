@@ -1,4 +1,4 @@
-"------------------------------------------------------------------[Vundle]----
+"------------------------------------------------------------------[Plugins]----
 source ~/.vim/bundles.vim
 
 "------------------------------------------------------------------[General]----
@@ -6,24 +6,20 @@ source ~/.vim/bundles.vim
 " case this file is being sourced a second time.
 augroup vimrc | execute 'autocmd!' | augroup END
 
-filetype plugin indent on     " required!
-
 syntax on
 "default vim background color for monokai theme:
 let g:molokai_original=1
 set t_Co=256
 
+if (has("termguicolors"))
+  set termguicolors
+endif
 colorscheme molokai
 "run syntax check on entire document
-autocmd BufEnter * :syntax sync fromstart
-" typescript template syntax
+" autocmd BufEnter * :syntax sync fromstart
+autocmd BufRead,BufNewFile .env.* set filetype=sh
 
-"attempt to fix weird background color issues
-"shouldn't need to mess with this because tmux alias yay
-"set term=screen-256color
-"set term=xterm-256color
 set shell=/bin/zsh
-
 set lazyredraw
 set nowrap
 
@@ -59,7 +55,7 @@ let mapleader=","
 set autochdir
 
 "when pasting into vim:
-set pastetoggle=<F10>
+" set pastetoggle=<F10>
 
 "---------------------------------[Search]----
 set hlsearch
@@ -99,10 +95,6 @@ if ! has('gui_running')
     augroup END
 endif
 
-"potatoes
-"green
-" vnoremap yy "py
-
 "easier window navigation
 nnoremap <silent> <Tab> :wincmd w<CR>
 nnoremap <silent> <S-Tab> :wincmd W<CR>
@@ -128,27 +120,8 @@ au BufRead,BufNewFile *.vue set filetype=html
 " workaround for neovim and tcomment plugin bug
 au BufNewFile,BufRead *.jsx setlocal filetype=javascript.jsx
 
-"javascript folding
-" function! s:JavascriptFileType()
-"     "set nofoldenable
-"     " set foldlevelstart=0
-"     " fold methods available: syntax indent marker
-"     " set foldmethod=indent
-"     " set foldignore=
-"     " set foldnestmax=1
-"
-"
-"     " "Refocus" folds
-"     nnoremap ,z zMzvzz
-"
-"     " Make zO recursively open whatever top level fold we're in, no matter where the
-"     " cursor happens to be.
-"     nnoremap zO zCzO
-" endfunction
-
 " set conceallevel=1
 
-" because stupid work decided to use 4 spaces on html
 " autocmd filetype type args
 
 au FileType make            setlocal ts=2 sts=2 tw=2 noet
@@ -160,8 +133,7 @@ au Filetype yaml            setlocal ts=2 sts=2 sw=2 expandtab
 au Filetype typescript      setlocal ts=2 sts=2 sw=2 expandtab
 au Filetype json            setlocal ts=2 sts=2 sw=2 expandtab
 
-
-au      BufNewFile,BufRead Jenkinsfile setf groovy
+au BufNewFile,BufRead Jenkinsfile setf groovy
 
 " let g:SignatureForceRemoveGlobal = 0
 
@@ -221,22 +193,7 @@ let g:javascript_enable_domhtmlcss = 1
 "to prevent annoying behavior of the folding plugin
 let g:DisableAutoPHPFolding = 1
 
-function! PhpSyntaxOverride()
-    "folding stuff
-    let php_folding=0
-    setlocal foldmethod=manual
-    " EnableFastPHPFolds
-    EnablePHPFolds
-    normal zR
-    "syntax stuff
-    hi! def link phpDocTags  phpDefine
-    hi! def link phpDocParam phpType
-endfunction
 
-augroup phpSyntaxOverride
-    autocmd!
-    autocmd FileType php call PhpSyntaxOverride()
-augroup END
 
 " check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
 set autoread
@@ -250,21 +207,14 @@ let delimitMate_matchpairs = '(:),{:},[:]'
 " look into this:
 "https://github.com/chrisbra/vim_dotfiles/blob/master/plugin/CustomFoldText.vim
 
-"syntastic:
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-
 "vim-go:
-let g:go_autodetect_gopath = 1
+" let g:go_autodetect_gopath = 1
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-let g:easy_align_ignore_groups = []
+" let g:easy_align_ignore_groups = ['string']
 
 "move between splits:
 nnoremap <C-H> <C-W><C-H>
@@ -325,16 +275,9 @@ let g:ale_sign_warning = '⚠'
 let g:ale_fix_on_save = 1
 " manually trigger with ALEFix
 
-"coc
+" let g:rhubarb_gbrowse_host_order = ['bitbucket', 'github']
+" let g:rhubarb_gbrowse_protocol_order = ['https', 'git']
 
-"coc.vim tab complete
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-" coc.vim autocomplete on tab
-inoremap <silent><expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
 
 "reference:
 "tabm <number> moves tab to that location.
@@ -348,3 +291,8 @@ inoremap <silent><expr> <Tab> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<C
 "freedom in visual mode
 " :set virtualedit=all
 " then use Afoo to instert multiple columns
+
+" color highlighting
+" set tgc
+"toggle color codes:
+" :ColorToggle

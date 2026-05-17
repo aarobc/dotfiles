@@ -8,40 +8,64 @@
     ~/.vim:
       force: true
       path: vim
+
     ~/.config/nvim:
       force: true
       path: vim
-    ~/.config/i3:
+
+    ~/.config/hypr:
       force: true
-      path: i3
-    ~/.vimrc:
-      force: true
-      path: vimrc
+      path: hypr
+
     ~/.config/nvim/init.vim:
       force: true
       create: true
-      path: vimrc
+      path: vim/vimrc
+
     ~/.tmux.conf:
       force: true
       path: tmux.conf
+
     ~/.zshrc:
       force: true
       path: zshrc
+
     ~/.profile:
       force: true
       path: profile
+
+    ~/.config/environment.d/60-dotfiles.conf:
+      force: true
+      create: true
+      path: environment
+
     ~/.config/i3status/config:
       force: true
+      create: true
       path: i3status.conf
+
+    ~/.config/i3:
+      force: true
+      path: i3
+
     ~/.Xmodmap:
       force: true
       path: Xmodmap
-    ~/.config/i3blocks/config:
-      force: true
-      path: i3blocks.conf
+
     ~/.config/kitty/kitty.conf:
       force: true
+      create: true
       path: kitty.conf
-    ~/.config/i3-resurrect:
+
+    ~/.config/sway:
       force: true
-      path: i3-resurrect
+      path: sway
+
+    ~/.config/waybar:
+      force: true
+      path: waybar
+
+    ~/.config/foot/foot.ini:
+      force: true
+      create: true
+      path: foot.ini

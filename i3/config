@@ -1,9 +1,7 @@
-# i3 config file (v4)
-# Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-# mod = alt, $sup = Windows key
-set $mod    Mod1
-set $sup    Mod4
+# Mod1 = alt, Mod4 = Windows key
+set $sup    Mod1
+set $mod    Mod4
 
 set $apos   24
 set $comma  25
@@ -26,13 +24,6 @@ set $s 47
 set $j 54
 set $k 55
 
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below. ISO 10646 = Unicode
-# The font above is very space-efficient, that is, it looks good, sharp and
-# clear in small sizes. However, if you need a lot of unicode glyphs or
-# right-to-left text rendering, you should instead use pango for rendering and
-# chose a FreeType font, such as:
-# font pango:DejaVu Sans Mono 10
 
 # --- Interface ---------------------------------------------------------------------
 #font -*-termsynu-medium-r-*-13-*-*-*-*-*-*-*

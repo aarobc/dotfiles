@@ -1,0 +1,21 @@
+
+EDITOR=/usr/bin/vim
+GTK_THEME=Adwaita:dark
+
+# XDG_CURRENT_DESKTOP=sway
+# XDG_SESSION_DESKTOP=sway
+# XKB_DEFAULT_LAYOUT=us
+# XKB_DEFAULT_VARIANT=dvorak
+# XKB_DEFAULT_MODEL=pc101
+# XKB_DEFAULT_OPTIONS=caps:escape
+
+KITTY_ENABLE_WAYLAND=1
+XDG_SESSION_TYPE=wayland
+_JAVA_AWT_WM_NONREPARENTING=0
+
+PATH=$HOME/.local/bin:$PATH
+PATH=$PATH:$HOME/.npm-global/bin
+PATH=$PATH:$HOME/.local/share/JetBrains/Toolbox/bin
+PATH=$PATH:$HOME/.cargo/bin
+
+NODE_PATH=$HOME/.npm-global/lib/node_modules
