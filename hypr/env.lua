@@ -1,0 +1,13 @@
+-- Environment Variables
+hl.env("XCURSOR_SIZE", "24")
+hl.env("HYPRCURSOR_SIZE", "24")
+hl.env("QT_AUTO_SCREEN_SCALE_FACTOR", "0")
+hl.env("QT_QPA_PLATFORM", "wayland;xcb")
+hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
+hl.env("GTK_THEME", "Adwaita:dark")
+hl.env("_JAVA_AWT_WM_NONREPARENTING", "0")
+hl.env("ELECTRON_OZONE_PLATFORM_HINT", "auto")
+hl.env("XDG_SESSION_TYPE", "wayland")
+hl.env("XKB_DEFAULT_LAYOUT", "us")
+hl.env("XKB_DEFAULT_VARIANT", "dvorak")
+hl.env("GDK_SCALE", "1")
