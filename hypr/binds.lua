@@ -22,6 +22,11 @@ local k      = "code:55"
 local terminal = "foot"
 local menu = "wofi --show run --insensitive --matching strict-contains"
 
+local function log(msg)
+    local f = io.open("/tmp/hypr_debug.log", "a")
+    if f then f:write(msg .. "\n") f:close() end
+end
+
 -- Lock
 hl.bind(mod .. " + " .. l, hl.dsp.exec_cmd("hyprlock"))
 
@@ -46,9 +51,56 @@ hl.bind(mod .. " + " .. s, hy3.move_focus("r"))
 hl.bind(mod .. " + " .. n, hy3.move_focus("u"))
 hl.bind(mod .. " + " .. t, hy3.move_focus("d"))
 
--- Move window (hy3)
-hl.bind(mod .. " + SHIFT + " .. h, hy3.move_window("l"))
-hl.bind(mod .. " + SHIFT + " .. s, hy3.move_window("r"))
+-- Pre-create hy3 move_window dispatchers at config-load time
+local hy3_mv_l = hy3.move_window("l")
+local hy3_mv_r = hy3.move_window("r")
+
+
+local function get_adjacent_monitor(focused, dir)
+    local monitors = hl.get_monitors()
+
+    for _, mon in ipairs(monitors) do
+        if dir == "r" and mon.x == (focused.x + focused.width) then
+            return mon
+        elseif dir == "l" and (mon.x + mon.width) == focused.x then
+            return mon
+        end
+    end
+    return nil
+end
+
+
+local function move_window_h(dir, fallback)
+    local win = hl.get_active_window()
+    if not win then
+        hl.dispatch(fallback)
+        return
+    end
+
+    local before_x = win.at.x
+    local before_y = win.at.y
+    local mon = win.monitor
+    hl.dispatch(fallback)
+
+    -- log(tostring(mon.id))
+    -- if win.at.x ~= before_x or win.at.y ~= before_y or not mon then
+    if win.at.x ~= before_x or win.at.y ~= before_y then
+        return
+    end
+
+    adj = get_adjacent_monitor(mon, dir)
+
+    if not adj then
+        return
+    end
+    log("adj: " .. adj.name)
+    log("cur: " .. tostring(mon.name))
+    log("")
+    hl.dispatch(hl.dsp.window.move({ monitor = adj, follow = true }))
+end
+
+hl.bind(mod .. " + SHIFT + " .. h, function() move_window_h("l", hy3_mv_l) end)
+hl.bind(mod .. " + SHIFT + " .. s, function() move_window_h("r", hy3_mv_r) end)
 hl.bind(mod .. " + SHIFT + " .. n, hy3.move_window("u"))
 hl.bind(mod .. " + SHIFT + " .. t, hy3.move_window("d"))
 
