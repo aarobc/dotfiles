@@ -23,8 +23,8 @@ local terminal = "foot"
 local menu = "wofi --show run --insensitive --matching strict-contains"
 
 local function log(msg)
-    local f = io.open("/tmp/hypr_debug.log", "a")
-    if f then f:write(msg .. "\n") f:close() end
+	local f = io.open("/tmp/hypr_debug.log", "a")
+	if f then f:write(msg .. "\n") f:close() end
 end
 
 -- Lock
@@ -56,43 +56,43 @@ local hy3_mv_l = hy3.move_window("l")
 local hy3_mv_r = hy3.move_window("r")
 
 local function get_adjacent_monitor(focused, dir)
-    local monitors = hl.get_monitors()
+	local monitors = hl.get_monitors()
 
-    for _, mon in ipairs(monitors) do
-        if dir == "r" and mon.x == (focused.x + focused.width) then
-            return mon
-        elseif dir == "l" and (mon.x + mon.width) == focused.x then
-            return mon
-        end
-    end
-    return nil
+	for _, mon in ipairs(monitors) do
+		if dir == "r" and mon.x == (focused.x + focused.width) then
+			return mon
+		elseif dir == "l" and (mon.x + mon.width) == focused.x then
+			return mon
+		end
+	end
+	return nil
 end
 
 
 local function move_window_h(dir, fallback)
-    local win = hl.get_active_window()
-    if not win then
-        hl.dispatch(fallback)
-        return
-    end
+	local win = hl.get_active_window()
+	if not win then
+		hl.dispatch(fallback)
+		return
+	end
 
-    local before_x = win.at.x
-    local before_y = win.at.y
-    local mon = win.monitor
-    hl.dispatch(fallback)
+	local before_x = win.at.x
+	local before_y = win.at.y
+	local mon = win.monitor
+	hl.dispatch(fallback)
 
-    local after = hl.get_active_window()
-    if not after or after.at.x ~= before_x or after.at.y ~= before_y then
-        return
-    end
+	local after = hl.get_active_window()
+	if not after or after.at.x ~= before_x or after.at.y ~= before_y then
+		return
+	end
 
-    local adj = get_adjacent_monitor(mon, dir)
+	local adj = get_adjacent_monitor(mon, dir)
 
-    if not adj then
-        return
-    end
-    -- log(adj.active_workspace.name)
-    hl.dispatch(hl.dsp.window.move({ monitor = adj, follow = true }))
+	if not adj then
+		return
+	end
+	-- log(adj.active_workspace.name)
+	hl.dispatch(hl.dsp.window.move({ monitor = adj, follow = true }))
 end
 
 hl.bind(mod .. " + SHIFT + " .. h, function() move_window_h("l", hy3_mv_l) end)
@@ -102,9 +102,9 @@ hl.bind(mod .. " + SHIFT + " .. t, hy3.move_window("d"))
 
 -- Workspaces
 for i = 1, 10 do
-    local key = i % 10 -- 10 maps to "0"
-    hl.bind(mod .. " + " .. key,         hl.dsp.focus({ workspace = i }))
-    hl.bind(mod .. " + SHIFT + " .. key, hy3.move_to_workspace(i))
+	local key = i % 10 -- 10 maps to "0"
+	hl.bind(mod .. " + " .. key,         hl.dsp.focus({ workspace = i }))
+	hl.bind(mod .. " + SHIFT + " .. key, hy3.move_to_workspace(i))
 end
 
 -- Move current workspace to monitor
