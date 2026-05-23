@@ -35,6 +35,7 @@ set backspace=indent,eol,start
 " set softtabstop=4
 " set shiftwidth=4
 set expandtab
+set listchars=tab:→\ ,space:·,trail:▸,nbsp:+
 set background=dark
 set autoindent
 " set smartindent
@@ -125,6 +126,7 @@ au BufNewFile,BufRead *.jsx setlocal filetype=javascript.jsx
 " autocmd filetype type args
 
 au FileType make            setlocal ts=2 sts=2 tw=2 noet
+au FileType lua             setlocal ts=2 sts=2 sw=2 noexpandtab
 au Filetype html            setlocal ts=2 sts=2 sw=2
 au Filetype javascript      setlocal ts=2 sts=2 sw=2
 au Filetype javascriptreact setlocal ts=2 sts=2 sw=2 expandtab

@@ -55,7 +55,6 @@ hl.bind(mod .. " + " .. t, hy3.move_focus("d"))
 local hy3_mv_l = hy3.move_window("l")
 local hy3_mv_r = hy3.move_window("r")
 
-
 local function get_adjacent_monitor(focused, dir)
     local monitors = hl.get_monitors()
 
@@ -82,20 +81,17 @@ local function move_window_h(dir, fallback)
     local mon = win.monitor
     hl.dispatch(fallback)
 
-    -- log(tostring(mon.id))
-    -- if win.at.x ~= before_x or win.at.y ~= before_y or not mon then
-    if win.at.x ~= before_x or win.at.y ~= before_y then
+    local after = hl.get_active_window()
+    if not after or after.at.x ~= before_x or after.at.y ~= before_y then
         return
     end
 
-    adj = get_adjacent_monitor(mon, dir)
+    local adj = get_adjacent_monitor(mon, dir)
 
     if not adj then
         return
     end
-    log("adj: " .. adj.name)
-    log("cur: " .. tostring(mon.name))
-    log("")
+    -- log(adj.active_workspace.name)
     hl.dispatch(hl.dsp.window.move({ monitor = adj, follow = true }))
 end
 
