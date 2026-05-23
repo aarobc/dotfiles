@@ -33,28 +33,30 @@ hl.bind(mod .. " + SHIFT + space",     hl.dsp.window.float({ action = "toggle" }
 hl.bind(mod .. " + " .. e,             hl.dsp.exec_cmd(menu))
 hl.bind(mod .. " + " .. u,             hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
 
--- hy3 splits (hy3 plugin dispatchers; invoked via exec_raw since hy3 has no Lua API)
-hl.bind(mod .. " + " .. d, hl.dsp.exec_raw("hy3:makegroup h"))
-hl.bind(mod .. " + " .. k, hl.dsp.exec_raw("hy3:makegroup v"))
-hl.bind(mod .. " + A",     hl.dsp.exec_raw("hy3:changefocus raise"))
+local hy3 = hl.plugin.hy3
+
+-- hy3 splits
+hl.bind(mod .. " + " .. d, hy3.make_group("h"))
+hl.bind(mod .. " + " .. k, hy3.make_group("v"))
+hl.bind(mod .. " + A",     hy3.change_focus("raise"))
 
 -- Focus (hy3)
-hl.bind(mod .. " + " .. h, hl.dsp.exec_raw("hy3:movefocus l"))
-hl.bind(mod .. " + " .. s, hl.dsp.exec_raw("hy3:movefocus r"))
-hl.bind(mod .. " + " .. n, hl.dsp.exec_raw("hy3:movefocus u"))
-hl.bind(mod .. " + " .. t, hl.dsp.exec_raw("hy3:movefocus d"))
+hl.bind(mod .. " + " .. h, hy3.move_focus("l"))
+hl.bind(mod .. " + " .. s, hy3.move_focus("r"))
+hl.bind(mod .. " + " .. n, hy3.move_focus("u"))
+hl.bind(mod .. " + " .. t, hy3.move_focus("d"))
 
 -- Move window (hy3)
-hl.bind(mod .. " + SHIFT + " .. h, hl.dsp.exec_raw("hy3:movewindow l"))
-hl.bind(mod .. " + SHIFT + " .. s, hl.dsp.exec_raw("hy3:movewindow r"))
-hl.bind(mod .. " + SHIFT + " .. n, hl.dsp.exec_raw("hy3:movewindow u"))
-hl.bind(mod .. " + SHIFT + " .. t, hl.dsp.exec_raw("hy3:movewindow d"))
+hl.bind(mod .. " + SHIFT + " .. h, hy3.move_window("l"))
+hl.bind(mod .. " + SHIFT + " .. s, hy3.move_window("r"))
+hl.bind(mod .. " + SHIFT + " .. n, hy3.move_window("u"))
+hl.bind(mod .. " + SHIFT + " .. t, hy3.move_window("d"))
 
 -- Workspaces
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to "0"
     hl.bind(mod .. " + " .. key,         hl.dsp.focus({ workspace = i }))
-    hl.bind(mod .. " + SHIFT + " .. key, hl.dsp.exec_raw("hy3:movetoworkspace " .. i))
+    hl.bind(mod .. " + SHIFT + " .. key, hy3.move_to_workspace(i))
 end
 
 -- Move current workspace to monitor
