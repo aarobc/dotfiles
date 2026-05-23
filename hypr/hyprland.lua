@@ -1,7 +1,7 @@
 -- Hyprland Lua Configuration
 -- Entry point
 
--- Load modules
+-- Shared modules
 require("env")
 require("monitors")
 require("input")
@@ -11,6 +11,12 @@ require("binds")
 require("plugins")
 require("autostart")
 
--- Custom configurations
--- Note: Lua doesn't have a direct 'source *' equivalent easily, 
--- but you can manually require files here if you add any to custom/
+-- Per-machine config: load every *.lua in custom/
+local custom_dir = os.getenv("HOME") .. "/.config/hypr/custom"
+local p = io.popen('ls "' .. custom_dir .. '"/*.lua 2>/dev/null')
+if p then
+    for path in p:lines() do
+        dofile(path)
+    end
+    p:close()
+end

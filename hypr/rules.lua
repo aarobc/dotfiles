@@ -7,7 +7,7 @@ hl.window_rule({
 
 hl.window_rule({
     name = "1password-float",
-    match = { class = "1password", title = "1Password" },
+    match = { class = "1password", initial_title = "1Password" },
     float = true
 })
 

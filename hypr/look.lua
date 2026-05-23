@@ -30,6 +30,9 @@ hl.config({
             vibrancy = 0.1696
         }
     },
+    animations = {
+        enabled = true
+    },
     dwindle = {
         preserve_split = true,
         permanent_direction_override = true

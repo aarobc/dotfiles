@@ -2,6 +2,7 @@ vim/plugged/
 vim/shada
 vim/init.vim
 vim/sessions
+vim/autoload
 *.swp
 mackbd*
 i3/res
