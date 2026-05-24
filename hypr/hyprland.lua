@@ -1,7 +1,3 @@
--- Hyprland Lua Configuration
--- Entry point
-
--- Shared modules
 require("env")
 require("monitors")
 require("input")
