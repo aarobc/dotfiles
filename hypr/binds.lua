@@ -54,10 +54,6 @@ hl.bind(sc(mod, s), hy3.move_focus("r"))
 hl.bind(sc(mod, n), hy3.move_focus("u"))
 hl.bind(sc(mod, t), hy3.move_focus("d"))
 
--- Pre-create hy3 move_window dispatchers at config-load time
--- local hy3_mv_l = hy3.move_window("l")
--- local hy3_mv_r = hy3.move_window("r")
-
 hl.bind(sc(mod, "SHIFT", h), function() move_window_h("l", hy3.move_window("l")) end)
 hl.bind(sc(mod, "SHIFT", s), function() move_window_h("r", hy3.move_window("r")) end)
 hl.bind(sc(mod, "SHIFT", n), hy3.move_window("u"))
