@@ -5,7 +5,7 @@ local function sc(...)
 end
 
 -- Forward declarations for runtime functions defined at the bottom of the file
-local log, get_adjacent_monitor, move_window_h, ensure_flat_column, is_window_at_extreme
+local log, get_adjacent_monitor, move_window_h, is_window_a_column, is_window_at_extreme, same_workspace
 
 -- Keycodes (physical QWERTY positions, used so binds stay stable across layouts)
 local apos   = 'code:24'
@@ -115,7 +115,9 @@ function is_window_a_column(win)
 	for _, w in ipairs(hl.get_windows()) do
 		if w.address ~= win.address and not w.floating and same_workspace(w, win) then
 			-- If any other window overlaps in X, it is stacked vertically (so win is not a standalone column)
-			if not (w.at.x + w.size.x - 10 <= win.at.x or w.at.x >= win.at.x + win.size.x - 10) then
+			local is_left = w.at.x + w.size.x - 10 <= win.at.x
+			local is_right = w.at.x >= win.at.x + win.size.x - 10
+			if not (is_left or is_right) then
 				return false
 			end
 		end
@@ -126,7 +128,6 @@ end
 
 function move_window_h(dir, fallback)
 	local win = hl.get_active_window()
-
 	if not win then
 		hl.dispatch(fallback)
 		return
@@ -148,21 +149,16 @@ function move_window_h(dir, fallback)
 		return
 	end
 
-
-	local before = win.at
-	local bs = win.size
 	hl.dispatch(fallback)
 	if is_window_a_column(win) then
 		-- Promote the column out of any nested horizontal group containers
 		log('out of group')
 		hl.dispatch(hl.dsp.window.move({ out_of_group = true }))
-		hl.dispatch(hy3.equalize({
-					scope = "workspace"
-			}))
+		hl.dispatch(hy3.equalize({ scope = "workspace" }))
 	end
 end
 
-local function same_workspace(w1, w2)
+function same_workspace(w1, w2)
 	if not w1 or not w2 then return false end
 	if w1.workspace == w2.workspace then return true end
 
@@ -182,28 +178,20 @@ local function same_workspace(w1, w2)
 end
 
 function is_window_at_extreme(win, dir)
-
-	if not win or win.floating then return false end
-	if dir ~= "l" and dir ~= "r" then return false end
-
-	-- 1. Must be a full-height column (no windows above/below)
-	if not is_window_a_column(win) then
-		return false
+	-- Support swapped parameter order
+	if type(win) == "string" and type(dir) == "table" then
+		win, dir = dir, win
 	end
 
-	-- 2. Must be at the extreme edge in the given direction
+	if not win or win.floating or (dir ~= "l" and dir ~= "r") then return false end
+	if not is_window_a_column(win) then return false end
+
 	for _, w in ipairs(hl.get_windows()) do
 		if w.address ~= win.address and not w.floating and same_workspace(w, win) then
-			if dir == "l" then
-				-- Is there any window completely to the left?
-				if w.at.x + w.size.x - 10 <= win.at.x then
-					return false
-				end
-			elseif dir == "r" then
-				-- Is there any window completely to the right?
-				if w.at.x >= win.at.x + win.size.x - 10 then
-					return false
-				end
+			if dir == "l" and w.at.x + w.size.x - 10 <= win.at.x then
+				return false
+			elseif dir == "r" and w.at.x >= win.at.x + win.size.x - 10 then
+				return false
 			end
 		end
 	end
