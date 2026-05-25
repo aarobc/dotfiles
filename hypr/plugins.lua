@@ -2,12 +2,10 @@
 hl.config({
 	plugin = {
 		hy3 = {
-			no_gaps_when_only = 1,
-			node_collapse_policy = 2,
+			node_collapse_policy = 0,
 			group_inset = 0,
 			autotile = {
-				enable = true,
-				ephemeral_groups = true,
+				enable = false,
 				trigger_width = 0,
 				trigger_height = 0
 			}

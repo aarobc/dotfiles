@@ -47,3 +47,15 @@ hl.window_rule({
 	match = { class = "^gcr-prompter$", title = "^Unlock Login Keyring$", float = true },
 	stay_focused = true
 })
+
+-- Workspace Rules
+-- Emulate legacy "no_gaps_when_only" / "smart gaps" behavior:
+-- Removes gaps, borders, and rounding when exactly one tiled window is visible on a workspace.
+hl.workspace_rule({
+	workspace = "w[tv1]",
+	gaps_in = 0,
+	gaps_out = 0,
+	no_border = true,
+	no_rounding = true
+})
+
