@@ -137,25 +137,25 @@ function move_window_h(dir, fallback)
 		local adj = get_adjacent_monitor(win.monitor, dir)
 		if not adj then return end
 		hl.dispatch(hy3.move_to_workspace(adj.active_workspace.name, {follow = true}))
-		hl.dispatch(hl.dsp.window.move({ out_of_group = true }))
 
 		-- Shove the window to the extreme opposite side of the new workspace
 		local target_dir = (dir == 'r') and 'l' or 'r'
+		local op_dir = (dir == 'r') and 'r' or 'l'
+
 		for i = 1, 10 do
 			hl.dispatch(hy3.move_window(target_dir))
 		end
 
-		hl.dispatch(hy3.equalize({ scope = "workspace" }))
+		hl.dispatch(hy3.move_window(op_dir, {follow = true}))
+		hl.dispatch(hl.dsp.window.move({ out_of_group = true }))
 		return
 	end
 
 	hl.dispatch(fallback)
-	if is_window_a_column(win) then
-		-- Promote the column out of any nested horizontal group containers
-		log('out of group')
-		hl.dispatch(hl.dsp.window.move({ out_of_group = true }))
-		hl.dispatch(hy3.equalize({ scope = "workspace" }))
-	end
+	-- if is_window_a_column(win) then
+	-- 	-- Promote the column out of any nested horizontal group containers
+	-- 	hl.dispatch(hl.dsp.window.move({ out_of_group = true }))
+	-- end
 end
 
 function same_workspace(w1, w2)

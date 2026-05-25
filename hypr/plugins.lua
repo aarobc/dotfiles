@@ -5,8 +5,9 @@ hl.config({
 			node_collapse_policy = 0,
 			group_inset = 0,
 			autotile = {
+				ephemeral_groups = true,
 				enable = false,
-				trigger_width = 0,
+				trigger_width = -1,
 				trigger_height = 0
 			}
 		}
