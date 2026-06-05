@@ -1,28 +1,59 @@
 {
-    "height": 25,
+    "height": 30,
     "layer": "top",
-    "modules-left": [
-        "hyprland/workspaces",
-        "hyperland/submap",
-        "sway/workspaces",
-        "sway/mode"
-     ],
+    "margin": "0 0",
 
-    "modules-center": ["hyprland/window", "sway/window"],
-    "modules-right": [
-        "custom/share",
-        "custom/shot",
-        "idle_inhibitor",
-        "pulseaudio",
-        "network",
-        "cpu",
-        "memory",
-        "temperature",
-        "custom/layout",
-        "battery",
-        "clock",
-        "tray"
-    ],
+    "group/left": {
+        "orientation": "horizontal",
+        "modules": [
+            "hyprland/workspaces",
+            "hyprland/submap",
+            "sway/workspaces",
+            "sway/mode",
+            "mpris"
+        ]
+    },
+
+    "group/group-volume": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 500,
+            "transition-left-to-right": true,
+            "reveal-delay": 400
+        },
+        "modules": ["pulseaudio", "pulseaudio/slider"]
+    },
+
+    "group/right": {
+        "orientation": "horizontal",
+        "modules": [
+            "clock",
+            "custom/shot",
+            "idle_inhibitor",
+            "group/group-volume",
+            "cpu",
+            "temperature",
+            "battery",
+            "tray"
+        ]
+    },
+
+    "modules-left":   ["group/left"],
+    "modules-center": [],
+    "modules-right":  ["group/right"],
+
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-scroll-up":   "~/dotfiles/waybar/scroll.sh 0",
+        "on-scroll-down": "~/dotfiles/waybar/scroll.sh 1"
+    },
+    "hyprland/submap": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "hyprland/window": {
+        "separate-outputs": true,
+        "max-length": 40
+    },
 
     "sway/workspaces": {
         "disable-scroll-wraparound": true,
@@ -30,64 +61,36 @@
         "enable-bar-scroll":         true,
         "all-outputs":               false
     },
-    "hyprland/window": {
-        "separate-outputs": true
-    },
-
-
-    "hyprland/workspaces": {
-        "format": "{icon}",
-        "on-scroll-up":   "~/dotfiles/waybar/scroll.sh 0",
-        "on-scroll-down": "~/dotfiles/waybar/scroll.sh 1"
-    },
-    "hyperland/submap": {
+    "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
+    "mpris": {
+        "format": "{status_icon} {artist} - {title}",
+        "format-paused": "{status_icon} {artist} - {title}",
+        "status-icons": {
+            "playing": "",
+            "paused":  "",
+            "stopped": ""
+        },
+        "max-length": 40,
+        "on-click": "playerctl play-pause"
+    },
+
 
     "custom/shot": {
         "format":   " shot ",
         "on-click": "grim -g \"$(slurp)\" - | swappy -f -"
     },
 
-    "sway/mode": {
-        "format": "<span style=\"italic\">{}</span>"
-    },
-    "mpd": {
-        "format":              "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ ",
-        "format-disconnected": "Disconnected ",
-        "format-stopped":      "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ",
-        "unknown-tag":         "N/A",
-        "interval":            2,
-        "consume-icons": {
-            "on": " "
-        },
-        "random-icons": {
-            "off": "<span color=\"#f53c3c\"></span> ",
-            "on":  " "
-        },
-        "repeat-icons": {
-            "on": " "
-        },
-        "single-icons": {
-            "on": "1 "
-        },
-        "state-icons": {
-            "paused":  "",
-            "playing": ""
-        },
-        "tooltip-format":              "MPD (connected)",
-        "tooltip-format-disconnected": "MPD (disconnected)"
-    },
     "idle_inhibitor": {
         "format": "{icon}",
         "format-icons": {
-            "activated":   "",
-            "deactivated": ""
+            "activated":   "",
+            "deactivated": ""
         }
     },
     "tray": {
-        // "icon-size": 21,
-        "spacing":      10
+        "spacing": 10
     },
     "clock": {
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
@@ -95,75 +98,73 @@
         "format-alt":     "{:%Y-%m-%d}"
     },
     "cpu": {
-        "format": "{usage}% ",
+        "format": "{usage}% ",
         "tooltip": false
     },
     "memory": {
-        "format": "{}% "
+        "format": "{}% "
     },
     "temperature": {
-        // "thermal-zone":    2,
-        // "hwmon-path":      "/sys/class/hwmon/hwmon2/temp1_input",
         "critical-threshold": 80,
-        // "format-critical": "{temperatureC}°C {icon}",
-        "format":             "{temperatureC}°C {icon}",
-        "format-icons":       ["", "", ""]
+        "warning-threshold":  60,
+        "format":             "",
+        "tooltip-format":     "{temperatureC}°C"
     },
     "backlight": {
-        // "device":    "acpi_video1",
         "format":       "{percent}% {icon}",
-        "format-icons": ["", ""]
+        "format-icons": ["", ""]
     },
     "battery": {
         "states": {
-            "good":  95,
+            "good":     95,
             "warning":  30,
             "critical": 15
         },
-        "format":          "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
-        "format-plugged":  "{capacity}% ",
-        "format-alt":      "{time} {icon}",
+        "format":          "{icon}",
+        "format-charging": "",
+        "format-plugged":  "",
+        "format-alt":      "{capacity}% {icon}",
+        "tooltip-format":  "{capacity}% — {time}",
         "format-icons":    ["", "", "", "", ""]
     },
-    "battery#bat2": {
-        "bat": "BAT2"
-    },
     "network": {
-        "format-wifi":         "{essid} ({signalStrength}%) ",
-        "format-ethernet":     "{ipaddr} ",
-        "format-linked":       "{ifname} (No IP) ",
+        "format-wifi":         "{essid} ({signalStrength}%) ",
+        "format-ethernet":     "{ipaddr} ",
+        "format-linked":       "{ifname} (No IP) ",
         "format-disconnected": "Disconnected ⚠",
         "format-alt":          "{ifname}: {ipaddr}"
     },
     "pulseaudio": {
         "scroll-step":            1,
-        "format":                 "{volume}% {icon} {format_source}",
-        "format-bluetooth":       "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted":           " {format_source}",
-        "format-source":          "{volume}% ",
-        "format-source-muted":    "",
+        "format":                 "{icon}",
+        "format-bluetooth":       "{icon}",
+        "format-bluetooth-muted": "",
+        "format-muted":           "",
+        "tooltip-format":         "{volume}%",
         "format-icons": {
             "headphone":  "",
-            "hands-free": "",
-            "headset":    "",
-            "phone":      "",
-            "portable":   "",
-            "car":        "",
+            "hands-free": "",
+            "headset":    "",
             "default":    ["", "", ""]
         },
         "on-click": "pavucontrol"
     },
-    "custom/media": {
-        "format":      "{icon} {}",
-        "return-type": "json",
-        "max-length":  40,
-        "format-icons": {
-            "spotify": "",
-            "default": "🎜"
+    "pulseaudio/slider": {
+        "min": 0,
+        "max": 100,
+        "orientation": "horizontal"
+    },
+
+    "mpd": {
+        "format":              "{stateIcon} {artist} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})",
+        "format-disconnected": "Disconnected ",
+        "format-stopped":      "Stopped ",
+        "interval":            2,
+        "state-icons": {
+            "paused":  "",
+            "playing": ""
         },
-        "escape": true,
-        "exec":   "$HOME/.config/waybar/mediaplayer.py 2> /dev/null"
+        "tooltip-format":              "MPD (connected)",
+        "tooltip-format-disconnected": "MPD (disconnected)"
     }
 }
