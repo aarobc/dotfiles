@@ -11,21 +11,29 @@ trap 'rm -f "$LOCKFILE"' EXIT
 
 monitor=$(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')
 current=$(hyprctl activeworkspace -j | jq '.id')
-highest=$(hyprctl workspaces -j | jq -r --arg mon "$monitor" '.[] | select(.monitor == $mon) | .id' | sort -rn | head -n 1)
-lowest=$(hyprctl workspaces -j | jq -r --arg mon "$monitor" '.[] | select(.monitor == $mon) | .id' | sort -n | head -n 1)
 
-if [[ "$1" == "1" && "$current" == "$highest" ]]; then
-  exit 1
-fi
+mapfile -t workspaces < <(hyprctl workspaces -j | jq -r --arg mon "$monitor" '.[] | select(.monitor == $mon) | .id' | sort -n)
 
-if [[ "$1" == "0" && "$current" == "$lowest" ]]; then
-  exit 1
-fi
+idx=-1
+for i in "${!workspaces[@]}"; do
+    if [[ "${workspaces[$i]}" == "$current" ]]; then
+        idx=$i
+        break
+    fi
+done
 
 if [[ "$1" == "1" ]]; then
-  hyprctl dispatch workspace m+1
+    next_idx=$((idx + 1))
+    if [[ $next_idx -lt ${#workspaces[@]} ]]; then
+        target="${workspaces[$next_idx]}"
+        hyprctl dispatch "hl.dsp.focus({workspace=$target})"
+    fi
 fi
 
 if [[ "$1" == "0" ]]; then
-  hyprctl dispatch workspace m-1
+    prev_idx=$((idx - 1))
+    if [[ $prev_idx -ge 0 ]]; then
+        target="${workspaces[$prev_idx]}"
+        hyprctl dispatch "hl.dsp.focus({workspace=$target})"
+    fi
 fi

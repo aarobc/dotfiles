@@ -57,12 +57,7 @@ alias dcr='dc run --rm'
 alias dcrp='dcr --service-ports --use-aliases'
 alias dce='dc exec'
 
-alias v=$HOME/dotfiles/scripts/vimterm.py
-alias xclip='xclip -selection clipboard'
-alias hibernate=$HOME/dotfiles/scripts/hibernate.sh
-alias gitaddall='echo -e "a\n*\nq\n"|git add -i'
 alias used='du -Sh | sort -rh | head -n 15'
-alias nautilus='nautilus --no-desktop'
 alias phpd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html php php'
 alias yarnd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html node yarn'
 alias quickhttp='docker run --rm -it -v $PWD:/usr/share/nginx/html:ro -p 8081:80 -p 4443:443 aarobc/quickhttp'
@@ -72,8 +67,6 @@ alias gitcleanup='git remote prune origin'
 alias clearlaravel='dcr chat sh -c "./artisan cache:clear && ./artisan config:clear && ./artisan config:cache"'
 alias pr='~/dotfiles/scripts/go-to-source pr'
 alias displays='swaymsg -t get_outputs'
-
-# alias twiliod='docker run --rm -it -v $HOME/.twilio-cli:/root/.twilio-cli -v $PWD:$PWD --workdir $PWD aarobc/twilio-cli twilio'
 
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
@@ -94,18 +87,6 @@ export PATH=$PATH:~/dotfiles/scripts
 export PATH=~/.node_modules/bin:$PATH
 export N_PREFIX=$HOME/.local
 
-
-genuuid()
-{
-    od -x /dev/urandom | head -1 | awk '{OFS="-"; print $2$3,$4,$5,$6,$7$8$9}'
-}
-
-
-# rotate video with ffmpeg
-function rotate() {
-  ffmpeg -i "$1" -c copy -metadata:s:v:0 rotate=180 "$2"
-}
-
 # workaround to allow sudo to be used with aliases
 alias sudo='sudo '
 
@@ -125,3 +106,6 @@ function gnwt() {
 POWERLEVEL9K_CONFIG_FILE="~/.config/p10k.zsh"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.config/p10k.zsh ]] || source ~/.config/p10k.zsh
+
+# bun completions
+[ -s "/tmp/bun-latest/_bun" ] && source "/tmp/bun-latest/_bun"

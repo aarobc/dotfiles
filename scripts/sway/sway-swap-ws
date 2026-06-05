@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+error_exit() {
+    notify-send -u critical "Sway Workspace Swap" "$1"
+    echo "Error: $1" >&2
+    exit 1
+}
+
+if [ -z "$1" ]; then
+    echo "Usage: $0 <target_workspace>"
+    exit 1
+fi
+
+TARGET_WS="$1"
+TMP_WS="__swap_tmp"
+
+# Fetch workspace data once
+WS_DATA=$(swaymsg -t get_workspaces)
+CURRENT_WS=$(echo "$WS_DATA" | jq -r '.[] | select(.focused==true).name')
+
+if [ -z "$CURRENT_WS" ]; then
+    error_exit "Could not determine the current workspace."
+fi
+
+if [ "$CURRENT_WS" = "$TARGET_WS" ]; then
+    exit 0
+fi
+
+# Capture the original monitors
+CURRENT_OUT=$(echo "$WS_DATA" | jq -r --arg ws "$CURRENT_WS" '.[] | select(.name==$ws).output // empty')
+TARGET_OUT=$(echo "$WS_DATA" | jq -r --arg ws "$TARGET_WS" '.[] | select(.name==$ws).output // empty')
+
+if [ -n "$TARGET_OUT" ]; then
+    # Target workspace exists. Swap names atomically.
+    # (Escaped quotes around workspace names ensure compatibility with spaces)
+    swaymsg "rename workspace \"$CURRENT_WS\" to \"$TMP_WS\"" >/dev/null 2>&1
+    swaymsg "rename workspace \"$TARGET_WS\" to \"$CURRENT_WS\"" >/dev/null 2>&1
+    swaymsg "rename workspace \"$TMP_WS\" to \"$TARGET_WS\"" >/dev/null 2>&1
+
+    # Snap the renamed workspaces back to their original outputs
+    # swaymsg "workspace \"$CURRENT_WS\", move workspace to output \"$CURRENT_OUT\"" >/dev/null 2>&1
+    # swaymsg "workspace \"$TARGET_WS\", move workspace to output \"$TARGET_OUT\"" >/dev/null 2>&1
+else
+    # Target workspace is empty/doesn't exist.
+    # Renaming current to target essentially "moves" all windows there perfectly.
+    swaymsg "rename workspace \"$CURRENT_WS\" to \"$TARGET_WS\"" >/dev/null 2>&1
+fi
+
+# Focus the original workspace name so you are looking at the newly swapped contents
+swaymsg "workspace \"$CURRENT_WS\"" >/dev/null 2>&1

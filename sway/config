@@ -13,6 +13,7 @@ set $l 33
 set $o 39
 set $e 40
 set $u 41
+set $i 42
 
 set $d 43
 set $h 44
@@ -162,6 +163,12 @@ bindcode $mod+Shift+$r exec swaymsg reload
 # bindcode $mod+Shift+$period exec "swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 bindcode $mod+Shift+$period exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
+# Prompt with existing workspaces to switch to
+bindcode $mod+$i exec ~/dotfiles/scripts/sway/go-to-ws.sh
+
+# Prompt with existing workspaces to move the current window to
+bindcode $mod+Shift+$i exec "swaymsg -t get_workspaces | jq -r '.[].name' | wofi --dmenu -p 'Move to Workspace:' | xargs -r -I {} swaymsg move container to workspace '{}'"
+bindcode $mod+$p exec "echo '' | wofi --dmenu --lines 0 -p 'Rename to:' | xargs -r -I {} swaymsg rename workspace to '{}'"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -186,9 +193,6 @@ mode "resize" {
   bindsym Return mode "default"
   bindsym Escape mode "default"
 }
-
-bindcode $mod+$p mode "resize"
-
 
 # Audio shortcuts
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +3%
@@ -218,7 +222,7 @@ bindsym XF86AudioPrev exec playerctl previous
 bindcode $mod+$l exec "swaylock -c 222222 -k"
 
 # toggle keyboard layout
-bindsym $sup+space exec ~/dotfiles/scripts/layout.sh
+bindsym $sup+space exec ~/dotfiles/scripts/sway/layout.sh
 
 # multiple bars to try making tray show only on inactive
 bar {
