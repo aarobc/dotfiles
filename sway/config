@@ -72,7 +72,7 @@ bindcode $mod+Shift+$apos kill
 
 # start dmenu (a program launcher)
 # bindcode $mod+$e exec --no-startup-id dmenu_run
-bindcode $mod+$e exec --no-startup-id bemenu-run -p "▶" --nb '#000000A0' --ab '#000000A0' -i -c -W .3 -H 25
+bindcode $mod+$e exec --no-startup-id ~/dotfiles/scripts/launcher.sh menu
 
 # move desktop monitor
 bindcode $mod+Shift+Control+$h move workspace to output left
@@ -164,11 +164,11 @@ bindcode $mod+Shift+$r exec swaymsg reload
 bindcode $mod+Shift+$period exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
 # Prompt with existing workspaces to switch to
-bindcode $mod+$i exec ~/dotfiles/scripts/sway/go-to-ws.sh
+bindcode $mod+$i exec ~/dotfiles/scripts/launcher.sh go-to-ws
 
 # Prompt with existing workspaces to move the current window to
-bindcode $mod+Shift+$i exec "swaymsg -t get_workspaces | jq -r '.[].name' | wofi --dmenu -p 'Move to Workspace:' | xargs -r -I {} swaymsg move container to workspace '{}'"
-bindcode $mod+$p exec "echo '' | wofi --dmenu --lines 0 -p 'Rename to:' | xargs -r -I {} swaymsg rename workspace to '{}'"
+bindcode $mod+Shift+$i exec ~/dotfiles/scripts/launcher.sh move-ws
+bindcode $mod+$p exec ~/dotfiles/scripts/launcher.sh rename-ws
 
 # resize window (you can also use the mouse for that)
 mode "resize" {

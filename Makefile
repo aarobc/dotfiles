@@ -1,7 +1,7 @@
 .PHONY: install configs deps install-hypr install-sway install-yay
 
 deps: install-yay
-	sudo pacman -S foot kitty git docker neovim
+	sudo pacman -S foot git docker neovim fuzzel
 
 install-hypr:
 	sudo pacman -S hyprcursor hyprgraphics hypridle hyprland hyprland-guiutils \

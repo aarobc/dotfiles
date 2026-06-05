@@ -26,7 +26,7 @@ local j      = 'code:54'
 local k      = 'code:55'
 
 local terminal = 'foot'
-local menu = 'wofi --show run --insensitive --matching strict-contains'
+local menu = '~/dotfiles/scripts/launcher.sh menu'
 
 -- Lock
 hl.bind(sc(mod, l), hl.dsp.exec_cmd('hyprlock'))

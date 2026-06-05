@@ -13,6 +13,10 @@
       force: true
       path: vim
 
+    ~/.config/fuzzel:
+      force: true
+      path: fuzzel
+
     ~/.config/hypr:
       force: true
       path: hypr
@@ -51,11 +55,6 @@
     ~/.Xmodmap:
       force: true
       path: Xmodmap
-
-    ~/.config/kitty/kitty.conf:
-      force: true
-      create: true
-      path: kitty.conf
 
     ~/.config/sway:
       force: true

@@ -257,8 +257,6 @@ function! ToggleMouse()
 endfunc
 
 com! FormatJSON %!python -m json.tool
-" fix weird bug that makes underscores (_) invisible with kitty
-set linespace=5
 
 " vim-fugitive gdiff direction
 set diffopt+=vertical
