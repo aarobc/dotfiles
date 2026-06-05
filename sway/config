@@ -167,7 +167,7 @@ bindcode $mod+Shift+$period exec swaynag -t warning -m 'You pressed the exit sho
 bindcode $mod+$i exec ~/dotfiles/scripts/launcher.sh go-to-ws
 
 # Prompt with existing workspaces to move the current window to
-bindcode $mod+Shift+$i exec ~/dotfiles/scripts/launcher.sh move-ws
+bindcode $mod+Shift+$i exec ~/dotfiles/scripts/launcher.sh move-to-ws
 bindcode $mod+$p exec ~/dotfiles/scripts/launcher.sh rename-ws
 
 # resize window (you can also use the mouse for that)

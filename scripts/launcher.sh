@@ -12,7 +12,7 @@ case "$1" in
         echo "$workspaces" | fuzzel --dmenu --prompt='Go to Workspace: ' --lines="$count" \
             | xargs -r -I {} swaymsg workspace '{}'
         ;;
-    move-ws)
+    move-to-ws)
         swaymsg -t get_workspaces | jq -r '.[].name' \
             | fuzzel --dmenu --prompt='Move to Workspace: ' \
             | xargs -r -I {} swaymsg move container to workspace '{}'
