@@ -1,6 +1,6 @@
 .PHONY: install configs deps install-hypr install-sway install-yay
 
-deps: install-yay
+deps:
 	sudo pacman -S foot git docker neovim fuzzel
 
 install-hypr:
@@ -17,12 +17,14 @@ install-yay:
 	cd /tmp/yay-bin && makepkg -si
 	rm -rf /tmp/yay-bin
 
-configs:
-	@command -v dotbot &> /dev/null || pipx install dotbot
+zgen:
 	@mkdir -p ~/src
 	@cd $(CURDIR) && \
 		git clone https://github.com/tarjoilija/zgen.git "$(HOME)/src/zgen" || echo "already cloned"
-	@cd $(CURDIR) && dotbot -d "$(CURDIR)" -c install.conf.yaml $(ARGS)
+
+configs:
+	@PATH="$$HOME/.local/bin:$$PATH" command -v dotbot &> /dev/null || pipx install dotbot
+	@cd $(CURDIR) && PATH="$$HOME/.local/bin:$$PATH" dotbot -d "$(CURDIR)" -c install.conf.yaml $(ARGS)
 
 fix-hyp:
 	hyprpm purge-cache
