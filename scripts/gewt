@@ -13,7 +13,7 @@ fi
 
 branch_name="$1"
 repo_root="$(git rev-parse --show-toplevel)"
-wt_dir="$(dirname "$repo_root")/$branch_name"
+wt_dir="$(dirname "$repo_root")/${branch_name##*/}"
 
 # 1. Create the worktree for the existing branch
 # Notice the absence of the -b flag here.
