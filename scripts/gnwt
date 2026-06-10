@@ -28,22 +28,12 @@ fi
 # 2. Copy untracked/ignored files from the root
 echo "Copying untracked root files to $wt_dir..."
 
-# Loop through all visible and hidden items in the current directory
 for file in * .*; do
-    # Skip standard directory pointers and the .git folder itself
-    if [[ "$file" == "." || "$file" == ".." || "$file" == ".git" ]]; then
-        continue
-    fi
-
-    # Only proceed if it is a regular file (no directories)
-    if [[ -f "$file" ]]; then
-        # git ls-files --error-unmatch fails if the file is NOT tracked.
-        # If it fails, we know the file is untracked or ignored by .gitignore
-        if ! git ls-files --error-unmatch "$file" >/dev/null 2>&1; then
-            cp "$file" "$wt_dir/"
-            echo "  -> Copied $file"
-        fi
-    fi
+    [[ "$file" == "." || "$file" == ".." || "$file" == ".git" ]] && continue
+    [[ -f "$file" ]] || continue
+    git ls-files --error-unmatch "$file" >/dev/null 2>&1 && continue
+    cp "$file" "$wt_dir/"
+    echo "  -> Copied $file"
 done
 
 echo "Worktree ready: $wt_dir"
