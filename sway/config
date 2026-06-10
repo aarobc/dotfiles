@@ -78,8 +78,8 @@ bindcode $mod+$e exec --no-startup-id ~/dotfiles/scripts/launcher.sh menu
 bindcode $mod+Shift+Control+$h move workspace to output left
 bindcode $mod+Shift+Control+$s move workspace to output right
 
-bindsym $mod+Tab workspace next
-bindsym $mod+Shift+Tab workspace prev
+bindsym $mod+Tab workspace next_on_output
+bindsym $mod+Shift+Tab workspace prev_on_output
 
 # change focus
 bindcode $mod+$h focus left

@@ -16,7 +16,7 @@ fi
 branch_name="$1"
 base_branch="${2:-master}"
 repo_root="$(git rev-parse --show-toplevel)"
-wt_dir="$(dirname "$repo_root")/$branch_name"
+wt_dir="$(dirname "$repo_root")/${branch_name##*/}"
 
 # 1. Create the worktree
 echo "Creating worktree at $wt_dir based on $base_branch..."

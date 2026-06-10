@@ -98,7 +98,7 @@ function gewt() {
 
 function gnwt() {
     local branch_name="$1"
-    command gnwt "$@" && cd "$(dirname "$(git rev-parse --show-toplevel)")/$branch_name"
+    command gnwt "$@" && cd "$(dirname "$(git rev-parse --show-toplevel)")/${branch_name##*/}"
 }
 
 # set the option so you can use vim bindings in the shell

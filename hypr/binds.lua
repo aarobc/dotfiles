@@ -5,7 +5,7 @@ local function sc(...)
 end
 
 -- Forward declarations for runtime functions defined at the bottom of the file
-local log, get_adjacent_monitor, move_window_h, is_window_a_column, is_window_at_extreme, same_workspace
+local log, get_adjacent_monitor, move_window_h, is_window_a_column, is_window_at_extreme, same_workspace, cycle_ws_on_monitor
 
 -- Keycodes (physical QWERTY positions, used so binds stay stable across layouts)
 local apos   = 'code:24'
@@ -63,6 +63,10 @@ for i = 1, 10 do
 	hl.bind(sc(mod, key),          hl.dsp.focus({ workspace = i }))
 	hl.bind(sc(mod, 'SHIFT', key), hy3.move_to_workspace(i))
 end
+
+-- Tab: cycle workspaces on focused monitor
+hl.bind(sc(mod, 'Tab'),          function() cycle_ws_on_monitor(1)  end)
+hl.bind(sc(mod, 'SHIFT', 'Tab'), function() cycle_ws_on_monitor(-1) end)
 
 -- Move current workspace to monitor
 hl.bind(sc(mod, 'SHIFT', 'CONTROL', h), hl.dsp.workspace.move({ monitor = 'l', once = false, visible = false }))
@@ -175,6 +179,32 @@ function same_workspace(w1, w2)
 	if name1 and name2 and name1 == name2 then return true end
 
 	return false
+end
+
+function cycle_ws_on_monitor(dir)
+	local focused
+	for _, mon in ipairs(hl.get_monitors()) do
+		if mon.focused then focused = mon; break end
+	end
+	if not focused then return end
+
+	local workspaces = {}
+	for _, ws in ipairs(hl.get_workspaces()) do
+		if ws.monitor == focused.name then
+			table.insert(workspaces, ws)
+		end
+	end
+	table.sort(workspaces, function(a, b) return a.id < b.id end)
+
+	local current_id = focused.active_workspace.id
+	local idx
+	for i, ws in ipairs(workspaces) do
+		if ws.id == current_id then idx = i; break end
+	end
+	if not idx or #workspaces < 2 then return end
+
+	local next_ws = workspaces[((idx - 1 + dir) % #workspaces) + 1]
+	hl.dispatch(hl.dsp.focus({ workspace = next_ws.id }))
 end
 
 function is_window_at_extreme(win, dir)
