@@ -296,3 +296,6 @@ let g:ale_fix_on_save = 1
 " set tgc
 "toggle color codes:
 " :ColorToggle
+
+" shebang filetype detection for extensionless scripts
+autocmd BufRead,BufNewFile * if getline(1) =~ '^#!.*bun' | setfiletype javascript | endif

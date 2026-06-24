@@ -1,0 +1,72 @@
+#!/usr/bin/env bun
+import { $ } from "bun";
+
+const cmd = process.argv[2];
+
+async function swayLauncher(cmd) {
+    switch (cmd) {
+        case "menu":
+            await $`fuzzel`;
+            break;
+        case "go-to-ws": {
+            const workspaces = (await $`swaymsg -t get_workspaces | jq -r '.[].name'`.text()).trim();
+            const count = workspaces.split("\n").length;
+            const chosen = (await $`echo ${workspaces} | fuzzel --dmenu --prompt='Go to Workspace: ' --lines=${count}`.text()).trim();
+            if (chosen) await $`swaymsg workspace ${chosen}`;
+            break;
+        }
+        case "move-to-ws": {
+            const workspaces = (await $`swaymsg -t get_workspaces | jq -r '.[].name'`.text()).trim();
+            const chosen = (await $`echo ${workspaces} | fuzzel --dmenu --prompt='Move to Workspace: '`.text()).trim();
+            if (chosen) await $`swaymsg move container to workspace ${chosen}`;
+            break;
+        }
+        case "rename-ws": {
+            const chosen = (await $`echo '' | fuzzel --dmenu --lines=0 --prompt='Rename to: '`.text()).trim();
+            if (chosen) await $`swaymsg rename workspace to ${chosen}`;
+            break;
+        }
+        default:
+            console.error(`Usage: ${process.argv[1]} {menu|go-to-ws|move-to-ws|rename-ws}`);
+            process.exit(1);
+    }
+}
+
+async function hyprlandLauncher(cmd) {
+    switch (cmd) {
+        case "menu":
+            await $`fuzzel`;
+            break;
+        case "go-to-ws": {
+            const workspaces = (await $`hyprctl workspaces -j | jq -r '.[].name'`.text()).trim();
+            const count = workspaces.split("\n").length;
+            const chosen = (await $`echo ${workspaces} | fuzzel --dmenu --prompt='Go to Workspace: ' --lines=${count}`.text()).trim();
+            if (chosen) await $`hyprctl dispatch workspace name:${chosen}`;
+            break;
+        }
+        case "move-to-ws": {
+            const workspaces = (await $`hyprctl workspaces -j | jq -r '.[].name'`.text()).trim();
+            const chosen = (await $`echo ${workspaces} | fuzzel --dmenu --prompt='Move to Workspace: '`.text()).trim();
+            if (chosen) await $`hyprctl dispatch movetoworkspace name:${chosen}`;
+            break;
+        }
+        case "rename-ws": {
+            const wsId = (await $`hyprctl activeworkspace -j | jq '.id'`.text()).trim();
+            const chosen = (await $`echo '' | fuzzel --dmenu --lines=0 --prompt='Rename to: '`.text()).trim();
+            if (chosen) await $`hyprctl dispatch renameworkspace ${wsId} ${chosen}`;
+            break;
+        }
+        default:
+            console.error(`Usage: ${process.argv[1]} {menu|go-to-ws|move-to-ws|rename-ws}`);
+            process.exit(1);
+    }
+}
+
+if (Bun.env.HYPRLAND_INSTANCE_SIGNATURE) {
+    await hyprlandLauncher(cmd);
+} else if (Bun.env.SWAYSOCK) {
+    await swayLauncher(cmd);
+} else {
+    console.error("Error: neither Sway nor Hyprland detected");
+    process.exit(1);
+}

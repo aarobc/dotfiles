@@ -23,6 +23,8 @@ set $s 47
 
 set $j 54
 set $k 55
+set $m 58
+set $y 89
 
 # standard stuff
 font                    pango:SFNS Text Medium 14px
@@ -72,7 +74,7 @@ bindcode $mod+Shift+$apos kill
 
 # start dmenu (a program launcher)
 # bindcode $mod+$e exec --no-startup-id dmenu_run
-bindcode $mod+$e exec --no-startup-id ~/dotfiles/scripts/launcher.sh menu
+bindcode $mod+$e exec --no-startup-id ~/dotfiles/scripts/launcher menu
 
 # move desktop monitor
 bindcode $mod+Shift+Control+$h move workspace to output left
@@ -164,11 +166,11 @@ bindcode $mod+Shift+$r exec swaymsg reload
 bindcode $mod+Shift+$period exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
 # Prompt with existing workspaces to switch to
-bindcode $mod+$i exec ~/dotfiles/scripts/launcher.sh go-to-ws
+bindcode $mod+$m exec ~/dotfiles/scripts/launcher go-to-ws
 
 # Prompt with existing workspaces to move the current window to
-bindcode $mod+Shift+$i exec ~/dotfiles/scripts/launcher.sh move-to-ws
-bindcode $mod+$p exec ~/dotfiles/scripts/launcher.sh rename-ws
+bindcode $mod+Shift+$m exec ~/dotfiles/scripts/launcher move-to-ws
+bindcode $mod+$p exec ~/dotfiles/scripts/launcher rename-ws
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
