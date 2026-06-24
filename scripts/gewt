@@ -1,37 +1,38 @@
-#!/bin/bash
-# Ensure a branch name was provided
-if [[ -z "$1" ]]; then
-    echo "Usage: gewt <existing-branch-name>"
-    exit 1
-fi
+#!/usr/bin/env bun
+import {$} from 'bun'
+import {readdirSync, statSync, copyFileSync} from 'fs'
+import {dirname, basename} from 'path'
 
-# Check if we are actually in a git repository
-if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    echo "Error: You must be inside a git repository to run this."
-    exit 1
-fi
+const branch = process.argv[2]
 
-branch_name="$1"
-repo_root="$(git rev-parse --show-toplevel)"
-wt_dir="$(dirname "$repo_root")/${branch_name##*/}"
+if (!branch) {
+    console.error('Usage: gewt <existing-branch-name>')
+    process.exit(1)
+}
 
-# 1. Create the worktree for the existing branch
-# Notice the absence of the -b flag here.
-echo "Creating worktree at $wt_dir for existing branch '$branch_name'..."
-if ! git worktree add "$wt_dir" "$branch_name"; then
-    echo "Error: Failed to create worktree. Ensure the branch '$branch_name' actually exists."
-    exit 1
-fi
+if ((await $`git rev-parse --is-inside-work-tree`.nothrow().quiet()).exitCode !== 0) {
+    console.error('Error: must be inside a git repository')
+    process.exit(1)
+}
 
-# 2. Copy untracked/ignored files from the root
-echo "Copying untracked root files to $wt_dir..."
+const repoRoot = (await $`git rev-parse --show-toplevel`.text()).trim()
+const wtDir = `${dirname(repoRoot)}/${basename(branch)}`
 
-for file in * .*; do
-    [[ "$file" == "." || "$file" == ".." || "$file" == ".git" ]] && continue
-    [[ -f "$file" ]] || continue
-    git ls-files --error-unmatch "$file" >/dev/null 2>&1 && continue
-    cp "$file" "$wt_dir/"
-    echo "  -> Copied $file"
-done
+console.log(`Creating worktree at ${wtDir} for existing branch '${branch}'...`)
+try {
+    await $`git worktree add ${wtDir} ${branch}`
+} catch {
+    console.error(`Error: failed to create worktree. Ensure branch '${branch}' exists.`)
+    process.exit(1)
+}
 
-echo "Worktree ready: $wt_dir"
+console.log(`Copying untracked root files to ${wtDir}...`)
+for (const file of readdirSync('.')) {
+    if (file === '.git') continue
+    if (!statSync(file).isFile()) continue
+    if ((await $`git ls-files --error-unmatch ${file}`.nothrow().quiet()).exitCode === 0) continue
+    copyFileSync(file, `${wtDir}/${file}`)
+    console.log(`  -> Copied ${file}`)
+}
+
+console.log(`Worktree ready: ${wtDir}`)
