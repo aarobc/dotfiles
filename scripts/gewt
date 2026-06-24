@@ -10,7 +10,9 @@ if (!branch) {
     process.exit(1)
 }
 
-if ((await $`git rev-parse --is-inside-work-tree`.nothrow().quiet()).exitCode !== 0) {
+try {
+    await $`git rev-parse --is-inside-work-tree`.quiet()
+} catch {
     console.error('Error: must be inside a git repository')
     process.exit(1)
 }
