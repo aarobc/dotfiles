@@ -1,0 +1,63 @@
+#!/usr/bin/env bun
+import {$} from 'bun'
+
+const cmd = process.argv[2]
+
+const sway = {
+    workspaces: async () => (await $`swaymsg -t get_workspaces`.json()).map(ws => ws.name),
+    gotoWs:     async name => $`swaymsg workspace ${name}`,
+    moveToWs:   async name => $`swaymsg move container to workspace ${name}`,
+    renameWs:   async name => $`swaymsg rename workspace to ${name}`,
+}
+
+const hyprland = {
+    workspaces: async () => (await $`hyprctl workspaces -j`.json()).map(ws => ws.name),
+    gotoWs:     async name => $`hyprctl dispatch workspace name:${name}`,
+    moveToWs:   async name => $`hyprctl dispatch movetoworkspace name:${name}`,
+    renameWs:   async name => {
+        const wsId = (await $`hyprctl activeworkspace -j`.json()).id
+        return $`hyprctl dispatch renameworkspace ${wsId} ${name}`
+    },
+}
+
+async function pickWorkspace(wm, prompt) {
+    const workspaces = await wm.workspaces()
+    return (await $`echo ${workspaces.join('\n')} | fuzzel --dmenu --prompt=${prompt} --lines=${workspaces.length}`.text()).trim()
+}
+
+async function launcher(wm, cmd) {
+    switch (cmd) {
+        case 'menu':
+            await $`fuzzel`
+            break
+        case 'go-to-ws': {
+            const chosen = await pickWorkspace(wm, 'Go to Workspace: ')
+            if (chosen) await wm.gotoWs(chosen)
+            break
+        }
+        case 'move-to-ws': {
+            const chosen = await pickWorkspace(wm, 'Move to Workspace: ')
+            if (chosen) await wm.moveToWs(chosen)
+            break
+        }
+        case 'rename-ws': {
+            const chosen = (await $`fuzzel --dmenu --lines=0 --prompt='Rename to: '`.text()).trim()
+            if (chosen) await wm.renameWs(chosen)
+            break
+        }
+        default:
+            console.error(`Usage: ${process.argv[1]} {menu|go-to-ws|move-to-ws|rename-ws}`)
+            process.exit(1)
+    }
+}
+
+const wm = Bun.env.HYPRLAND_INSTANCE_SIGNATURE ? hyprland
+         : Bun.env.SWAYSOCK                    ? sway
+         : null
+
+if (!wm) {
+    console.error('Error: neither Sway nor Hyprland detected')
+    process.exit(1)
+}
+
+await launcher(wm, cmd)

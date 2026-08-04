@@ -1,49 +1,41 @@
-#!/bin/bash
+#!/usr/bin/env bun
+import {$} from 'bun'
+import {readdirSync, statSync, copyFileSync} from 'fs'
+import {dirname, basename} from 'path'
 
-# Ensure a branch name was provided
-if [[ -z "$1" ]]; then
-    echo "Usage: gnwt <new-branch-name> [base-branch]"
-    exit 1
-fi
+const branch = process.argv[2]
+const base = process.argv[3] ?? 'master'
 
-# Check if we are actually in a git repository
-if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    echo "Error: You must be inside a git repository to run this."
-    exit 1
-fi
+if (!branch) {
+    console.error('Usage: gnwt <new-branch-name> [base-branch]')
+    process.exit(1)
+}
 
-# Default to 'master' if $2 is empty
-branch_name="$1"
-base_branch="${2:-master}"
-repo_root="$(git rev-parse --show-toplevel)"
-wt_dir="$(dirname "$repo_root")/$branch_name"
+try {
+    await $`git rev-parse --is-inside-work-tree`.quiet()
+} catch {
+    console.error('Error: must be inside a git repository')
+    process.exit(1)
+}
 
-# 1. Create the worktree
-echo "Creating worktree at $wt_dir based on $base_branch..."
-if ! git worktree add -b "$branch_name" "$wt_dir" "$base_branch"; then
-    echo "Error: Failed to create worktree."
-    exit 1
-fi
+const repoRoot = (await $`git rev-parse --show-toplevel`.text()).trim()
+const wtDir = `${dirname(repoRoot)}/${basename(branch)}`
 
-# 2. Copy untracked/ignored files from the root
-echo "Copying untracked root files to $wt_dir..."
+console.log(`Creating worktree at ${wtDir} based on ${base}...`)
+try {
+    await $`git worktree add -b ${branch} ${wtDir} ${base}`
+} catch {
+    console.error('Error: failed to create worktree.')
+    process.exit(1)
+}
 
-# Loop through all visible and hidden items in the current directory
-for file in * .*; do
-    # Skip standard directory pointers and the .git folder itself
-    if [[ "$file" == "." || "$file" == ".." || "$file" == ".git" ]]; then
-        continue
-    fi
+console.log(`Copying untracked root files to ${wtDir}...`)
+for (const file of readdirSync('.')) {
+    if (file === '.git') continue
+    if (!statSync(file).isFile()) continue
+    if ((await $`git ls-files --error-unmatch ${file}`.nothrow().quiet()).exitCode === 0) continue
+    copyFileSync(file, `${wtDir}/${file}`)
+    console.log(`  -> Copied ${file}`)
+}
 
-    # Only proceed if it is a regular file (no directories)
-    if [[ -f "$file" ]]; then
-        # git ls-files --error-unmatch fails if the file is NOT tracked.
-        # If it fails, we know the file is untracked or ignored by .gitignore
-        if ! git ls-files --error-unmatch "$file" >/dev/null 2>&1; then
-            cp "$file" "$wt_dir/"
-            echo "  -> Copied $file"
-        fi
-    fi
-done
-
-echo "Worktree ready: $wt_dir"
+console.log(`Worktree ready: ${wtDir}`)

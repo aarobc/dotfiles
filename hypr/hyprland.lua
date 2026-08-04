@@ -3,6 +3,7 @@ require("monitors")
 require("input")
 require("look")
 require("rules")
+
 require("binds")
 require("plugins")
 require("autostart")

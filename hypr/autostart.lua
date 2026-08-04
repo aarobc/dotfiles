@@ -4,7 +4,7 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("nm-applet")
 	hl.exec_cmd("systemctl --user start hyprpolkitagent")
 	hl.exec_cmd("setxkbmap -layout us -variant dvorak")
-	
+
 	-- Extra autostart processes via uwsm
 	hl.exec_cmd("uwsm-app -- kanshi")
 

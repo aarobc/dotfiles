@@ -1,3 +1,6 @@
+"change the leader from backslash
+let mapleader=","
+
 "------------------------------------------------------------------[Plugins]----
 source ~/.vim/bundles.vim
 
@@ -50,8 +53,6 @@ set foldlevelstart=99   "needed for some reason to not fold everything
 
 set mouse=r
 set number
-"change the leader from backslash
-let mapleader=","
 "set working directory to current file path
 set autochdir
 
@@ -257,8 +258,6 @@ function! ToggleMouse()
 endfunc
 
 com! FormatJSON %!python -m json.tool
-" fix weird bug that makes underscores (_) invisible with kitty
-set linespace=5
 
 " vim-fugitive gdiff direction
 set diffopt+=vertical
@@ -298,3 +297,6 @@ let g:ale_fix_on_save = 1
 " set tgc
 "toggle color codes:
 " :ColorToggle
+
+" shebang filetype detection for extensionless scripts
+autocmd BufRead,BufNewFile * if getline(1) =~ '^#!.*bun' | setfiletype javascript | endif

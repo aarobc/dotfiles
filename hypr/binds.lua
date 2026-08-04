@@ -5,7 +5,7 @@ local function sc(...)
 end
 
 -- Forward declarations for runtime functions defined at the bottom of the file
-local log, get_adjacent_monitor, move_window_h, is_window_a_column, is_window_at_extreme, same_workspace
+local log, cycle_ws_on_monitor
 
 -- Keycodes (physical QWERTY positions, used so binds stay stable across layouts)
 local apos   = 'code:24'
@@ -26,7 +26,7 @@ local j      = 'code:54'
 local k      = 'code:55'
 
 local terminal = 'foot'
-local menu = 'wofi --show run --insensitive --matching strict-contains'
+local menu = '~/dotfiles/scripts/launcher.sh menu'
 
 -- Lock
 hl.bind(sc(mod, l), hl.dsp.exec_cmd('hyprlock'))
@@ -39,30 +39,16 @@ hl.bind(sc(mod, 'SHIFT', 'space'), hl.dsp.window.float({ action = 'toggle' }))
 hl.bind(sc(mod, e),                hl.dsp.exec_cmd(menu))
 hl.bind(sc(mod, u),                hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'toggle' }))
 
-local hy3 = hl.plugin.hy3
-
--- hy3 splits
-hl.bind(sc(mod, d),   hy3.make_group('h'))
-hl.bind(sc(mod, k),   hy3.make_group('v'))
-hl.bind(sc(mod, 'A'), hy3.change_focus('raise'))
-
--- Focus (hy3)
-hl.bind(sc(mod, h), hy3.move_focus('l'))
-hl.bind(sc(mod, s), hy3.move_focus('r'))
-hl.bind(sc(mod, n), hy3.move_focus('u'))
-hl.bind(sc(mod, t), hy3.move_focus('d'))
-
-hl.bind(sc(mod, 'SHIFT', h), function() move_window_h('l', hy3.move_window('l')) end)
-hl.bind(sc(mod, 'SHIFT', s), function() move_window_h('r', hy3.move_window('r')) end)
-hl.bind(sc(mod, 'SHIFT', n), hy3.move_window('u'))
-hl.bind(sc(mod, 'SHIFT', t), hy3.move_window('d'))
-
--- Workspaces
-for i = 1, 10 do
-	local key = i % 10 -- 10 maps to '0'
-	hl.bind(sc(mod, key),          hl.dsp.focus({ workspace = i }))
-	hl.bind(sc(mod, 'SHIFT', key), hy3.move_to_workspace(i))
+if hl.plugin and hl.plugin.hy3 then
+	require("hy3")
+else
+	hl.exec_cmd("notify-send 'hy3 plugin not found, loading fallback keybindings'")
+	require("fallback")
 end
+
+-- Tab: cycle workspaces on focused monitor
+hl.bind(sc(mod, 'Tab'),          function() cycle_ws_on_monitor(1)  end)
+hl.bind(sc(mod, 'SHIFT', 'Tab'), function() cycle_ws_on_monitor(-1) end)
 
 -- Move current workspace to monitor
 hl.bind(sc(mod, 'SHIFT', 'CONTROL', h), hl.dsp.workspace.move({ monitor = 'l', once = false, visible = false }))
@@ -100,101 +86,30 @@ function log(msg)
 	if f then f:write(msg .. '\n') f:close() end
 end
 
-function get_adjacent_monitor(focused, dir)
+function cycle_ws_on_monitor(dir)
+	local focused
 	for _, mon in ipairs(hl.get_monitors()) do
-		if (dir == 'r' and mon.x == focused.x + focused.width) or
-		   (dir == 'l' and mon.x + mon.width == focused.x) then
-			return mon
+		if mon.focused then focused = mon; break end
+	end
+	if not focused then return end
+
+	local workspaces = {}
+	for _, ws in ipairs(hl.get_workspaces()) do
+		if ws.monitor == focused.name then
+			table.insert(workspaces, ws)
 		end
 	end
+	table.sort(workspaces, function(a, b) return a.id < b.id end)
+
+	local current_id = focused.active_workspace.id
+	local idx
+	for i, ws in ipairs(workspaces) do
+		if ws.id == current_id then idx = i; break end
+	end
+	if not idx or #workspaces < 2 then return end
+
+	local next_ws = workspaces[((idx - 1 + dir) % #workspaces) + 1]
+	hl.dispatch(hl.dsp.focus({ workspace = next_ws.id }))
 end
 
-function is_window_a_column(win)
-	if not win or win.floating then return false end
 
-	for _, w in ipairs(hl.get_windows()) do
-		if w.address ~= win.address and not w.floating and same_workspace(w, win) then
-			-- If any other window overlaps in X, it is stacked vertically (so win is not a standalone column)
-			local is_left = w.at.x + w.size.x - 10 <= win.at.x
-			local is_right = w.at.x >= win.at.x + win.size.x - 10
-			if not (is_left or is_right) then
-				return false
-			end
-		end
-	end
-
-	return true
-end
-
-function move_window_h(dir, fallback)
-	local win = hl.get_active_window()
-	if not win then
-		hl.dispatch(fallback)
-		return
-	end
-
-	if is_window_at_extreme(win, dir) then
-		local adj = get_adjacent_monitor(win.monitor, dir)
-		if not adj then return end
-		hl.dispatch(hy3.move_to_workspace(adj.active_workspace.name, {follow = true}))
-
-		-- Shove the window to the extreme opposite side of the new workspace
-		local target_dir = (dir == 'r') and 'l' or 'r'
-		local op_dir = (dir == 'r') and 'r' or 'l'
-
-		for i = 1, 10 do
-			hl.dispatch(hy3.move_window(target_dir))
-		end
-
-		hl.dispatch(hy3.move_window(op_dir, {follow = true}))
-		hl.dispatch(hl.dsp.window.move({ out_of_group = true }))
-		return
-	end
-
-	hl.dispatch(fallback)
-	-- if is_window_a_column(win) then
-	-- 	-- Promote the column out of any nested horizontal group containers
-	-- 	hl.dispatch(hl.dsp.window.move({ out_of_group = true }))
-	-- end
-end
-
-function same_workspace(w1, w2)
-	if not w1 or not w2 then return false end
-	if w1.workspace == w2.workspace then return true end
-
-	-- w.workspace is a custom userdata object, not a table. We must handle both.
-	local t1 = type(w1.workspace)
-	local t2 = type(w2.workspace)
-
-	local id1 = (t1 == 'table' or t1 == 'userdata') and w1.workspace.id or w1.workspace
-	local id2 = (t2 == 'table' or t2 == 'userdata') and w2.workspace.id or w2.workspace
-	if id1 and id2 and id1 == id2 then return true end
-
-	local name1 = (t1 == 'table' or t1 == 'userdata') and w1.workspace.name
-	local name2 = (t2 == 'table' or t2 == 'userdata') and w2.workspace.name
-	if name1 and name2 and name1 == name2 then return true end
-
-	return false
-end
-
-function is_window_at_extreme(win, dir)
-	-- Support swapped parameter order
-	if type(win) == "string" and type(dir) == "table" then
-		win, dir = dir, win
-	end
-
-	if not win or win.floating or (dir ~= "l" and dir ~= "r") then return false end
-	if not is_window_a_column(win) then return false end
-
-	for _, w in ipairs(hl.get_windows()) do
-		if w.address ~= win.address and not w.floating and same_workspace(w, win) then
-			if dir == "l" and w.at.x + w.size.x - 10 <= win.at.x then
-				return false
-			elseif dir == "r" and w.at.x >= win.at.x + win.size.x - 10 then
-				return false
-			end
-		end
-	end
-
-	return true
-end

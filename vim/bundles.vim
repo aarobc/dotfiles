@@ -45,6 +45,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tomtom/tcomment_vim'
 Plug 'neoclide/jsonc.vim'
 Plug 'chrisbra/Colorizer'
+Plug 'lewis6991/gitsigns.nvim'
 
 " Commented out / disabled plugins (preserved for reference)
 " Plug 'pangloss/vim-javascript'

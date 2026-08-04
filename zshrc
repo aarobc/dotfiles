@@ -85,6 +85,7 @@ export ZSHZ_CASE=smart
 # PATH=~/.npm-global/bin:$PATH
 export PATH=$PATH:~/dotfiles/scripts
 export PATH=~/.node_modules/bin:$PATH
+export PATH=$PATH:~/go/bin
 export N_PREFIX=$HOME/.local
 
 # workaround to allow sudo to be used with aliases
@@ -97,7 +98,7 @@ function gewt() {
 
 function gnwt() {
     local branch_name="$1"
-    command gnwt "$@" && cd "$(dirname "$(git rev-parse --show-toplevel)")/$branch_name"
+    command gnwt "$@" && cd "$(dirname "$(git rev-parse --show-toplevel)")/${branch_name##*/}"
 }
 
 # set the option so you can use vim bindings in the shell
