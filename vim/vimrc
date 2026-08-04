@@ -1,3 +1,6 @@
+"change the leader from backslash
+let mapleader=","
+
 "------------------------------------------------------------------[Plugins]----
 source ~/.vim/bundles.vim
 
@@ -50,8 +53,6 @@ set foldlevelstart=99   "needed for some reason to not fold everything
 
 set mouse=r
 set number
-"change the leader from backslash
-let mapleader=","
 "set working directory to current file path
 set autochdir
 

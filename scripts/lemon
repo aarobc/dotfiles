@@ -1,0 +1,21 @@
+#!/bin/bash
+export ANTHROPIC_BASE_URL="http://anarchy.local:13305"
+export ANTHROPIC_API_KEY="lemonade"
+
+export DISABLE_TELEMETRY=1
+export DISABLE_ERROR_REPORTING=1
+export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+export CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1
+
+
+# Set the primary model
+# export ANTHROPIC_MODEL="Qwen3.5-35B-A3B-GGUF-IQ3_S"
+export ANTHROPIC_MODEL="Qwen3-Coder-30B-A3B-Instruct-GGUF"
+
+# Route fast/background tasks to the same Lemonade model
+export ANTHROPIC_SMALL_FAST_MODEL="${ANTHROPIC_MODEL}"
+
+# make it purple so don't confuse with paid cc
+printf '\033]11;#1a0033\007'
+claude "$@"
+printf '\033]111;\007'
