@@ -270,12 +270,7 @@ for_window [title="^Firefox — Sharing Indicator$"]     floating enable, move a
 # auto kill any windows starting up
 for_window [class="^Steam$" title="^Steam - News"] kill
 
-# try to fix the phpstorm dialog
-for_window [app_id="jetbrains-clion"] {
-  floating enable
-  resize set width 50ppt
-  resize set height 60ppt
-}
+for_window [app_id="jetbrains-phpstorm" title="Settings"] floating enable, move position center
 
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg ~/Pictures/wallpaper/wallhaven-cliff.jpg fill
