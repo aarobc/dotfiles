@@ -160,23 +160,48 @@ nnoremap <C-f> :NERDTree<CR>
 "merge tabs into single page
 noremap <C-w>m :Tabmerge<CR>
 
-"ctrlP
-" let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
-let g:ctrlp_max_files=0
-noremap <C-B> :CtrlPBuffer<CR>
-let g:ctrlp_prompt_mappings = {
-    \ 'PrtSelectMove("j")':   ['<c-t>', '<down>'],
-    \ 'PrtSelectMove("k")':   ['<c-n>', '<up>'],
-    \ 'CreateNewFile()':      ['<c-f>'],
-    \ 'ToggleType(1)':        ['<c-u>', '<c-up>'],
-    \ 'PrtClear()':           ['<c-g>'],
-    \ 'PrtHistory(-1)':       ['<c-b>'],
-    \ 'ToggleType(-1)':       ['<c-down>'],
-    \ 'PrtExit()':            ['<esc>', '<c-c>'],
-    \ }
+"telescope (ctrlp replacement, worktree-safe)
+if has('nvim')
+lua << EOF
+local telescope = require('telescope')
+local actions = require('telescope.actions')
+local action_state = require('telescope.actions.state')
 
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-let g:ctrlp_use_caching = 1
+local function create_new_file(prompt_bufnr)
+  local prompt = action_state.get_current_line()
+  actions.close(prompt_bufnr)
+  vim.cmd('edit ' .. vim.fn.fnameescape(prompt))
+end
+
+local function clear_prompt(prompt_bufnr)
+  action_state.get_current_picker(prompt_bufnr):reset_prompt()
+end
+
+telescope.setup {
+  defaults = {
+    mappings = {
+      i = {
+        ["<C-t>"] = actions.move_selection_next,
+        ["<C-n>"] = actions.move_selection_previous,
+        ["<C-f>"] = create_new_file,
+        ["<C-g>"] = clear_prompt,
+        ["<C-b>"] = actions.cycle_history_prev,
+      },
+    },
+  },
+}
+
+local function project_files()
+  local ok = pcall(require('telescope.builtin').git_files, { show_untracked = true })
+  if not ok then
+    require('telescope.builtin').find_files()
+  end
+end
+
+vim.keymap.set('n', '<C-p>', project_files, { silent = true })
+vim.keymap.set('n', '<C-b>', '<cmd>Telescope buffers<CR>', { silent = true })
+EOF
+endif
 "for windowswap plugin:
 "should learn keyboard commands though
 let g:windowswap_map_keys = 0 "prevent default bindings
