@@ -8,6 +8,11 @@ let g:tmux_navigator_no_mappings = 1
 if has('nvim-0.12')
   lua require('plugins')
   lua require('lsp')
+  " own replacements for dropped plugins, and plugin config; see lua/
+  lua require('tabmerge').setup()
+  lua require('matchtag').setup()
+  lua require('pairs').setup()
+  lua require('gitsigns_config').setup()
 else
   echohl WarningMsg
   echom 'plugins skipped: vim.pack needs nvim 0.12+'
@@ -143,8 +148,6 @@ au Filetype json            setlocal ts=2 sts=2 sw=2 expandtab
 
 au BufNewFile,BufRead Jenkinsfile setf groovy
 
-" let g:SignatureForceRemoveGlobal = 0
-
 " deal with drag issues when in tmux
 " set mouse+=a
 
@@ -155,7 +158,7 @@ nnoremap <C-f> :NERDTree<CR>
 "noremap <C-w>h :windo wincmd H<CR>
 "noremap <C-w>t :windo wincmd K<CR>
 
-"merge tabs into single page
+"merge tabs into single page (lua/tabmerge.lua)
 noremap <C-w>m :Tabmerge<CR>
 
 "telescope (ctrlp replacement, worktree-safe)
@@ -200,12 +203,12 @@ vim.keymap.set('n', '<C-p>', project_files, { silent = true })
 vim.keymap.set('n', '<C-b>', '<cmd>Telescope buffers<CR>', { silent = true })
 EOF
 endif
-"for windowswap plugin:
-"should learn keyboard commands though
-let g:windowswap_map_keys = 0 "prevent default bindings
-nnoremap <silent> <leader>yw :call WindowSwap#MarkWindowSwap()<CR>
-nnoremap <silent> <leader>pw :call WindowSwap#DoWindowSwap()<CR>
-nnoremap <silent> <leader>ww :call WindowSwap#EasyWindowSwap()<CR>
+"swap two windows' buffers: yank one, put it elsewhere; ww does both in turn (lua/windowswap.lua)
+if has('nvim-0.12')
+  nnoremap <silent> <leader>yw <Cmd>lua require('windowswap').mark()<CR>
+  nnoremap <silent> <leader>pw <Cmd>lua require('windowswap').swap()<CR>
+  nnoremap <silent> <leader>ww <Cmd>lua require('windowswap').easy()<CR>
+endif
 
 
 "enable matchit plugin:
@@ -225,11 +228,7 @@ let g:DisableAutoPHPFolding = 1
 set autoread
 au CursorHold * checktime
 
-"do better auto complete brace behavior:
-let delimitMate_expand_cr = 1
-"let delimitMate_jump_expansion = 0
-let delimitMate_expand_space = 1
-let delimitMate_matchpairs = '(:),{:},[:]'
+"autopairs and the <CR>/<Space> brace expansion inherited from delimitMate: lua/pairs.lua
 " look into this:
 "https://github.com/chrisbra/vim_dotfiles/blob/master/plugin/CustomFoldText.vim
 

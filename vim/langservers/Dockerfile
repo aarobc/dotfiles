@@ -1,13 +1,7 @@
-# Language servers for nvim, run on demand as containers. See vim/lua/lsp.lua.
-# Build with `make langservers`.
-#
-# Only node and the servers themselves live in here. eslint, its plugins and its
-# shareable configs deliberately do NOT: they resolve from the project's own
-# node_modules, which is bind-mounted at its real host path. That way a repo is
-# linted by exactly the eslint version its lockfile pins.
-#
-# Debian-based rather than alpine on purpose. Projects install native modules
-# against glibc on the host, and musl cannot load those .node binaries.
+# Language servers for nvim, run on demand as containers. Build with `make langservers`; see vim/lua/lsp.lua.
+# Only node and the servers live here. eslint, its plugins and configs resolve from the project's own bind-mounted
+# node_modules instead, so a repo is linted by exactly the eslint version its lockfile pins.
+# Debian, not alpine: projects build native modules against host glibc, and musl cannot load those .node binaries.
 FROM node:22-slim
 
 RUN npm install -g --no-fund --no-audit vscode-langservers-extracted@4 \
