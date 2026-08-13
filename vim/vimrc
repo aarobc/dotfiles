@@ -7,6 +7,7 @@ let mapleader=","
 let g:tmux_navigator_no_mappings = 1
 if has('nvim-0.12')
   lua require('plugins')
+  lua require('lsp')
 else
   echohl WarningMsg
   echom 'plugins skipped: vim.pack needs nvim 0.12+'
@@ -284,16 +285,8 @@ set diffopt+=vertical
 " suda.vim save as root
 let g:suda_smart_edit = 1
 
-" eslint support
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint'],
-\   'javascriptreact': ['eslint'],
-\}
-let g:ale_sign_error = '✖'
-let g:ale_sign_warning = '⚠'
-let g:ale_fix_on_save = 1
-" manually trigger with ALEFix
+" eslint diagnostics come from the builtin LSP client now; see lua/lsp.lua
+" fixes are manual only: :EslintFixAll
 
 " let g:rhubarb_gbrowse_host_order = ['bitbucket', 'github']
 " let g:rhubarb_gbrowse_protocol_order = ['https', 'git']

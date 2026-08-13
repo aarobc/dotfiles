@@ -24,7 +24,7 @@ local repos = {
   'wesQ3/vim-windowswap',
   'vim-scripts/Tabmerge',
 
-  'bling/vim-airline',
+  'vim-airline/vim-airline',
   'vim-airline/vim-airline-themes',
 
   'christoomey/vim-tmux-navigator',
@@ -41,11 +41,13 @@ local repos = {
 
   'wellle/targets.vim',
   'lambdalisue/suda.vim',
-  'dense-analysis/ale',
+  -- config data for the builtin LSP client; see lua/lsp.lua
+  'neovim/nvim-lspconfig',
   'chrisbra/Colorizer',
   'lewis6991/gitsigns.nvim',
 
   -- Dropped: nvim ships these now
+  -- 'dense-analysis/ale',    -> builtin LSP + vim.diagnostic (lua/lsp.lua)
   -- 'tomtom/tcomment_vim',   -> builtin gc/gcc/gbc operators (:h commenting)
   -- 'neoclide/jsonc.vim',    -> builtin jsonc filetype + syntax + ftplugin
   -- 'sheerun/vim-polyglot',  -> builtin syntax/ftplugin + treesitter
