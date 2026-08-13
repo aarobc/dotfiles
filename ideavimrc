@@ -1,0 +1,28 @@
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+set hlsearch
+set gdefault
+set visualbell
+set quickscope
+" set noerrorbells
+
+set surround
+set commentary
+
+nnoremap <silent> <Tab> <C-w>w
+map gi <Action>(GotoImplementation)
+" gf on a bare import ('lodash') is not a path, so let the IDE resolve it
+map gf <Action>(GotoDeclaration)
+map gy <Action>(GotoTypeDeclaration)
+set ideajoin
+
+command! Diff action Git.CompareWithBranch
+
+" fix the stupid backwards mapping:
+" noremap n N
+" noremap N n
+" set clipboard^=ideaput
+" se clipboard+=ideaput
+" set clipboard+=unnamed

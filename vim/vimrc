@@ -2,7 +2,16 @@
 let mapleader=","
 
 "------------------------------------------------------------------[Plugins]----
-source ~/.vim/bundles.vim
+" managed by the built-in vim.pack; see lua/plugins.lua
+" must be set before the plugin loads; mappings are defined further down
+let g:tmux_navigator_no_mappings = 1
+if has('nvim-0.12')
+  lua require('plugins')
+else
+  echohl WarningMsg
+  echom 'plugins skipped: vim.pack needs nvim 0.12+'
+  echohl None
+endif
 
 "------------------------------------------------------------------[General]----
 " Create the 'vimrc' autocmd group, used below, and immediately clear it in
@@ -10,14 +19,12 @@ source ~/.vim/bundles.vim
 augroup vimrc | execute 'autocmd!' | augroup END
 
 syntax on
-"default vim background color for monokai theme:
-let g:molokai_original=1
-set t_Co=256
 
 if (has("termguicolors"))
   set termguicolors
 endif
-colorscheme molokai
+"monokai-derived colorscheme shipped with nvim (replaces tomasr/molokai)
+silent! colorscheme unokai
 "run syntax check on entire document
 " autocmd BufEnter * :syntax sync fromstart
 autocmd BufRead,BufNewFile .env.* set filetype=sh
@@ -119,9 +126,6 @@ noremap E $
 au BufRead,BufNewFile *.ino set filetype=cpp
 au BufRead,BufNewFile *.vue set filetype=html
 
-" workaround for neovim and tcomment plugin bug
-au BufNewFile,BufRead *.jsx setlocal filetype=javascript.jsx
-
 " set conceallevel=1
 
 " autocmd filetype type args
@@ -142,16 +146,9 @@ au BufNewFile,BufRead Jenkinsfile setf groovy
 
 " deal with drag issues when in tmux
 " set mouse+=a
-if &term =~ '^screen'
-    " tmux knows the extended mouse mode
-    set ttymouse=xterm2
-endif
 
 "nerdTree
 nnoremap <C-f> :NERDTree<CR>
-
-" tcomment:
-" let g:polyglot_disabled = ['jsx']
 
 "swap the layouts of horozontal and vertical
 "noremap <C-w>h :windo wincmd H<CR>
@@ -244,24 +241,21 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 " let g:easy_align_ignore_groups = ['string']
 
-"move between splits:
-nnoremap <C-H> <C-W><C-H>
-nnoremap <C-T> <C-W><C-J>
-nnoremap <C-N> <C-W><C-K>
-nnoremap <C-S> <C-W><C-L>
+"move between splits, crossing over into tmux panes at the edges
+"(vim-tmux-navigator, with g:tmux_navigator_no_mappings set above)
+nnoremap <silent> <C-h> :TmuxNavigateLeft<CR>
+nnoremap <silent> <C-t> :TmuxNavigateDown<CR>
+nnoremap <silent> <C-n> :TmuxNavigateUp<CR>
+nnoremap <silent> <C-s> :TmuxNavigateRight<CR>
+nnoremap <silent> <C-\> :TmuxNavigatePrevious<CR>
 
 "neovim stuff; move between terminal splits
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
-    tnoremap <C-h> <C-\><C-n><C-w>h
-    tnoremap <C-t> <C-\><C-n><C-w>j
-    tnoremap <C-n> <C-\><C-n><C-w>k
-    tnoremap <C-s> <C-\><C-n><C-w>l
-
-    nnoremap <C-h> <C-w>h
-    nnoremap <C-t> <C-w>j
-    nnoremap <C-n> <C-w>k
-    nnoremap <C-s> <C-w>l
+    tnoremap <silent> <C-h> <C-\><C-n>:TmuxNavigateLeft<CR>
+    tnoremap <silent> <C-t> <C-\><C-n>:TmuxNavigateDown<CR>
+    tnoremap <silent> <C-n> <C-\><C-n>:TmuxNavigateUp<CR>
+    tnoremap <silent> <C-s> <C-\><C-n>:TmuxNavigateRight<CR>
 endif
 
 "moving splits around

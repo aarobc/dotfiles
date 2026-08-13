@@ -6,3 +6,4 @@ vim/autoload
 *.swp
 mackbd*
 i3/res
+vim/nvim-pack-lock.json
