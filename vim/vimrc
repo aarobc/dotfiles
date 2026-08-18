@@ -3,8 +3,6 @@ let mapleader=","
 
 "------------------------------------------------------------------[Plugins]----
 " managed by the built-in vim.pack; see lua/plugins.lua
-" must be set before the plugin loads; mappings are defined further down
-let g:tmux_navigator_no_mappings = 1
 if has('nvim-0.12')
   lua require('plugins')
   lua require('lsp')
@@ -130,7 +128,7 @@ noremap E $
 "map gf :tabedit <cfile><CR>
 "syntax coloring for arduino
 au BufRead,BufNewFile *.ino set filetype=cpp
-au BufRead,BufNewFile *.vue set filetype=html
+"*.vue is detected as filetype=vue by nvim; it used to be forced to html here, which blocked vue_ls
 
 " set conceallevel=1
 
@@ -139,6 +137,7 @@ au BufRead,BufNewFile *.vue set filetype=html
 au FileType make            setlocal ts=2 sts=2 tw=2 noet
 au FileType lua             setlocal ts=2 sts=2 sw=2 noexpandtab
 au Filetype html            setlocal ts=2 sts=2 sw=2
+au Filetype vue             setlocal ts=2 sts=2 sw=2 expandtab
 au Filetype javascript      setlocal ts=2 sts=2 sw=2
 au Filetype javascriptreact setlocal ts=2 sts=2 sw=2 expandtab
 au Filetype php             setlocal ts=4 sts=4 sw=4
@@ -147,9 +146,6 @@ au Filetype typescript      setlocal ts=2 sts=2 sw=2 expandtab
 au Filetype json            setlocal ts=2 sts=2 sw=2 expandtab
 
 au BufNewFile,BufRead Jenkinsfile setf groovy
-
-" deal with drag issues when in tmux
-" set mouse+=a
 
 "nerdTree
 nnoremap <C-f> :NERDTree<CR>
@@ -241,21 +237,20 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 " let g:easy_align_ignore_groups = ['string']
 
-"move between splits, crossing over into tmux panes at the edges
-"(vim-tmux-navigator, with g:tmux_navigator_no_mappings set above)
-nnoremap <silent> <C-h> :TmuxNavigateLeft<CR>
-nnoremap <silent> <C-t> :TmuxNavigateDown<CR>
-nnoremap <silent> <C-n> :TmuxNavigateUp<CR>
-nnoremap <silent> <C-s> :TmuxNavigateRight<CR>
-nnoremap <silent> <C-\> :TmuxNavigatePrevious<CR>
+"move between splits, on htns rather than hjkl
+nnoremap <silent> <C-h> <C-w>h
+nnoremap <silent> <C-t> <C-w>j
+nnoremap <silent> <C-n> <C-w>k
+nnoremap <silent> <C-s> <C-w>l
+nnoremap <silent> <C-\> <C-w>p
 
-"neovim stuff; move between terminal splits
+"same, from inside a terminal buffer
 if has('nvim')
     tnoremap <Esc> <C-\><C-n>
-    tnoremap <silent> <C-h> <C-\><C-n>:TmuxNavigateLeft<CR>
-    tnoremap <silent> <C-t> <C-\><C-n>:TmuxNavigateDown<CR>
-    tnoremap <silent> <C-n> <C-\><C-n>:TmuxNavigateUp<CR>
-    tnoremap <silent> <C-s> <C-\><C-n>:TmuxNavigateRight<CR>
+    tnoremap <silent> <C-h> <C-\><C-n><C-w>h
+    tnoremap <silent> <C-t> <C-\><C-n><C-w>j
+    tnoremap <silent> <C-n> <C-\><C-n><C-w>k
+    tnoremap <silent> <C-s> <C-\><C-n><C-w>l
 endif
 
 "moving splits around

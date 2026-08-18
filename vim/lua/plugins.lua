@@ -14,7 +14,6 @@ local repos = {
   'vim-airline/vim-airline',
   'vim-airline/vim-airline-themes',
 
-  'christoomey/vim-tmux-navigator',
   'unblevable/quick-scope',
   'tpope/vim-fugitive',
   'tpope/vim-surround',
@@ -48,6 +47,9 @@ local repos = {
   -- 'gregsexton/MatchTag',   -> lua/matchtag.lua (treesitter)
   -- 'Raimondi/delimitMate',  -> mini.pairs, configured in lua/pairs.lua
   -- 'kshenoy/vim-signature', -> dropped outright; marks are still `:marks`
+
+  -- Dropped: tmux is gone, the tiling WM covers it. <C-h/t/n/s> are plain <C-w> moves in the vimrc now.
+  -- 'christoomey/vim-tmux-navigator',
 
   -- Commented out / disabled plugins (preserved for reference)
   -- 'pangloss/vim-javascript',

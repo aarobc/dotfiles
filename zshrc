@@ -44,7 +44,6 @@ zstyle ':completion:*:*:docker:*' option-stacking yes
 
 # alias gitreset='git fetch --all && git reset --hard origin/master'
 alias gitreset='git fetch --all && git reset --hard'
-alias tmux='tmux -2'
 alias gitl='git log --pretty=format:"%h - %an, %ar : %s"'
 alias dm='docker-machine'
 alias logoff='i3-msg exit'
@@ -62,8 +61,10 @@ alias phpd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html ph
 alias yarnd='docker run --rm -it -v $PWD:/var/www/html --workdir /var/www/html node yarn'
 alias quickhttp='docker run --rm -it -v $PWD:/usr/share/nginx/html:ro -p 8081:80 -p 4443:443 aarobc/quickhttp'
 
-alias gitclean="git branch --merged master | grep -v '^[ *]*master$' | xargs git branch -d"
-alias gitcleanup='git remote prune origin'
+alias gitclean="git branch --merged | grep -Ev \"(^\*|^\+|master|main|dev)\" | xargs --no-run-if-empty git branch -d"
+alias gitcleanremote="git branch -r --merged | grep -v -E \"master$|main$|HEAD\" | sed 's/origin\///' | xargs -r git push --delete origin"
+alias gitprune='git remote prune origin'
+
 alias clearlaravel='dcr chat sh -c "./artisan cache:clear && ./artisan config:clear && ./artisan config:cache"'
 alias pr='~/dotfiles/scripts/go-to-source pr'
 alias displays='swaymsg -t get_outputs'
