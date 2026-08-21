@@ -6,7 +6,7 @@ install: configs langservers langservers-php parsers
 # base-devel (cc) and tree-sitter-cli build the treesitter parsers, which are host-compiled, not dockerable.
 # tree-sitter-cli must come from pacman, NOT npm: upstream only supports the former.
 deps:
-	sudo pacman -S foot git docker neovim fuzzel base-devel tree-sitter-cli curl
+	sudo pacman -S foot git docker neovim fuzzel base-devel tree-sitter-cli curl ripgrep
 
 langservers:
 	docker build -t dotfiles/langservers $(CURDIR)/vim/langservers
