@@ -10,5 +10,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certifi
 # writable. Point it somewhere harmless; this is also where phpactor caches its indexed project data.
 ENV HOME=/tmp
 
-# No ENTRYPOINT: nvim passes the server to run as the command.
-CMD ["phpactor", "language-server"]
+# No ENTRYPOINT: compose.yml names the command, so nvim can invoke the service bare.

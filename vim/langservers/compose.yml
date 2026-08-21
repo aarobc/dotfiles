@@ -4,7 +4,6 @@ services:
       context: .
       dockerfile: dockerfiles/js.dockerfile
     image: dotfiles/langservers-js
-    # linting is entirely local; no server here has any business dialing out
     network_mode: none
     # vscode-languageserver polls process.kill(clientPid, 0) and quits when it fails, as a private pid ns guarantees
     pid: host
@@ -14,5 +13,9 @@ services:
       context: .
       dockerfile: dockerfiles/php.dockerfile
     image: dotfiles/langservers-php
+    # the flag stops the once-per-directory prompt that worktrees would otherwise trigger constantly.
+    command: phpactor language-server --config-extra='{"language_server.enable_trust_check":false}'
+    environment:
+      PHPACTOR_UNCONDITIONAL_TRUST: 1
     network_mode: none
     pid: host

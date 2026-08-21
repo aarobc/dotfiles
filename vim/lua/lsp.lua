@@ -100,8 +100,9 @@ vim.lsp.config('vue_ls', {
 })
 
 -- filetypes and root detection (composer.json/.git) come from nvim-lspconfig; only cmd is ours.
+-- no argv: the php service names its own command, trust flags and all, in compose.yml.
 vim.lsp.config('phpactor', {
-  cmd = dockerized('php', { 'phpactor', 'language-server' }),
+  cmd = dockerized('php', {}),
 })
 
 vim.lsp.enable({ 'eslint', 'vtsls', 'vue_ls', 'phpactor' })
