@@ -1,7 +1,8 @@
 -- LSP, diagnostics only, no format-on-save anywhere. Servers run in a container, so the host only needs docker.
--- Build the image with `make langservers`; see vim/langservers/Dockerfile.
+-- Build images with `make langservers langservers-php`; see vim/langservers/Dockerfile and vim/langservers/php/Dockerfile.
 
 local IMAGE = 'dotfiles/langservers'
+local IMAGE_PHP = 'dotfiles/langservers-php'
 
 -- nvim defaults to signs + underline only, with virtual_text off
 vim.diagnostic.config({
@@ -26,9 +27,9 @@ if vim.fn.executable('docker') == 0 then
   return
 end
 
--- Run a server in IMAGE. The root is bind-mounted at its real host path, so the file:// URIs need no translation.
+-- Run a server in image. The root is bind-mounted at its real host path, so the file:// URIs need no translation.
 -- cmd must be a function, not an argv list: only that form gets root_dir, and 'autochdir' makes cwd useless here.
-local function dockerized(cmd)
+local function dockerized(image, cmd)
   return function(dispatchers, config)
     local root = config.root_dir or assert(vim.uv.cwd())
     -- mount the whole repo, not just root_dir: in a monorepo a server's root is often a subpackage while node_modules
@@ -44,7 +45,7 @@ local function dockerized(cmd)
       '--pid=host',
       '-v', mount .. ':' .. mount,
       '-w', root,
-      IMAGE,
+      image,
     }
     vim.list_extend(argv, cmd)
     return vim.lsp.rpc.start(argv, dispatchers)
@@ -53,7 +54,7 @@ end
 
 -- filetypes, root detection and eslint's protocol handlers come from nvim-lspconfig; only cmd and formatting are ours
 vim.lsp.config('eslint', {
-  cmd = dockerized({ 'vscode-eslint-language-server', '--stdio' }),
+  cmd = dockerized(IMAGE, { 'vscode-eslint-language-server', '--stdio' }),
   settings = {
     -- eslint can format, and it is not going to. Diagnostics only.
     format = false,
@@ -76,7 +77,7 @@ local VUE_PLUGIN = {
 
 -- vtsls wraps tsserver. filetypes and the monorepo-aware, deno-excluding root_dir come from nvim-lspconfig's vtsls.lua.
 vim.lsp.config('vtsls', {
-  cmd = dockerized({ 'vtsls', '--stdio' }),
+  cmd = dockerized(IMAGE, { 'vtsls', '--stdio' }),
   -- lspconfig's list, plus vue: vtsls must attach to .vue buffers for the plugin above to do anything
   filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
   settings = {
@@ -99,10 +100,15 @@ vim.lsp.config('vtsls', {
 -- everything else about vue_ls -- the mandatory tsserver/request forwarding to vtsls, and its retry on a slow
 -- attach -- comes from nvim-lspconfig's lsp/vue_ls.lua. Only the command is ours.
 vim.lsp.config('vue_ls', {
-  cmd = dockerized({ 'vue-language-server', '--stdio' }),
+  cmd = dockerized(IMAGE, { 'vue-language-server', '--stdio' }),
 })
 
-vim.lsp.enable({ 'eslint', 'vtsls', 'vue_ls' })
+-- filetypes and root detection (composer.json/.git) come from nvim-lspconfig; only cmd is ours.
+vim.lsp.config('phpactor', {
+  cmd = dockerized(IMAGE_PHP, { 'phpactor', 'language-server' }),
+})
+
+vim.lsp.enable({ 'eslint', 'vtsls', 'vue_ls', 'phpactor' })
 
 -- builtin gd is a regex search for a local declaration; this is the real thing. CTRL-] does it too, via 'tagfunc'.
 -- <C-t> would normally pop the tagstack, but it moves a split down here, so come back with <C-o> or :pop.

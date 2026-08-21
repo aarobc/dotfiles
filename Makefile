@@ -1,7 +1,7 @@
-.PHONY: install configs deps install-hypr install-sway install-yay langservers parsers parsers-force
+.PHONY: install configs deps install-hypr install-sway install-yay langservers langservers-php parsers parsers-force
 
 # everything a fresh machine needs, in order
-install: configs langservers parsers
+install: configs langservers langservers-php parsers
 
 # base-devel (cc) and tree-sitter-cli build the treesitter parsers, which are host-compiled, not dockerable.
 # tree-sitter-cli must come from pacman, NOT npm: upstream only supports the former.
@@ -10,6 +10,9 @@ deps:
 
 langservers:
 	docker build -t dotfiles/langservers $(CURDIR)/vim/langservers
+
+langservers-php:
+	docker build -t dotfiles/langservers-php $(CURDIR)/vim/langservers/php
 
 # list lives in vim/lua/ts_parsers.lua. Also clones missing plugins on the way, since vim.pack does that at startup.
 parsers:
