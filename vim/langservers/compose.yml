@@ -1,0 +1,18 @@
+services:
+  js:
+    build:
+      context: .
+      dockerfile: dockerfiles/js.dockerfile
+    image: dotfiles/langservers-js
+    # linting is entirely local; no server here has any business dialing out
+    network_mode: none
+    # vscode-languageserver polls process.kill(clientPid, 0) and quits when it fails, as a private pid ns guarantees
+    pid: host
+
+  php:
+    build:
+      context: .
+      dockerfile: dockerfiles/php.dockerfile
+    image: dotfiles/langservers-php
+    network_mode: none
+    pid: host

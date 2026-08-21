@@ -1,8 +1,7 @@
 -- LSP, diagnostics only, no format-on-save anywhere. Servers run in a container, so the host only needs docker.
--- Build images with `make langservers langservers-php`; see vim/langservers/Dockerfile and vim/langservers/php/Dockerfile.
+-- Images build automatically on first run, via vim/langservers/compose.yml; see also its dockerfiles/ dir.
 
-local IMAGE = 'dotfiles/langservers'
-local IMAGE_PHP = 'dotfiles/langservers-php'
+local COMPOSE_FILE = vim.fn.stdpath('config') .. '/langservers/compose.yml'
 
 -- nvim defaults to signs + underline only, with virtual_text off
 vim.diagnostic.config({
@@ -27,25 +26,22 @@ if vim.fn.executable('docker') == 0 then
   return
 end
 
--- Run a server in image. The root is bind-mounted at its real host path, so the file:// URIs need no translation.
+-- Run a server via its compose service. The root is bind-mounted at its real host path, so the file:// URIs need no
+-- translation. network_mode/pid are fixed in compose.yml; only the per-project mount, workdir and uid are dynamic.
 -- cmd must be a function, not an argv list: only that form gets root_dir, and 'autochdir' makes cwd useless here.
-local function dockerized(image, cmd)
+local function dockerized(service, cmd)
   return function(dispatchers, config)
     local root = config.root_dir or assert(vim.uv.cwd())
     -- mount the whole repo, not just root_dir: in a monorepo a server's root is often a subpackage while node_modules
     -- is hoisted above it, and anything outside the mount simply does not exist as far as the server is concerned
     local mount = vim.fs.root(root, '.git') or root
     local argv = {
-      'docker', 'run', '--rm', '-i',
+      'docker', 'compose', '-f', COMPOSE_FILE, 'run', '--rm', '-i',
       -- rootful docker: without this, whatever the server writes into the project lands owned by root
       '--user', ('%d:%d'):format(vim.uv.getuid(), vim.uv.getgid()),
-      -- linting is entirely local; no server here has any business dialing out
-      '--network', 'none',
-      -- vscode-languageserver polls process.kill(clientPid, 0) and quits when it fails, as a private pid ns guarantees
-      '--pid=host',
       '-v', mount .. ':' .. mount,
       '-w', root,
-      image,
+      service,
     }
     vim.list_extend(argv, cmd)
     return vim.lsp.rpc.start(argv, dispatchers)
@@ -54,7 +50,7 @@ end
 
 -- filetypes, root detection and eslint's protocol handlers come from nvim-lspconfig; only cmd and formatting are ours
 vim.lsp.config('eslint', {
-  cmd = dockerized(IMAGE, { 'vscode-eslint-language-server', '--stdio' }),
+  cmd = dockerized('js', { 'vscode-eslint-language-server', '--stdio' }),
   settings = {
     -- eslint can format, and it is not going to. Diagnostics only.
     format = false,
@@ -77,7 +73,7 @@ local VUE_PLUGIN = {
 
 -- vtsls wraps tsserver. filetypes and the monorepo-aware, deno-excluding root_dir come from nvim-lspconfig's vtsls.lua.
 vim.lsp.config('vtsls', {
-  cmd = dockerized(IMAGE, { 'vtsls', '--stdio' }),
+  cmd = dockerized('js', { 'vtsls', '--stdio' }),
   -- lspconfig's list, plus vue: vtsls must attach to .vue buffers for the plugin above to do anything
   filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue' },
   settings = {
@@ -100,12 +96,12 @@ vim.lsp.config('vtsls', {
 -- everything else about vue_ls -- the mandatory tsserver/request forwarding to vtsls, and its retry on a slow
 -- attach -- comes from nvim-lspconfig's lsp/vue_ls.lua. Only the command is ours.
 vim.lsp.config('vue_ls', {
-  cmd = dockerized(IMAGE, { 'vue-language-server', '--stdio' }),
+  cmd = dockerized('js', { 'vue-language-server', '--stdio' }),
 })
 
 -- filetypes and root detection (composer.json/.git) come from nvim-lspconfig; only cmd is ours.
 vim.lsp.config('phpactor', {
-  cmd = dockerized(IMAGE_PHP, { 'phpactor', 'language-server' }),
+  cmd = dockerized('php', { 'phpactor', 'language-server' }),
 })
 
 vim.lsp.enable({ 'eslint', 'vtsls', 'vue_ls', 'phpactor' })

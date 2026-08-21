@@ -1,7 +1,4 @@
-# phpactor, run on demand as a container. Build with `make langservers-php`; see vim/lua/lsp.lua.
-# Separate image from vim/langservers/Dockerfile: phpactor needs a php runtime, not node, and its own
-# release cadence, so there is no upside to sharing a base with the JS/TS servers.
-FROM php:8.3-cli
+FROM php:8.5-cli
 
 # phpactor ships as a self-contained phar; curl only exists to fetch it and is dropped once it does.
 RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates && \
