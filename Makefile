@@ -1,7 +1,7 @@
 .PHONY: install configs deps install-hypr install-sway install-yay parsers parsers-force
 
-# everything a fresh machine needs, in order. Langserver images are not built here: vim/langservers/compose.yml
-# builds them lazily on first use, via vim/lua/lsp.lua.
+# everything a fresh machine needs, in order. Langserver images are not built here: nvim/langservers/compose.yml
+# builds them lazily on first use, via nvim/lua/lsp.lua.
 install: configs parsers
 
 # base-devel (cc) and tree-sitter-cli build the treesitter parsers, which are host-compiled, not dockerable.
@@ -9,7 +9,7 @@ install: configs parsers
 deps:
 	sudo pacman -S foot git docker docker-compose neovim fuzzel base-devel tree-sitter-cli curl ripgrep
 
-# list lives in vim/lua/ts_parsers.lua. Also clones missing plugins on the way, since vim.pack does that at startup.
+# list lives in nvim/lua/ts_parsers.lua. Also clones missing plugins on the way, since vim.pack does that at startup.
 parsers:
 	nvim --headless \
 		-c "lua require('nvim-treesitter').install(require('ts_parsers')):wait(600000)" \

@@ -1,9 +1,7 @@
-vim/plugged/
-vim/shada
-vim/init.vim
-vim/sessions
-vim/autoload
+nvim/shada
+nvim/sessions
+nvim/autoload
+nvim/nvim-pack-lock.json
 *.swp
 mackbd*
 i3/res
-vim/nvim-pack-lock.json

@@ -4,14 +4,23 @@
 
 - clean: ['~']
 
+# ~/.vim and ~/.vimrc take precedence over ~/.config/vim (:help xdg-vimrc), and
+# older revisions of this repo linked ~/.vim. Only symlinks are removed, so a
+# real file or directory there is left alone for a human to deal with.
+- shell:
+    - command: 'for p in "$HOME/.vim" "$HOME/.vimrc"; do [ -L "$p" ] && rm -f "$p"; done; true'
+      description: drop legacy ~/.vim links that would shadow ~/.config/vim
+
 - link:
-    ~/.vim:
+    # vim reads ~/.config/vim/vimrc only when neither ~/.vimrc nor ~/.vim/vimrc
+    # exists (:help xdg-vimrc), so nothing may be linked into ~/.vim.
+    ~/.config/vim:
       force: true
       path: vim
 
     ~/.config/nvim:
       force: true
-      path: vim
+      path: nvim
 
     ~/.config/fuzzel:
       force: true
@@ -20,11 +29,6 @@
     ~/.config/hypr:
       force: true
       path: hypr
-
-    ~/.config/nvim/init.vim:
-      force: true
-      create: true
-      path: vim/vimrc
 
     ~/.tmux.conf:
       force: true

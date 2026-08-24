@@ -1,5 +1,5 @@
 -- LSP, diagnostics only, no format-on-save anywhere. Servers run in a container, so the host only needs docker.
--- Images build automatically on first run, via vim/langservers/compose.yml; see also its dockerfiles/ dir.
+-- Images build automatically on first run, via nvim/langservers/compose.yml; see also its dockerfiles/ dir.
 
 local COMPOSE_FILE = vim.fn.stdpath('config') .. '/langservers/compose.yml'
 

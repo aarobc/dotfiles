@@ -62,7 +62,7 @@ end
 -- grep every file on disk under the worktree, gitignored and hidden included.
 -- .git/ dirs are pruned or you end up grepping loose objects and logs. the glob
 -- is bare '.git' on purpose: a pattern containing a slash anchors to the search
--- root, which would miss nested repos (vim/plugged/*/.git and friends).
+-- root, which would miss nested repos (vendored checkouts and friends).
 -- telescope's default vimgrep_arguments already pass --smart-case.
 function M.everything()
   require('telescope.builtin').live_grep {

@@ -1,314 +1,82 @@
-"change the leader from backslash
-let mapleader=","
+" Backup configuration: plain vim, no plugins, no package manager.
+" Neovim is the daily driver (see ../nvim); this exists so a machine without it,
+" or a broken nvim config, still gets the muscle memory.
+"
+" Everything editor-agnostic lives in shared/, which nvim/init.lua sources too --
+" edit there, not here, so both editors stay in step. What is left below is
+" either vim-only, or a plugin-free stand-in for something nvim does with a plugin.
+"
+" Vim finds this file at $XDG_CONFIG_HOME/vim/vimrc (~/.config/vim/vimrc) only
+" when neither ~/.vimrc nor ~/.vim/vimrc exists -- see :help xdg-vimrc.
 
-"------------------------------------------------------------------[Plugins]----
-" managed by the built-in vim.pack; see lua/plugins.lua
-if has('nvim-0.12')
-  lua require('plugins')
-  lua require('lsp')
-  " own replacements for dropped plugins, and plugin config; see lua/
-  lua require('tabmerge').setup()
-  lua require('matchtag').setup()
-  lua require('pairs').setup()
-  lua require('gitsigns_config').setup()
-else
-  echohl WarningMsg
-  echom 'plugins skipped: vim.pack needs nvim 0.12+'
-  echohl None
-endif
+set nocompatible
 
-"------------------------------------------------------------------[General]----
-" Create the 'vimrc' autocmd group, used below, and immediately clear it in
-" case this file is being sourced a second time.
-augroup vimrc | execute 'autocmd!' | augroup END
+let s:shared = expand('<sfile>:p:h') . '/shared'
+for s:file in ['options.vim', 'mappings.vim', 'autocmds.vim', 'commands.vim']
+  execute 'source' fnameescape(s:shared . '/' . s:file)
+endfor
 
+" After the source loop, not before: both of these run filetype detection over
+" the buffer for the file named on the command line, and any FileType autocmd
+" registered later would miss it. See the note in shared/options.vim.
+filetype plugin indent on
 syntax on
 
-if (has("termguicolors"))
-  set termguicolors
+"------------------------------------------------------------------[Vim only]----
+" nvim ships unokai; vim's closest bundled dark scheme is habamax.
+silent! colorscheme habamax
+
+" nvim defaults these on; vim does not.
+set hidden
+set ttyfast
+set display=truncate
+set nrformats-=octal
+set sessionoptions-=options
+set viewoptions-=options
+set shortmess+=F
+set formatoptions+=j
+set history=10000
+set tabpagemax=50
+set wildoptions=pum,tagfile
+set belloff=all
+
+" keep the swap/undo/viminfo litter out of ~ and out of this repo
+set directory=~/.cache/vim/swap//
+set undodir=~/.cache/vim/undo//
+set viminfofile=~/.cache/vim/viminfo
+set undofile
+silent! call mkdir(expand('~/.cache/vim/swap'), 'p')
+silent! call mkdir(expand('~/.cache/vim/undo'), 'p')
+
+"-------------------------------------------------[Plugin-free stand-ins]----
+" Same keys as the nvim config, backed by whatever vim has built in.
+
+"nvim: NERDTree -> netrw
+nnoremap <silent> <C-f> :Explore<CR>
+
+"nvim: telescope git_files / buffers -> :find and the buffer list
+set path+=**
+set wildignore+=*/.git/*,*/node_modules/*,*/vendor/*
+nnoremap <C-p> :find<Space>
+nnoremap <C-b> :buffers<CR>:buffer<Space>
+
+"nvim: lua/gitgrep.lua -> :grep into the quickfix list, ripgrep if it is around.
+"<leader>g honours .gitignore, <leader>f does not -- same split as gitgrep.lua.
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --smart-case
+  set grepformat=%f:%l:%c:%m
+  nnoremap <leader>g :silent grep!<Space>
+  nnoremap <leader>f :silent grep! --no-ignore --hidden --glob=!.git<Space>
+else
+  nnoremap <leader>g :silent grep! -rn<Space>
+  nnoremap <leader>f :silent grep! -rn<Space>
 endif
-"monokai-derived colorscheme shipped with nvim (replaces tomasr/molokai)
-silent! colorscheme unokai
-"run syntax check on entire document
-" autocmd BufEnter * :syntax sync fromstart
-autocmd BufRead,BufNewFile .env.* set filetype=sh
+augroup vimrc
+  au QuickFixCmdPost grep,grepadd cwindow
+augroup END
 
-set shell=/bin/zsh
-set lazyredraw
-set nowrap
+"nvim: lua/tabmerge.lua -- no builtin equivalent, so this key is left unmapped
+"nvim: lua/windowswap.lua (<leader>yw/pw/ww) -- likewise
 
-set colorcolumn=90
-"disable auto commenting:
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-
-set backspace=indent,eol,start
-
-" to disable the global markers
-" set shada="NONE"
-" set tabstop=4
-" set softtabstop=4
-" set shiftwidth=4
-set expandtab
-set listchars=tab:→\ ,space:·,trail:▸,nbsp:+
-set background=dark
-set autoindent
-" set smartindent
-"generic folding settings
-set foldmethod=syntax
-set foldcolumn=1
-let javaScript_fold=1
-set foldnestmax=10      "allowed depth of sub-folds
-set nofoldenable        "dont fold by default
-set foldlevelstart=99   "needed for some reason to not fold everything
-" set foldlevel=1         "this is just what i use
-
-set mouse=r
-set number
-"set working directory to current file path
-set autochdir
-
-"when pasting into vim:
-" set pastetoggle=<F10>
-
-"---------------------------------[Search]----
-set hlsearch
-set incsearch
-set smartcase
-set ignorecase
-
-set wildmenu
-
-"window split settings
-set splitbelow
-set splitright
-
-"allow vilual block cursor to go anywhere
-set virtualedit=block
-
-"powerline/airline stuffs:
-" Always show statusline
-set laststatus=2
-let g:airline_powerline_fonts = 1
-" let g:airline_theme='powerlineish'
-let g:airline_theme='murmur'
-" let g:airline_theme='molokai'
-" let g:airline_theme='luna'
-" Enable the list of buffers
-" let g:airline#extensions#tabline#enabled = 1
-" " Show just the filename
-" let g:airline#extensions#tabline#fnamemod = ':t'
-
-" workaround to deal with laggy response
-if ! has('gui_running')
-    set ttimeoutlen=10
-    augroup FastEscape
-        autocmd!
-        au InsertEnter * set timeoutlen=0
-        au InsertLeave * set timeoutlen=1000
-    augroup END
-endif
-
-"easier window navigation
-nnoremap <silent> <Tab> :wincmd w<CR>
-nnoremap <silent> <S-Tab> :wincmd W<CR>
-
-" Space to toggle folds.
-nnoremap <Space> za
-vnoremap <Space> za
-
-"jumping to beginning and end of lines
-noremap B ^
-noremap E $
-
-" vim quickscope repurposing t to jump to second blue match
-" noremap t 2f
-" noremap T 2F
-
-"open file looking thing in new tab
-"map gf :tabedit <cfile><CR>
-"syntax coloring for arduino
-au BufRead,BufNewFile *.ino set filetype=cpp
-"*.vue is detected as filetype=vue by nvim; it used to be forced to html here, which blocked vue_ls
-
-" set conceallevel=1
-
-" autocmd filetype type args
-
-au FileType make            setlocal ts=2 sts=2 tw=2 noet
-au FileType lua             setlocal ts=2 sts=2 sw=2 noexpandtab
-au Filetype html            setlocal ts=2 sts=2 sw=2
-au Filetype vue             setlocal ts=2 sts=2 sw=2 expandtab
-au Filetype javascript      setlocal ts=2 sts=2 sw=2
-au Filetype javascriptreact setlocal ts=2 sts=2 sw=2 expandtab
-au Filetype php             setlocal ts=4 sts=4 sw=4
-au Filetype yaml            setlocal ts=2 sts=2 sw=2 expandtab
-au Filetype typescript      setlocal ts=2 sts=2 sw=2 expandtab
-au Filetype json            setlocal ts=2 sts=2 sw=2 expandtab
-
-au BufNewFile,BufRead Jenkinsfile setf groovy
-
-"nerdTree
-nnoremap <C-f> :NERDTree<CR>
-
-"swap the layouts of horozontal and vertical
-"noremap <C-w>h :windo wincmd H<CR>
-"noremap <C-w>t :windo wincmd K<CR>
-
-"merge tabs into single page (lua/tabmerge.lua)
-noremap <C-w>m :Tabmerge<CR>
-
-"telescope (ctrlp replacement, worktree-safe)
-if has('nvim')
-lua << EOF
-local telescope = require('telescope')
-local actions = require('telescope.actions')
-local action_state = require('telescope.actions.state')
-
-local function create_new_file(prompt_bufnr)
-  local prompt = action_state.get_current_line()
-  actions.close(prompt_bufnr)
-  vim.cmd('edit ' .. vim.fn.fnameescape(prompt))
-end
-
-local function clear_prompt(prompt_bufnr)
-  action_state.get_current_picker(prompt_bufnr):reset_prompt()
-end
-
-telescope.setup {
-  defaults = {
-    mappings = {
-      i = {
-        ["<C-t>"] = actions.select_tab,
-        ["<C-n>"] = actions.move_selection_previous,
-        ["<C-f>"] = create_new_file,
-        ["<C-g>"] = clear_prompt,
-        ["<C-b>"] = actions.cycle_history_prev,
-      },
-    },
-  },
-}
-
-local function project_files()
-  local ok = pcall(require('telescope.builtin').git_files, { show_untracked = true })
-  if not ok then
-    require('telescope.builtin').find_files()
-  end
-end
-
-vim.keymap.set('n', '<C-p>', project_files, { silent = true })
-vim.keymap.set('n', '<C-b>', '<cmd>Telescope buffers<CR>', { silent = true })
-EOF
-endif
-"swap two windows' buffers: yank one, put it elsewhere; ww does both in turn (lua/windowswap.lua)
-if has('nvim-0.12')
-  nnoremap <silent> <leader>yw <Cmd>lua require('windowswap').mark()<CR>
-  nnoremap <silent> <leader>pw <Cmd>lua require('windowswap').swap()<CR>
-  nnoremap <silent> <leader>ww <Cmd>lua require('windowswap').easy()<CR>
-endif
-
-"grep repo contents, smart case (lua/gitgrep.lua)
-if has('nvim-0.12')
-  nnoremap <silent> <leader>g <Cmd>lua require('gitgrep').repo()<CR>
-  nnoremap <silent> <leader>f <Cmd>lua require('gitgrep').everything()<CR>
-endif
-
-
-"enable matchit plugin:
-" runtime macros/matchit.vim
-
-"vim-javascript syntax plugin highlighting enable
-let g:javascript_enable_domhtmlcss = 1
-"map <F5> <Esc>:EnableFastPHPFolds<Cr>
-"map <F6> <Esc>:EnablePHPFolds<Cr>
-"map <F7> <Esc>:DisablePHPFolds<Cr>
-"to prevent annoying behavior of the folding plugin
-let g:DisableAutoPHPFolding = 1
-
-
-
-" check file change every 4 seconds ('CursorHold') and reload the buffer upon detecting change
-set autoread
-au CursorHold * checktime
-
-"autopairs and the <CR>/<Space> brace expansion inherited from delimitMate: lua/pairs.lua
-" look into this:
-"https://github.com/chrisbra/vim_dotfiles/blob/master/plugin/CustomFoldText.vim
-
-"vim-go:
-" let g:go_autodetect_gopath = 1
-
-" Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-" let g:easy_align_ignore_groups = ['string']
-
-"move between splits, on htns rather than hjkl
-nnoremap <silent> <C-h> <C-w>h
-nnoremap <silent> <C-t> <C-w>j
-nnoremap <silent> <C-n> <C-w>k
-nnoremap <silent> <C-s> <C-w>l
-nnoremap <silent> <C-\> <C-w>p
-
-"same, from inside a terminal buffer
-if has('nvim')
-    tnoremap <Esc> <C-\><C-n>
-    tnoremap <silent> <C-h> <C-\><C-n><C-w>h
-    tnoremap <silent> <C-t> <C-\><C-n><C-w>j
-    tnoremap <silent> <C-n> <C-\><C-n><C-w>k
-    tnoremap <silent> <C-s> <C-\><C-n><C-w>l
-endif
-
-"moving splits around
-nnoremap <C-w>S <C-w>L
-nnoremap <C-w>T <C-w>J
-nnoremap <C-w>N <C-w>K
-
-com! ToJson %s/\(\w*\):/"\1"/
-
-function! ToggleMouse()
-    " check if mouse is enabled
-    if &mouse == 'a'
-        " disable mouse
-        set mouse=
-    else
-        " enable mouse everywhere
-        set mouse=a
-    endif
-endfunc
-
-com! FormatJSON %!python -m json.tool
-
-" vim-fugitive gdiff direction
-set diffopt+=vertical
-
-" suda.vim save as root
-let g:suda_smart_edit = 1
-
-" eslint diagnostics come from the builtin LSP client now; see lua/lsp.lua
-" fixes are manual only: :EslintFixAll
-
-" let g:rhubarb_gbrowse_host_order = ['bitbucket', 'github']
-" let g:rhubarb_gbrowse_protocol_order = ['https', 'git']
-
-
-"reference:
-"tabm <number> moves tab to that location.
-"example: tabm 0 moves tab to location 0 (first location)
-"
-"let @a = ':s/row\['\(\w*\)'\]/row->\1/g'
-" :s/row\['\(\w*\)'\]/row->\1/g
-"move existing window into new tab:
-":tabedit %<CR>
-
-"freedom in visual mode
-" :set virtualedit=all
-" then use Afoo to instert multiple columns
-
-" color highlighting
-" set tgc
-"toggle color codes:
-" :ColorToggle
-
-" shebang filetype detection for extensionless scripts
-autocmd BufRead,BufNewFile * if getline(1) =~ '^#!.*bun' | setfiletype javascript | endif
+"enable the builtin matchit plugin (nvim loads it by default)
+silent! packadd! matchit
