@@ -75,6 +75,11 @@ augroup vimrc
   au QuickFixCmdPost grep,grepadd cwindow
 augroup END
 
+"nvim: lua/filerefs.lua -> grep for the current file's stem. Crude next to asking a
+"language server, but the stem is what an import writes: './target', use App\Target.
+"Hits inside the file itself are the price of not having an import graph here.
+nnoremap <silent> <leader>u :execute 'silent grep! ' . shellescape(expand('%:t:r'))<CR>
+
 "nvim: lua/tabmerge.lua -- no builtin equivalent, so this key is left unmapped
 "nvim: lua/windowswap.lua (<leader>yw/pw/ww) -- likewise
 

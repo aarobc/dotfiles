@@ -31,8 +31,8 @@ truth: `vim/vimrc` sources it, and so does `nvim/init.lua`. Put settings and
 keybindings there unless they need a plugin or one editor's features.
 
 Keys backed by a plugin in neovim (`<C-f>`, `<C-p>`, `<C-b>`, `<leader>g`,
-`<leader>f`) are rebound to builtin stand-ins in `vim/vimrc`, so the muscle
-memory survives.
+`<leader>f`, `<leader>u`) are rebound to builtin stand-ins in `vim/vimrc`, so the
+muscle memory survives.
 
 Note: vim only reads `~/.config/vim/vimrc` when neither `~/.vimrc` nor
 `~/.vim/vimrc` exists (`:help xdg-vimrc`). `make configs` removes those if they

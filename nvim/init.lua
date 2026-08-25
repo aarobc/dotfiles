@@ -17,6 +17,7 @@ require('matchtag').setup()
 require('pairs').setup()
 require('gitsigns_config').setup()
 require('telescope_config').setup()
+require('filerefs') -- :FileReferences; the <leader>u mapping is down with the others
 
 ---------------------------------------------------------------------[Shared]---
 -- ~/.config/vim, the sibling of stdpath('config'). Missing is not fatal: nvim
@@ -82,6 +83,9 @@ map('n', '<leader>ww', function() require('windowswap').easy() end, { silent = t
 -- grep repo contents, smart case (lua/gitgrep.lua)
 map('n', '<leader>g', function() require('gitgrep').repo() end, { silent = true })
 map('n', '<leader>f', function() require('gitgrep').everything() end, { silent = true })
+
+-- who imports this file? asks the language server, not grep; see lua/filerefs.lua
+map('n', '<leader>u', function() require('filerefs').find() end, { silent = true, desc = 'files referencing this file' })
 
 -----------------------------------------------------------------[Reference]---
 -- tabm <number> moves tab to that location, e.g. `tabm 0` moves it to first
