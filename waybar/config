@@ -9,8 +9,13 @@
             "hyprland/workspaces",
             "hyprland/submap",
             "sway/workspaces",
-            "sway/mode",
-            "mpris"
+            "sway/mode"
+            // TODO: mpris disabled 2026-08-26 — waybar 0.15.0 mpris module
+            // segfaults when a player vanishes/stops (Gtk::Widget::set_visible
+            // on a freed widget), which kills the whole bar process.
+            // Upstream: https://github.com/Alexays/Waybar/issues/2747
+            // Re-enable here and in the "mpris" block below once fixed.
+            // , "mpris"
         ]
     },
 
@@ -64,17 +69,17 @@
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
-    "mpris": {
-        "format": "{status_icon} {artist} - {title}",
-        "format-paused": "{status_icon} {artist} - {title}",
-        "status-icons": {
-            "playing": "",
-            "paused":  "",
-            "stopped": ""
-        },
-        "max-length": 40,
-        "on-click": "playerctl play-pause"
-    },
+    // "mpris": {
+    //     "format": "{status_icon} {artist} - {title}",
+    //     "format-paused": "{status_icon} {artist} - {title}",
+    //     "status-icons": {
+    //         "playing": "",
+    //         "paused":  "",
+    //         "stopped": ""
+    //     },
+    //     "max-length": 40,
+    //     "on-click": "playerctl play-pause"
+    // },
 
 
     "custom/shot": {
