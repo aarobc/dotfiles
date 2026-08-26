@@ -86,6 +86,7 @@ map('n', '<leader>f', function() require('gitgrep').everything() end, { silent =
 
 -- who imports this file? asks the language server, not grep; see lua/filerefs.lua
 map('n', '<leader>u', function() require('filerefs').find() end, { silent = true, desc = 'files referencing this file' })
+-- the per-symbol version of that -- gd/grr/grc/gri/grt/gO into telescope -- is buffer-local, in lua/lsp.lua
 
 -----------------------------------------------------------------[Reference]---
 -- tabm <number> moves tab to that location, e.g. `tabm 0` moves it to first

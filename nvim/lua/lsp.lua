@@ -107,13 +107,71 @@ vim.lsp.config('phpactor', {
 
 vim.lsp.enable({ 'eslint', 'vtsls', 'vue_ls', 'phpactor' })
 
--- builtin gd is a regex search for a local declaration; this is the real thing. CTRL-] does it too, via 'tagfunc'.
--- <C-t> would normally pop the tagstack, but it moves a split down here, so come back with <C-o> or :pop.
+-- Symbol navigation, telescope-flavoured. This is PhpStorm's "find usages": cursor on a class or a method,
+-- get the list of places that use it, preview each call site, pick one. nvim 0.11+ already binds gr* to the
+-- same LSP requests, but its handlers dump the answer in the quickfix list; these open a picker instead, with
+-- the qflist previewer, and jump straight there when there is only one result.
+--
+--   gd    definition (builtin gd is a regex search for a local declaration; this is the real thing, as is
+--         CTRL-] via 'tagfunc'. <C-t> would pop the tagstack, but it moves a split down here, so come back
+--         with <C-o> or :pop.)
+--   grr   references -- who uses this symbol
+--   grc   incoming calls -- who calls this function, one hop of the call hierarchy
+--   grC   outgoing calls -- what this function calls
+--   gri   implementations of an interface/abstract method
+--   grt   type definition, i.e. the type of the thing under the cursor rather than the thing itself
+--   gO    symbols in this file
+--
+-- Left to nvim's defaults: grn rename, gra code action, <C-s> signature help in insert mode.
+--
+-- References vs incoming calls: references are every mention of the symbol, call hierarchy is only actual
+-- calls, and unlike references it can be walked outward repeatedly. phpactor answers references; whether it
+-- answers callHierarchy depends on the version, hence the per-capability gating below.
+
+-- telescope is optional: without it these fall back to the builtin, quickfix-based handlers. opts are built
+-- fresh per keypress because the pickers write defaults back into the table they are handed.
+local function nav(picker, fallback, opts)
+  return function()
+    local ok, builtin = pcall(require, 'telescope.builtin')
+    if ok and builtin[picker] then
+      builtin[picker](vim.deepcopy(opts or {}))
+    else
+      fallback()
+    end
+  end
+end
+
+local NAV = {
+  -- key, capability, telescope picker, builtin fallback, picker opts, description
+  { 'gd', 'textDocument/definition', 'lsp_definitions', vim.lsp.buf.definition, nil, 'go to definition' },
+  -- includeDeclaration off: the declaration is where the cursor already is, and PhpStorm leaves it out too
+  { 'grr', 'textDocument/references', 'lsp_references', vim.lsp.buf.references,
+    { include_declaration = false }, 'references (usages)' },
+  { 'grc', 'textDocument/prepareCallHierarchy', 'lsp_incoming_calls', vim.lsp.buf.incoming_calls, nil,
+    'incoming calls' },
+  { 'grC', 'textDocument/prepareCallHierarchy', 'lsp_outgoing_calls', vim.lsp.buf.outgoing_calls, nil,
+    'outgoing calls' },
+  { 'gri', 'textDocument/implementation', 'lsp_implementations', vim.lsp.buf.implementation, nil,
+    'implementations' },
+  { 'grt', 'textDocument/typeDefinition', 'lsp_type_definitions', vim.lsp.buf.type_definition, nil,
+    'type definition' },
+  { 'gO', 'textDocument/documentSymbol', 'lsp_document_symbols', vim.lsp.buf.document_symbol, nil,
+    'document symbols' },
+}
+
+-- Buffer-local, and only for the keys this server can actually answer: an unmapped key keeps nvim's default
+-- (or plain vim's meaning) instead of opening an empty picker.
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if client and client:supports_method('textDocument/definition') then
-      vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = ev.buf, silent = true, desc = 'go to definition' })
+    if not client then
+      return
+    end
+    for _, m in ipairs(NAV) do
+      local key, capability, picker, fallback, opts, desc = m[1], m[2], m[3], m[4], m[5], m[6]
+      if client:supports_method(capability, ev.buf) then
+        vim.keymap.set('n', key, nav(picker, fallback, opts), { buffer = ev.buf, silent = true, desc = desc })
+      end
     end
   end,
 })
