@@ -16,6 +16,7 @@ require('tabmerge').setup()
 require('matchtag').setup()
 require('pairs').setup()
 require('gitsigns_config').setup()
+require('diffview_config').setup()
 require('telescope_config').setup()
 require('filerefs') -- :FileReferences; the <leader>u mapping is down with the others
 

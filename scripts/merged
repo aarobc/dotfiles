@@ -1,0 +1,90 @@
+#!/bin/bash
+# merged: check whether a branch has already been merged into the target branch.
+#
+# Usage: merged [branch] [target]
+#   branch  defaults to the current branch
+#   target  defaults to the repo's default branch (master/main), auto-detected
+#
+# Detects: fast-forwards and real merge commits (ancestry check), rebase-
+# then-merge workflows (patch-id check via `git cherry`), and squash merges
+# (compares the branch's changed files against target's current version of
+# those same files). The squash check is a heuristic: it can misfire if
+# target changed those files again independently after the squash merge.
+
+set -eu
+
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "Error: not inside a git repository" >&2
+    exit 1
+fi
+
+branch="${1:-$(git rev-parse --abbrev-ref HEAD)}"
+target="${2:-}"
+
+if [ -z "$target" ]; then
+    for candidate in master main; do
+        if git show-ref --verify --quiet "refs/heads/$candidate" || git show-ref --verify --quiet "refs/remotes/origin/$candidate"; then
+            target="$candidate"
+            break
+        fi
+    done
+    if [ -z "$target" ]; then
+        echo "Error: couldn't auto-detect default branch, pass it explicitly: merged <branch> <target>" >&2
+        exit 1
+    fi
+fi
+
+if [ "$branch" = "$target" ]; then
+    echo "'$branch' is the target branch itself"
+    exit 0
+fi
+
+resolve_ref() {
+    # prefer the local branch, fall back to origin's copy
+    if git show-ref --verify --quiet "refs/heads/$1"; then
+        echo "$1"
+    elif git show-ref --verify --quiet "refs/remotes/origin/$1"; then
+        echo "origin/$1"
+    else
+        echo ""
+    fi
+}
+
+branch_ref=$(resolve_ref "$branch")
+target_ref=$(resolve_ref "$target")
+
+if [ -z "$branch_ref" ]; then
+    echo "Error: branch '$branch' not found locally or on origin" >&2
+    exit 1
+fi
+if [ -z "$target_ref" ]; then
+    echo "Error: target branch '$target' not found locally or on origin" >&2
+    exit 1
+fi
+
+if git remote get-url origin >/dev/null 2>&1; then
+    git fetch --quiet origin "$target" 2>/dev/null || true
+fi
+
+if git merge-base --is-ancestor "$branch_ref" "$target_ref"; then
+    echo "yes: '$branch' is merged into '$target' (ancestry)"
+    exit 0
+fi
+
+unmerged=$(git cherry "$target_ref" "$branch_ref" | grep -c '^+' || true)
+
+if [ "$unmerged" -eq 0 ]; then
+    echo "yes: '$branch' is merged into '$target' (patch-id match, e.g. rebased then merged)"
+    exit 0
+fi
+
+merge_base=$(git merge-base "$branch_ref" "$target_ref")
+mapfile -t changed_files < <(git diff --name-only "$merge_base" "$branch_ref")
+
+if [ "${#changed_files[@]}" -eq 0 ] || git diff --quiet "$branch_ref" "$target_ref" -- "${changed_files[@]}"; then
+    echo "yes: '$branch' is merged into '$target' (squash: target's copy of branch's changed files matches the branch tip)"
+    exit 0
+fi
+
+echo "no: '$branch' has $unmerged commit(s) not in '$target', and its changed files still differ from '$target'"
+exit 1
