@@ -9,6 +9,7 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("uwsm-app -- kanshi")
 
 	hl.exec_cmd("~/dotfiles/waybar/start-waybar.sh")
+	require("wallpaper").set_random()
 	hl.exec_cmd("uwsm-app -- blueman-applet")
 	hl.exec_cmd("uwsm-app -- hypridle")
 	hl.exec_cmd("uwsm-app -- mako")

@@ -24,9 +24,11 @@ local n      = 'code:46'
 local s      = 'code:47'
 local j      = 'code:54'
 local k      = 'code:55'
+local m      = 'code:58'
 
 local terminal = 'foot'
-local menu = '~/dotfiles/scripts/launcher.sh menu'
+local launcher = '~/dotfiles/scripts/launcher'
+local menu = launcher .. ' menu'
 
 -- Lock
 hl.bind(sc(mod, l), hl.dsp.exec_cmd('hyprlock'))
@@ -34,7 +36,7 @@ hl.bind(sc(mod, l), hl.dsp.exec_cmd('hyprlock'))
 -- Core
 hl.bind(sc(mod, 'Return'),         hl.dsp.exec_cmd(terminal))
 hl.bind(sc(mod, 'SHIFT', apos),    hl.dsp.window.close())
-hl.bind(sc(mod, 'SHIFT', 'M'),     hl.dsp.exit())
+hl.bind(sc(mod, 'SHIFT', period),  hl.dsp.exit())
 hl.bind(sc(mod, 'SHIFT', 'space'), hl.dsp.window.float({ action = 'toggle' }))
 hl.bind(sc(mod, e),                hl.dsp.exec_cmd(menu))
 hl.bind(sc(mod, u),                hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'toggle' }))
@@ -49,6 +51,11 @@ end
 -- Tab: cycle workspaces on focused monitor
 hl.bind(sc(mod, 'Tab'),          function() cycle_ws_on_monitor(1)  end)
 hl.bind(sc(mod, 'SHIFT', 'Tab'), function() cycle_ws_on_monitor(-1) end)
+
+-- Workspace pickers (fuzzel prompts, shared with the sway config)
+hl.bind(sc(mod, m),          hl.dsp.exec_cmd(launcher .. ' go-to-ws'))
+hl.bind(sc(mod, 'SHIFT', m), hl.dsp.exec_cmd(launcher .. ' move-to-ws'))
+hl.bind(sc(mod, p),          hl.dsp.exec_cmd(launcher .. ' rename-ws'))
 
 -- Move current workspace to monitor
 hl.bind(sc(mod, 'SHIFT', 'CONTROL', h), hl.dsp.workspace.move({ monitor = 'l', once = false, visible = false }))
@@ -86,6 +93,8 @@ function log(msg)
 	if f then f:write(msg .. '\n') f:close() end
 end
 
+-- sway's `workspace next_on_output` / `prev_on_output`: cycle the workspaces
+-- living on the focused monitor, in id order, wrapping at both ends.
 function cycle_ws_on_monitor(dir)
 	local focused
 	for _, mon in ipairs(hl.get_monitors()) do
@@ -95,7 +104,8 @@ function cycle_ws_on_monitor(dir)
 
 	local workspaces = {}
 	for _, ws in ipairs(hl.get_workspaces()) do
-		if ws.monitor == focused.name then
+		-- ws.monitor is an HL.Monitor userdata, not a name string
+		if ws.id > 0 and ws.monitor and ws.monitor.name == focused.name then
 			table.insert(workspaces, ws)
 		end
 	end

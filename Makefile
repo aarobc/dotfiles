@@ -24,7 +24,8 @@ parsers-force:
 install-hypr:
 	sudo pacman -S hyprcursor hyprgraphics hypridle hyprland hyprland-guiutils \
 	hyprland-qt-support hyprlang hyprlock hyprpaper hyprpolkitagent hyprtoolkit \
-	hyprutils hyprwayland-scanner hyprwire xdg-desktop-portal-hyprland
+	hyprutils hyprwayland-scanner hyprwire xdg-desktop-portal-hyprland \
+	lua-filesystem
 
 install-sway:
 	sudo pacman -S sway swaybg swayidle swaylock swayosd
