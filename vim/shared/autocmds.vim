@@ -39,4 +39,10 @@ augroup vimrc
 
   "run syntax check on entire document
   " autocmd BufEnter * :syntax sync fromstart
+
+  " theme override: orange YAML keys
+  autocmd ColorScheme * highlight yamlMappingKey guifg=#fd971f ctermfg=208
+  if has('nvim')
+    autocmd ColorScheme * highlight @property.yaml guifg=#fd971f ctermfg=208
+  endif
 augroup END
