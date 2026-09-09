@@ -107,8 +107,7 @@ function gnwt() {
 # set the option so you can use vim bindings in the shell
 # set -o vi
 
-POWERLEVEL9K_CONFIG_FILE="~/.config/p10k.zsh"
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# Edit that file by hand; `p10k configure` would replace it with a full dump.
 [[ ! -f ~/.config/p10k.zsh ]] || source ~/.config/p10k.zsh
 
 # bun completions

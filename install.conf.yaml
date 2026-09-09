@@ -73,7 +73,7 @@
       create: true
       path: foot.ini
 
-    # zshrc points POWERLEVEL9K_CONFIG_FILE here and sources it.
+    # zshrc sources this for the powerlevel10k prompt config.
     ~/.config/p10k.zsh:
       force: true
       create: true
