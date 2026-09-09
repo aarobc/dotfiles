@@ -4,8 +4,9 @@ require("input")
 require("look")
 require("rules")
 
-require("binds")
+-- plugins before binds: binds.lua branches on which plugins are loaded
 require("plugins")
+require("binds")
 require("autostart")
 
 -- Per-machine config: load every *.lua in custom/

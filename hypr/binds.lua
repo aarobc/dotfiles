@@ -41,10 +41,24 @@ hl.bind(sc(mod, 'SHIFT', 'space'), hl.dsp.window.float({ action = 'toggle' }))
 hl.bind(sc(mod, e),                hl.dsp.exec_cmd(menu))
 hl.bind(sc(mod, u),                hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'toggle' }))
 
-if hl.plugin and hl.plugin.hy3 then
+-- hl.plugin only exposes load(); there is no hl.plugin.<name>. Loaded plugins are
+-- reported by hl.get_loaded_plugins() as { name, author, version, description }.
+local function plugin_loaded(name)
+	for _, p in ipairs(hl.get_loaded_plugins()) do
+		if p.name == name then return true end
+	end
+	return false
+end
+
+if plugin_loaded('hy3') then
 	require("hy3")
 else
-	hl.exec_cmd("notify-send 'hy3 plugin not found, loading fallback keybindings'")
+	-- Nothing is loaded yet on the first pass of a cold start; plugins.lua registers
+	-- hy3 and Hyprland reloads once it is up, and that pass takes the branch above.
+	-- Only warn when hyprpm has no built hy3.so at all, which no reload will fix.
+	if not require("plugins").hy3_so then
+		hl.exec_cmd("notify-send 'hy3 plugin not built, loading fallback keybindings'")
+	end
 	require("fallback")
 end
 
@@ -88,8 +102,10 @@ hl.bind('XF86AudioPrev',  hl.dsp.exec_cmd('playerctl previous'),   { locked = tr
 -- Helper & Logic Functions (Runtime)
 --------------------------------------------------------------------------------
 
+-- /tmp is a RAM-backed tmpfs on this machine, so keep the log on disk instead.
 function log(msg)
-	local f = io.open('/tmp/hypr_debug.log', 'a')
+	local dir = os.getenv('TMPDIR') or (os.getenv('HOME') .. '/.cache/tmp')
+	local f = io.open(dir .. '/hypr_debug.log', 'a')
 	if f then f:write(msg .. '\n') f:close() end
 end
 
