@@ -8,7 +8,7 @@ hl.on("hyprland.start", function()
 	-- Extra autostart processes via uwsm
 	hl.exec_cmd("uwsm-app -- kanshi")
 
-	hl.exec_cmd("~/dotfiles/waybar/start-waybar.sh")
+	hl.exec_cmd("waybar")
 	require("wallpaper").set_random()
 	hl.exec_cmd("uwsm-app -- blueman-applet")
 	hl.exec_cmd("uwsm-app -- hypridle")

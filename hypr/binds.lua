@@ -105,7 +105,7 @@ function cycle_ws_on_monitor(dir)
 	local workspaces = {}
 	for _, ws in ipairs(hl.get_workspaces()) do
 		-- ws.monitor is an HL.Monitor userdata, not a name string
-		if ws.id > 0 and ws.monitor and ws.monitor.name == focused.name then
+		if not ws.special and ws.monitor and ws.monitor.name == focused.name then
 			table.insert(workspaces, ws)
 		end
 	end
@@ -119,7 +119,10 @@ function cycle_ws_on_monitor(dir)
 	if not idx or #workspaces < 2 then return end
 
 	local next_ws = workspaces[((idx - 1 + dir) % #workspaces) + 1]
-	hl.dispatch(hl.dsp.focus({ workspace = next_ws.id }))
+	-- Hyprland clamps plain numeric workspace selectors to a minimum of 1
+	-- (see getWorkspaceIDNameFromString), so negative IDs (named workspaces)
+	-- must be targeted by name, not by raw numeric id.
+	hl.dispatch(hl.dsp.focus({ workspace = 'name:' .. next_ws.name }))
 end
 
 

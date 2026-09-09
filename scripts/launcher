@@ -23,8 +23,8 @@ const hyprland = {
         .filter(ws => ws.id > 0)
         .sort((a, b) => a.id - b.id)
         .map(ws => ws.name),
-    gotoWs:     async name => $`hyprctl dispatch ${`hl.dsp.focus({workspace=${luaStr(name)}})`}`,
-    moveToWs:   async name => $`hyprctl dispatch ${`hl.dsp.window.move({workspace=${luaStr(name)}})`}`,
+    gotoWs:     async name => $`hyprctl dispatch ${`hl.dsp.focus({workspace=${luaStr('name:' + name)}})`}`,
+    moveToWs:   async name => $`hyprctl dispatch ${`hl.dsp.window.move({workspace=${luaStr('name:' + name)}})`}`,
     renameWs:   async name => {
         const wsId = (await $`hyprctl activeworkspace -j`.json()).id
         return $`hyprctl dispatch ${`hl.dsp.workspace.rename({workspace=${wsId}, name=${luaStr(name)}})`}`
