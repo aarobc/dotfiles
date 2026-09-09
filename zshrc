@@ -35,6 +35,7 @@ if ! zgen saved; then
     zgen save
 fi
 
+compdef _zshz z 2>/dev/null || true
 zstyle ':completion:*:*:docker:*' option-stacking yes
 
 # to fix zgen do:
@@ -78,6 +79,7 @@ export GIT_EDITOR=vim
 export EDITOR=vim
 export VISUAL=vim
 export ZSHZ_CASE=smart
+export ZSHZ_EXCLUDE_DIRS=(/mnt)
 
 
 # see also ./profile that's symlinked within ~/.config/environment.d/

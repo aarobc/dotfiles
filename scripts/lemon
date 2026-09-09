@@ -1,16 +1,22 @@
 #!/bin/bash
-export ANTHROPIC_BASE_URL="http://anarchy.local:13305"
-export ANTHROPIC_API_KEY="lemonade"
+# export ANTHROPIC_BASE_URL="http://framework.local:8082"
+export ANTHROPIC_BASE_URL="http://framework.local"
+# export ANTHROPIC_BASE_URL="http://framework.local:11434"
+export ANTHROPIC_API_KEY="ollama"
 
 export DISABLE_TELEMETRY=1
 export DISABLE_ERROR_REPORTING=1
 export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
 export CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY=1
+export CLAUDE_CODE_MAX_CONTEXT_TOKENS=131072
+export CLAUDE_CODE_DISABLE_UNKNOWN_MODEL_WINDOW_ENFORCEMENT=1
+
 
 
 # Set the primary model
 # export ANTHROPIC_MODEL="Qwen3.5-35B-A3B-GGUF-IQ3_S"
-export ANTHROPIC_MODEL="Qwen3-Coder-30B-A3B-Instruct-GGUF"
+# export ANTHROPIC_MODEL="Qwen3.8-Flash-Next-GGUF:UD-IQ4_XS"
+export ANTHROPIC_MODEL="Qwen3.8-27B-GGUF-Q8_0"
 
 # Route fast/background tasks to the same Lemonade model
 export ANTHROPIC_SMALL_FAST_MODEL="${ANTHROPIC_MODEL}"
