@@ -41,25 +41,33 @@ hl.bind(sc(mod, 'SHIFT', 'space'), hl.dsp.window.float({ action = 'toggle' }))
 hl.bind(sc(mod, e),                hl.dsp.exec_cmd(menu))
 hl.bind(sc(mod, u),                hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'toggle' }))
 
--- hl.plugin only exposes load(); there is no hl.plugin.<name>. Loaded plugins are
--- reported by hl.get_loaded_plugins() as { name, author, version, description }.
-local function plugin_loaded(name)
-	for _, p in ipairs(hl.get_loaded_plugins()) do
-		if p.name == name then return true end
-	end
-	return false
-end
+-- sway-emulation layout (lua:sway, loaded by hyprland.lua). Focus/move route
+-- through the layout's own layout_msg tree — the built-in hl.dsp.window.move /
+-- hl.dsp.focus direction handlers are raw-insertion-order C++ and ignore the
+-- tree (see ~/code/hy3-lua/CLAUDE.md). Edge moves cross monitors internally.
+local function sway(msg) return hl.dsp.layout(msg) end
 
-if plugin_loaded('hy3') then
-	require("hy3")
-else
-	-- Nothing is loaded yet on the first pass of a cold start; plugins.lua registers
-	-- hy3 and Hyprland reloads once it is up, and that pass takes the branch above.
-	-- Only warn when hyprpm has no built hy3.so at all, which no reload will fix.
-	if not require("plugins").hy3_so then
-		hl.exec_cmd("notify-send 'hy3 plugin not built, loading fallback keybindings'")
-	end
-	require("fallback")
+-- Splits (sticky per-container orientation, sway's model)
+hl.bind(sc(mod, d), sway('splith'))
+hl.bind(sc(mod, k), sway('splitv'))
+
+-- Focus
+hl.bind(sc(mod, h), sway('focus left'))
+hl.bind(sc(mod, s), sway('focus right'))
+hl.bind(sc(mod, n), sway('focus up'))
+hl.bind(sc(mod, t), sway('focus down'))
+
+-- Move window
+hl.bind(sc(mod, 'SHIFT', h), sway('move left'))
+hl.bind(sc(mod, 'SHIFT', s), sway('move right'))
+hl.bind(sc(mod, 'SHIFT', n), sway('move up'))
+hl.bind(sc(mod, 'SHIFT', t), sway('move down'))
+
+-- Workspaces
+for i = 1, 10 do
+	local key = i % 10
+	hl.bind(sc(mod, key),          hl.dsp.focus({ workspace = i }))
+	hl.bind(sc(mod, 'SHIFT', key), hl.dsp.window.move({ workspace = i }))
 end
 
 -- Tab: cycle workspaces on focused monitor

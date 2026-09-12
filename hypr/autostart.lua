@@ -1,8 +1,5 @@
 -- Autostart
 hl.on("hyprland.start", function()
-	-- No `hyprpm reload -n` here: it loaded plugins after the config was already
-	-- evaluated, so binds.lua could never see them. plugins.lua registers the built
-	-- .so files instead and Hyprland reloads once they are up.
 	hl.exec_cmd("nm-applet")
 	hl.exec_cmd("systemctl --user start hyprpolkitagent")
 	hl.exec_cmd("setxkbmap -layout us -variant dvorak")

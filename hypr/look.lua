@@ -10,7 +10,7 @@ hl.config({
 		},
 		resize_on_border = false,
 		allow_tearing = true,
-		layout = "hy3"
+		layout = "lua:sway"
 	},
 	decoration = {
 		rounding = 10,
@@ -32,10 +32,6 @@ hl.config({
 	},
 	animations = {
 		enabled = true
-	},
-	dwindle = {
-		preserve_split = true,
-		permanent_direction_override = true
 	},
 	master = {
 		new_status = "master"

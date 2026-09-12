@@ -1,11 +1,15 @@
 require("env")
 require("monitors")
 require("input")
+
+-- sway-emulation layout (custom hl.layout registered as 'lua:sway' in
+-- ~/code/hy3-lua/layout.lua). Load before look.lua, which selects it.
+package.path = package.path .. ';' .. os.getenv('HOME') .. '/code/hy3-lua/?.lua'
+require("layout")
+
 require("look")
 require("rules")
 
--- plugins before binds: binds.lua branches on which plugins are loaded
-require("plugins")
 require("binds")
 require("autostart")
 
