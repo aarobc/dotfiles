@@ -72,12 +72,14 @@ alias displays='swaymsg -t get_outputs'
 
 if hash nvim 2>/dev/null; then
     alias vim='nvim'
+    export GIT_EDITOR=nvim
+    export EDITOR=nvim
+    export VISUAL=nvim
+else
+    export GIT_EDITOR=vim
+    export EDITOR=vim
+    export VISUAL=vim
 fi
-
-# export MANPATH="/usr/local/man:$MANPATH"
-export GIT_EDITOR=vim
-export EDITOR=vim
-export VISUAL=vim
 export ZSHZ_CASE=smart
 export ZSHZ_EXCLUDE_DIRS=(/mnt)
 
