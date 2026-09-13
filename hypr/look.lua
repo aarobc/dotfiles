@@ -42,7 +42,7 @@ hl.config({
 		disable_splash_rendering = true
 	},
 	debug = {
-		disable_logs = false,
+		disable_logs = true,
 		enable_stdout_logs = 1
 	}
 })
