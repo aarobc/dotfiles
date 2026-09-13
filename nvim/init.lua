@@ -82,6 +82,8 @@ map('n', '<leader>pw', function() require('windowswap').swap() end, { silent = t
 map('n', '<leader>ww', function() require('windowswap').easy() end, { silent = true })
 
 -- grep repo contents, smart case (lua/gitgrep.lua)
+-- filter paths with trailing globs (`handleFoo *.ini`, `handleFoo *.{ts,tsx}`, `handleFoo !*.ini`)
+-- or, for bare extensions, after a ` -- ` separator: `handleFoo -- lua vim`, `handleFoo -- !test`
 map('n', '<leader>g', function() require('gitgrep').repo() end, { silent = true })
 map('n', '<leader>f', function() require('gitgrep').everything() end, { silent = true })
 
