@@ -10,7 +10,7 @@ hl.config({
 		},
 		resize_on_border = false,
 		allow_tearing = true,
-		layout = "lua:sway"
+		layout = "lua:hy3"
 	},
 	decoration = {
 		rounding = 10,

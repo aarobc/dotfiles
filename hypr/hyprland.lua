@@ -2,10 +2,11 @@ require("env")
 require("monitors")
 require("input")
 
--- sway-emulation layout (custom hl.layout registered as 'lua:sway' in
--- ~/code/hy3-lua/layout.lua). Load before look.lua, which selects it.
-package.path = package.path .. ';' .. os.getenv('HOME') .. '/code/hy3-lua/?.lua'
-require("layout")
+-- hy3 layout (HYprland + i3): published LuaRocks package, installed in the
+-- local tree (`luarocks --local install hy3`). Load before look.lua, which
+-- selects it.
+package.path = package.path .. ';' .. os.getenv('HOME') .. '/.luarocks/share/lua/5.4/?.lua'
+require("hy3")
 
 require("look")
 require("rules")

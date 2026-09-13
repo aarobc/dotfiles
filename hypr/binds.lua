@@ -41,7 +41,7 @@ hl.bind(sc(mod, 'SHIFT', 'space'), hl.dsp.window.float({ action = 'toggle' }))
 hl.bind(sc(mod, e),                hl.dsp.exec_cmd(menu))
 hl.bind(sc(mod, u),                hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'toggle' }))
 
--- sway-emulation layout (lua:sway, loaded by hyprland.lua). Focus/move route
+-- hy3 layout (lua:hy3, loaded by hyprland.lua). Focus/move route
 -- through the layout's own layout_msg tree — the built-in hl.dsp.window.move /
 -- hl.dsp.focus direction handlers are raw-insertion-order C++ and ignore the
 -- tree (see ~/code/hy3-lua/CLAUDE.md). Edge moves cross monitors internally.
