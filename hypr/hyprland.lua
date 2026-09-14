@@ -2,10 +2,10 @@ require("env")
 require("monitors")
 require("input")
 
--- hy3 layout (HYprland + i3): published LuaRocks package, installed in the
--- local tree (`luarocks --local install hy3`). Load before look.lua, which
--- selects it.
-package.path = package.path .. ';' .. os.getenv('HOME') .. '/.luarocks/share/lua/5.4/?.lua'
+-- hy3 layout (HYprland + i3): loaded from the local working tree
+-- (~/code/hy3-lua/src/hy3.lua) so edits can be validated in place. Load
+-- before look.lua, which selects it.
+package.path = package.path .. ';' .. os.getenv('HOME') .. '/code/hy3-lua/src/?.lua'
 require("hy3")
 
 require("look")
