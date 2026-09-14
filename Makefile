@@ -3,11 +3,12 @@
 # everything a fresh machine needs, in order. Langserver images are not built here: nvim/langservers/compose.yml
 # builds them lazily on first use, via nvim/lua/lsp.lua.
 install: configs parsers
+	luarocks --local --lua-version 5.4 install hy3
 
 # base-devel (cc) and tree-sitter-cli build the treesitter parsers, which are host-compiled, not dockerable.
 # tree-sitter-cli must come from pacman, NOT npm: upstream only supports the former.
 deps:
-	sudo pacman -S foot git docker docker-compose neovim fuzzel base-devel tree-sitter-cli curl ripgrep
+	sudo pacman -S foot git docker docker-compose neovim fuzzel base-devel tree-sitter-cli curl ripgrep luarocks
 
 # list lives in nvim/lua/ts_parsers.lua. Also clones missing plugins on the way, since vim.pack does that at startup.
 parsers:
