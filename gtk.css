@@ -1,0 +1,8 @@
+/* Kill GTK3 client-side-decoration shadow margins.
+   Hyprland draws its own borders; the invisible shadow margin makes some
+   apps (wdisplays) report an xdg window geometry offset and render inset. */
+decoration,
+decoration:backdrop {
+	margin: 0;
+	box-shadow: none;
+}

@@ -73,6 +73,15 @@
       create: true
       path: foot.ini
 
+    # wdisplays (GTK3 CSD) reports an xdg window geometry offset equal to its
+    # invisible shadow margin, which Hyprland does not subtract: the app ends up
+    # inset from its border with the right/bottom edge clipped. Zeroing the
+    # decoration margin drops the offset. Hyprland draws its own borders anyway.
+    ~/.config/gtk-3.0/gtk.css:
+      force: true
+      create: true
+      path: gtk.css
+
     # zshrc sources this for the powerlevel10k prompt config.
     ~/.config/p10k.zsh:
       force: true
