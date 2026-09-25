@@ -1,0 +1,354 @@
+#!/usr/bin/env bun
+// gcwt: clean up git worktrees whose branches have been merged into origin/<target>.
+//
+// Usage: gcwt [target-branch] [--dry-run]
+//   target-branch  defaults to master
+//   --dry-run      report only, change nothing
+//
+// Run from the directory holding the main worktree + sibling worktrees
+// (e.g. ~/code/fuse-core, containing parent/ and the worktree dirs), or from
+// inside any of those worktrees.
+//
+// Merge detection, in order:
+//   1. ancestry        - fast-forward / regular merge commit
+//   2. patch-id        - every branch commit has an equivalent on target (rebase-merge)
+//   3. squash patch-id - branch's whole diff, squashed into one synthetic commit,
+//                        matches a single commit on target (squash-merge)
+//   4. squash contents - target's copy of every file the branch touched is
+//                        identical to the branch tip (squash-merge where target
+//                        was merged into the branch along the way)
+//
+// For each merged worktree: offers to carry new/changed .env.local values into
+// the main worktree's .env.local, stops + removes its docker containers, removes
+// the worktree, and optionally deletes the local branch. Exits early if any
+// worktree holds files you don't own (root-owned docker leftovers).
+
+import {$} from 'bun'
+import {existsSync, readdirSync, readFileSync, appendFileSync} from 'fs'
+import {basename, join} from 'path'
+
+const args = process.argv.slice(2)
+const dryRun = args.includes('--dry-run')
+const target = args.find(a => !a.startsWith('-')) ?? 'master'
+const targetRef = `origin/${target}`
+
+const bold = (s: string) => `\x1b[1m${s}\x1b[0m`
+const dim = (s: string) => `\x1b[2m${s}\x1b[0m`
+const green = (s: string) => `\x1b[32m${s}\x1b[0m`
+const yellow = (s: string) => `\x1b[33m${s}\x1b[0m`
+const red = (s: string) => `\x1b[31m${s}\x1b[0m`
+
+function confirm(question: string): boolean {
+    const answer = prompt(`${question} [y/N]`)
+    return answer?.trim().toLowerCase().startsWith('y') ?? false
+}
+
+// ---------------------------------------------------------------- locate repo
+
+async function isGitDir(dir: string): Promise<boolean> {
+    return (await $`git -C ${dir} rev-parse --is-inside-work-tree`.nothrow().quiet()).exitCode === 0
+}
+
+async function findAnyWorktree(): Promise<string | null> {
+    const cwd = process.cwd()
+    if (await isGitDir(cwd)) return cwd
+    // not in a repo: look for a child dir that is one, preferring parent/
+    const children = readdirSync(cwd, {withFileTypes: true})
+        .filter(d => d.isDirectory())
+        .map(d => d.name)
+        .sort((a, b) => (a === 'parent' ? -1 : b === 'parent' ? 1 : 0))
+    for (const child of children) {
+        if (await isGitDir(join(cwd, child))) return join(cwd, child)
+    }
+    return null
+}
+
+const anyWorktree = await findAnyWorktree()
+if (!anyWorktree) {
+    console.error('Error: not inside a git repository, and no child directory is one')
+    process.exit(1)
+}
+
+interface Worktree {
+    path: string
+    head: string
+    branch: string | null // short name, null when detached
+    locked: boolean
+    prunable: boolean
+}
+
+async function listWorktrees(cwd: string): Promise<Worktree[]> {
+    const out = await $`git worktree list --porcelain`.cwd(cwd).text()
+    return out
+        .trim()
+        .split('\n\n')
+        .map(block => {
+            const lines = block.split('\n')
+            const get = (key: string) => lines.find(l => l.startsWith(`${key} `))?.slice(key.length + 1)
+            const has = (key: string) => lines.some(l => l === key || l.startsWith(`${key} `))
+            return {
+                path: get('worktree')!,
+                head: get('HEAD') ?? '',
+                branch: get('branch')?.replace(/^refs\/heads\//, '') ?? null,
+                locked: has('locked'),
+                prunable: has('prunable'),
+            }
+        })
+}
+
+const [mainWt, ...worktrees] = await listWorktrees(anyWorktree)
+const main = mainWt.path
+// work from the main worktree so we never stand inside a dir we're deleting
+process.chdir(main)
+
+console.log(dim(`main worktree: ${main}`))
+console.log(dim(`fetching origin/${target}...`))
+const fetched = await $`git fetch --quiet origin ${target}`.nothrow().quiet()
+if (fetched.exitCode !== 0) console.log(yellow(`warning: fetch failed, using existing ${targetRef}`))
+if ((await $`git rev-parse --verify --quiet ${targetRef}`.nothrow().quiet()).exitCode !== 0) {
+    console.error(`Error: ${targetRef} not found`)
+    process.exit(1)
+}
+
+// ------------------------------------------------------------ merge detection
+
+// commits on target's mainline: a branch tip found here never had commits of its own
+const mainline = new Set((await $`git rev-list --first-parent ${targetRef}`.quiet().text()).split('\n'))
+
+async function mergeReason(ref: string): Promise<string | null> {
+    if ((await $`git merge-base --is-ancestor ${ref} ${targetRef}`.nothrow().quiet()).exitCode === 0) {
+        return mainline.has(ref) ? 'no commits of its own' : 'ancestry'
+    }
+
+    const cherry = await $`git cherry ${targetRef} ${ref}`.nothrow().quiet().text()
+    if (!cherry.split('\n').some(l => l.startsWith('+'))) return 'patch-id'
+
+    const mergeBase = (await $`git merge-base ${ref} ${targetRef}`.nothrow().quiet().text()).trim()
+    if (!mergeBase) return null
+
+    // squash the branch into one dangling commit on the merge base, then see if
+    // target contains an equivalent patch (dangling object gets gc'd eventually)
+    const squash = await $`git commit-tree ${ref}^{tree} -p ${mergeBase} -m squash`
+        .env({...process.env, GIT_AUTHOR_NAME: 'gcwt', GIT_AUTHOR_EMAIL: 'gcwt@localhost', GIT_COMMITTER_NAME: 'gcwt', GIT_COMMITTER_EMAIL: 'gcwt@localhost'})
+        .nothrow()
+        .quiet()
+        .text()
+    if (squash.trim()) {
+        const squashCherry = await $`git cherry ${targetRef} ${squash.trim()}`.nothrow().quiet().text()
+        if (squashCherry.startsWith('-')) return 'squash, patch-id'
+    }
+
+    const changed = (await $`git diff --name-only ${mergeBase} ${ref}`.nothrow().quiet().text()).split('\n').filter(Boolean)
+    if (changed.length === 0) return 'no changes'
+    if ((await $`git diff --quiet ${ref} ${targetRef} -- ${changed}`.nothrow().quiet()).exitCode === 0) {
+        return 'squash, file contents'
+    }
+
+    return null
+}
+
+// ------------------------------------------------------------------- docker
+
+async function containersFor(path: string): Promise<string[]> {
+    const out = await $`docker ps -aq --filter label=com.docker.compose.project.working_dir=${path}`.nothrow().quiet()
+    if (out.exitCode !== 0) return []
+    return out.text().split('\n').filter(Boolean)
+}
+
+async function runningCount(ids: string[]): Promise<number> {
+    if (ids.length === 0) return 0
+    const out = await $`docker inspect -f {{.State.Running}} ${ids}`.nothrow().quiet().text()
+    return out.split('\n').filter(l => l === 'true').length
+}
+
+async function removeContainers(path: string): Promise<void> {
+    let ids = await containersFor(path)
+    if (ids.length === 0) return
+    console.log(`  stopping/removing ${ids.length} container(s)`)
+    // compose down also cleans up the project's network; fall back to rm -f
+    await $`docker compose down --remove-orphans`.cwd(path).nothrow().quiet()
+    ids = await containersFor(path)
+    if (ids.length > 0) await $`docker rm -f ${ids}`.nothrow().quiet()
+    const left = await containersFor(path)
+    if (left.length > 0) console.log(red(`  failed to remove containers: ${left.join(' ')}`))
+}
+
+// ----------------------------------------------------------------- env files
+
+interface EnvEntry {
+    key: string
+    value: string // normalised: unquoted, trimmed
+    line: string // original line
+}
+
+function parseEnv(path: string): Map<string, EnvEntry> {
+    const entries = new Map<string, EnvEntry>()
+    if (!existsSync(path)) return entries
+    for (const line of readFileSync(path, 'utf8').split('\n')) {
+        const match = line.match(/^\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_.]*)\s*=\s*(.*)$/)
+        if (!match) continue
+        let value = match[2].trim()
+        const quoted = value.match(/^(['"])(.*)\1$/)
+        if (quoted) value = quoted[2]
+        else value = value.replace(/\s+#.*$/, '')
+        // first definition wins, same as phpdotenv
+        if (!entries.has(match[1])) entries.set(match[1], {key: match[1], value, line: line.trim()})
+    }
+    return entries
+}
+
+async function offerEnvMerge(wt: Worktree): Promise<void> {
+    const name = basename(wt.path)
+    const wtEnvPath = join(wt.path, '.env.local')
+    const mainEnvPath = join(main, '.env.local')
+    if (!existsSync(wtEnvPath)) return
+
+    const mainEnv = parseEnv(mainEnvPath)
+    const added: EnvEntry[] = []
+    const changed: {entry: EnvEntry; old: EnvEntry}[] = []
+    for (const entry of parseEnv(wtEnvPath).values()) {
+        const old = mainEnv.get(entry.key)
+        if (!old) added.push(entry)
+        else if (old.value !== entry.value) changed.push({entry, old})
+    }
+    if (added.length === 0 && changed.length === 0) return
+
+    console.log(`\n  ${bold(name)}/.env.local differs from ${basename(main)}/.env.local:`)
+    for (const e of added) console.log(green(`    + ${e.line}`))
+    for (const {entry, old} of changed) {
+        console.log(red(`    - ${old.line}`))
+        console.log(green(`    + ${entry.line}`))
+    }
+    if (changed.length > 0) {
+        console.log(dim('    (changed keys are appended commented out: the first definition wins,'))
+        console.log(dim('     so an appended duplicate would be ignored anyway)'))
+    }
+    if (dryRun || !confirm(`  append these to ${mainEnvPath}?`)) return
+
+    const block = [
+        '',
+        `# additions from ${name}`,
+        ...added.map(e => e.line),
+        ...changed.map(({entry, old}) => `# ${entry.line}  (was: ${old.line})`),
+        '',
+    ]
+    const existing = existsSync(mainEnvPath) ? readFileSync(mainEnvPath, 'utf8') : ''
+    appendFileSync(mainEnvPath, (existing && !existing.endsWith('\n') ? '\n' : '') + block.join('\n'))
+    console.log(green(`  appended ${added.length + changed.length} line(s)`))
+}
+
+// --------------------------------------------------------------- removal
+
+async function removeWorktree(wt: Worktree): Promise<boolean> {
+    await $`git worktree remove --force ${wt.path}`.nothrow().quiet()
+    if (existsSync(wt.path)) {
+        console.log(red(`  failed to remove ${wt.path}`))
+        return false
+    }
+    return true
+}
+
+// -------------------------------------------------------------------- main
+
+interface Candidate {
+    wt: Worktree
+    reason: string
+    containers: string[]
+    running: number
+}
+
+const candidates: Candidate[] = []
+const skipped: {wt: Worktree; why: string}[] = []
+const stale = worktrees.filter(wt => wt.prunable)
+
+for (const wt of worktrees.filter(wt => !wt.prunable)) {
+    const label = wt.branch ?? `detached ${wt.head.slice(0, 9)}`
+    process.stdout.write(dim(`checking ${basename(wt.path)} (${label})...\r`))
+    const why = await (async () => {
+        if (wt.branch === target) return `is ${target} itself`
+        if (wt.locked) return 'locked'
+        const status = await $`git -C ${wt.path} status --porcelain`.nothrow().quiet().text()
+        if (status.trim()) return 'uncommitted changes'
+        return null
+    })()
+    process.stdout.write('\x1b[2K')
+    if (why) {
+        skipped.push({wt, why})
+        continue
+    }
+    const reason = await mergeReason(wt.head)
+    if (!reason) {
+        skipped.push({wt, why: 'not merged'})
+        continue
+    }
+    const containers = await containersFor(wt.path)
+    candidates.push({wt, reason, containers, running: await runningCount(containers)})
+}
+
+if (skipped.length > 0) {
+    console.log(bold('\nKeeping:'))
+    for (const {wt, why} of skipped) {
+        console.log(`  ${basename(wt.path).padEnd(45)} ${dim(`${wt.branch ?? 'detached'} - ${why}`)}`)
+    }
+}
+
+if (stale.length > 0) {
+    console.log(bold('\nStale worktree entries (directory already gone):'))
+    for (const wt of stale) console.log(`  ${wt.path}`)
+}
+
+if (candidates.length === 0) {
+    console.log(`\nNo worktrees merged into ${targetRef}.`)
+    if (stale.length > 0 && !dryRun && confirm('\nPrune stale entries?')) await $`git worktree prune`
+    process.exit(0)
+}
+
+console.log(bold(`\nMerged into ${targetRef}:`))
+for (const {wt, reason, containers, running} of candidates) {
+    const docker = containers.length === 0 ? '' : yellow(` [${containers.length} container(s), ${running} running]`)
+    console.log(`  ${green(basename(wt.path).padEnd(45))} ${dim(`${wt.branch ?? 'detached'} - ${reason}`)}${docker}`)
+}
+
+// docker-created files (vendor/, bootstrap/cache) are often root-owned and
+// can't be deleted; bail out before touching anything
+const uid = process.getuid!()
+const foreign: string[] = []
+for (const {wt} of candidates) {
+    const out = await $`find ${wt.path} ! -user ${uid} -prune -print`.nothrow().quiet().text()
+    foreign.push(...out.split('\n').filter(Boolean))
+}
+if (foreign.length > 0) {
+    console.log(red(`\n${foreign.length} path(s) not owned by you (likely root, created by docker):`))
+    for (const path of foreign.slice(0, 20)) console.log(`  ${path}`)
+    if (foreign.length > 20) console.log(dim(`  ...and ${foreign.length - 20} more`))
+    const dirs = [...new Set(foreign.map(p => candidates.find(c => p.startsWith(`${c.wt.path}/`))!.wt.path))]
+    console.log(`\nFix with:\n  sudo chown -R $USER: ${dirs.join(' ')}\nthen run gcwt again.`)
+    if (!dryRun) process.exit(1)
+}
+
+if (dryRun) {
+    console.log(dim('\n--dry-run: nothing changed'))
+    for (const c of candidates) await offerEnvMerge(c.wt)
+    process.exit(0)
+}
+
+if (!confirm(`\nDelete these ${candidates.length} worktree(s)${stale.length ? ' and prune stale entries' : ''}?`)) {
+    console.log('Aborted.')
+    process.exit(0)
+}
+const deleteBranches = confirm('Also delete their local branches?')
+
+for (const {wt} of candidates) {
+    console.log(`\n${bold(basename(wt.path))}`)
+    await offerEnvMerge(wt)
+    await removeContainers(wt.path)
+    if (!(await removeWorktree(wt))) continue
+    console.log(green('  worktree removed'))
+    if (deleteBranches && wt.branch) {
+        const del = await $`git branch -D ${wt.branch}`.nothrow().quiet()
+        console.log(del.exitCode === 0 ? green(`  branch ${wt.branch} deleted`) : red(`  failed to delete branch ${wt.branch}`))
+    }
+}
+
+await $`git worktree prune`.nothrow().quiet()
+console.log(green('\nDone.'))
