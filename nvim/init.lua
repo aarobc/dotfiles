@@ -39,6 +39,29 @@ end
 -- monokai-derived colorscheme shipped with nvim (replaces tomasr/molokai)
 vim.cmd('silent! colorscheme unokai')
 
+-- php gets the JetBrains look (jb.nvim). A colorscheme is global, not per window,
+-- so this follows whichever real file buffer has focus; plugin windows (nerdtree,
+-- telescope, quickfix) have a buftype and leave the current scheme alone.
+--
+-- jb.nvim's after/queries/php/highlights.scm is on the runtimepath for every php
+-- treesitter highlight (telescope previews too), but the custom predicates it uses
+-- are only registered when the jb module loads. Load it up front, or highlighting
+-- php under unokai errors with "No handler for php-template-language?".
+pcall(require, 'jb')
+vim.api.nvim_create_autocmd({ 'BufEnter', 'FileType' }, {
+  group = vim.api.nvim_create_augroup('php_colorscheme', {}),
+  callback = function(args)
+    if args.buf ~= vim.api.nvim_get_current_buf() or vim.bo[args.buf].buftype ~= '' then return end
+    -- bufload() and friends run autocmds in a hidden 'autocmd' window; not a real focus change
+    if vim.fn.win_gettype() ~= '' then return end
+    local php = vim.bo[args.buf].filetype == 'php'
+    -- jb's php support is treesitter-based; the parser is already in lua/ts_parsers.lua
+    if php then pcall(vim.treesitter.start, args.buf) end
+    local want = php and 'jb' or 'unokai'
+    if vim.g.colors_name ~= want then vim.cmd('silent! colorscheme ' .. want) end
+  end,
+})
+
 -- powerline/airline stuffs
 vim.g.airline_powerline_fonts = 1
 vim.g.airline_theme = 'murmur'

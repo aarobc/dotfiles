@@ -31,6 +31,8 @@ local repos = {
   'neovim/nvim-lspconfig',
   'chrisbra/Colorizer',
   'lewis6991/gitsigns.nvim',
+  -- JetBrains-style colorscheme, used for php buffers only; see init.lua
+  'nickkadutskyi/jb.nvim',
 
   -- parsers for lua/matchtag.lua, installed by `make parsers`. Pinned to main; master is the legacy branch.
   { 'nvim-treesitter/nvim-treesitter', version = 'main' },
