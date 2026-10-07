@@ -1,0 +1,79 @@
+#!/usr/bin/env python3
+# jwtd: decode a JWT from stdin (or argv) and print header + payload as JSON.
+#
+# Usage: echo "$TOKEN" | jwtd
+#        jwtd '<token>'
+#
+# Tolerates surrounding whitespace, single/double quotes (including JSON-escaped
+# strings), and a leading "Bearer " prefix. Does NOT verify the signature.
+
+import base64
+import datetime
+import json
+import sys
+
+
+def clean(raw):
+    s = raw.strip()
+    # Peel quotes repeatedly so things like '"eyJ..."' also work.
+    while len(s) >= 2 and s[0] == s[-1] and s[0] in "\"'":
+        if s[0] == '"':
+            try:
+                s = json.loads(s)
+            except json.JSONDecodeError:
+                s = s[1:-1]
+        else:
+            s = s[1:-1]
+        s = s.strip()
+    if s.lower().startswith("bearer "):
+        s = s[7:].strip()
+    return s
+
+
+def b64url(part):
+    return base64.urlsafe_b64decode(part + "=" * (-len(part) % 4))
+
+
+def annotate_times(payload):
+    if not isinstance(payload, dict):
+        return
+    for key in ("exp", "iat", "nbf", "auth_time"):
+        v = payload.get(key)
+        if isinstance(v, (int, float)):
+            t = datetime.datetime.fromtimestamp(v).astimezone()
+            note = t.strftime("%Y-%m-%d %H:%M:%S %Z")
+            if key == "exp":
+                delta = v - datetime.datetime.now().timestamp()
+                note += " (expired)" if delta < 0 else f" (in {int(delta)}s)"
+            print(f"  {key}: {note}", file=sys.stderr)
+
+
+def main():
+    raw = " ".join(sys.argv[1:]) if len(sys.argv) > 1 else sys.stdin.read()
+    token = clean(raw)
+    if not token:
+        sys.exit("jwtd: no token on stdin")
+
+    parts = token.split(".")
+    if len(parts) not in (3, 5):
+        sys.exit(f"jwtd: expected 3 dot-separated parts, got {len(parts)}")
+    if len(parts) == 5:
+        sys.exit("jwtd: looks like an encrypted JWE; can't decode without the key")
+
+    out = {}
+    for name, part in (("header", parts[0]), ("payload", parts[1])):
+        try:
+            data = b64url(part)
+        except (ValueError, base64.binascii.Error) as e:
+            sys.exit(f"jwtd: bad base64 in {name}: {e}")
+        try:
+            out[name] = json.loads(data)
+        except json.JSONDecodeError:
+            out[name] = data.decode("utf-8", "replace")
+
+    print(json.dumps(out, indent=2), flush=True)
+    annotate_times(out["payload"])
+
+
+if __name__ == "__main__":
+    main()
