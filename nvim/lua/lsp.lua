@@ -112,9 +112,10 @@ vim.lsp.enable({ 'eslint', 'vtsls', 'vue_ls', 'phpactor' })
 -- same LSP requests, but its handlers dump the answer in the quickfix list; these open a picker instead, with
 -- the qflist previewer, and jump straight there when there is only one result.
 --
---   gd    definition (builtin gd is a regex search for a local declaration; this is the real thing, as is
---         CTRL-] via 'tagfunc'. <C-t> would pop the tagstack, but it moves a split down here, so come back
---         with <C-o> or :pop.)
+--   gd    definition, PhpStorm-style: on a usage it jumps to the definition, on the definition itself it
+--         lists the usages instead, as grr would. (builtin gd is a regex search for a local declaration;
+--         this is the real thing, as is CTRL-] via 'tagfunc'. <C-t> would pop the tagstack, but it moves a
+--         split down here, so come back with <C-o> or :pop.)
 --   grr   references -- who uses this symbol
 --   grc   incoming calls -- who calls this function, one hop of the call hierarchy
 --   grC   outgoing calls -- what this function calls
@@ -141,12 +142,46 @@ local function nav(picker, fallback, opts)
   end
 end
 
+local goto_definition = nav('lsp_definitions', vim.lsp.buf.definition)
+-- includeDeclaration off: the declaration is where the cursor already is, and PhpStorm leaves it out too
+local REFS_OPTS = { include_declaration = false }
+local find_references = nav('lsp_references', vim.lsp.buf.references, REFS_OPTS)
+
+-- gd: ask for the definition first, and if it points back at the cursor's own line we are already standing on
+-- the declaration, so list its usages instead. Only the start line is compared: phpactor's range runs from the
+-- name to the end of the body, so a containment test would turn a recursive call into a usage list.
+local function definition_or_references(client, bufnr)
+  return function()
+    local params = vim.lsp.util.make_position_params(0, client.offset_encoding)
+    client:request('textDocument/definition', params, function(err, result)
+      if err then
+        vim.notify('gd: ' .. err.message, vim.log.levels.ERROR)
+        return
+      end
+      -- Location | Location[] | LocationLink[] | nil
+      local locs = (result and (result.uri or result.targetUri)) and { result } or result or {}
+      local here = false
+      for _, loc in ipairs(locs) do
+        local range = loc.targetSelectionRange or loc.range
+        if (loc.targetUri or loc.uri) == params.textDocument.uri and range.start.line == params.position.line then
+          here = true
+        end
+      end
+      if not here then
+        goto_definition()
+      elseif client:supports_method('textDocument/references', bufnr) then
+        find_references()
+      else
+        vim.notify('gd: already at the definition', vim.log.levels.INFO)
+      end
+    end, bufnr)
+  end
+end
+
 local NAV = {
   -- key, capability, telescope picker, builtin fallback, picker opts, description
-  { 'gd', 'textDocument/definition', 'lsp_definitions', vim.lsp.buf.definition, nil, 'go to definition' },
-  -- includeDeclaration off: the declaration is where the cursor already is, and PhpStorm leaves it out too
-  { 'grr', 'textDocument/references', 'lsp_references', vim.lsp.buf.references,
-    { include_declaration = false }, 'references (usages)' },
+  { 'grr', 'textDocument/references', 'lsp_references', vim.lsp.buf.references, REFS_OPTS,
+    'references (usages)' },
   { 'grc', 'textDocument/prepareCallHierarchy', 'lsp_incoming_calls', vim.lsp.buf.incoming_calls, nil,
     'incoming calls' },
   { 'grC', 'textDocument/prepareCallHierarchy', 'lsp_outgoing_calls', vim.lsp.buf.outgoing_calls, nil,
@@ -172,6 +207,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
       if client:supports_method(capability, ev.buf) then
         vim.keymap.set('n', key, nav(picker, fallback, opts), { buffer = ev.buf, silent = true, desc = desc })
       end
+    end
+    if client:supports_method('textDocument/definition', ev.buf) then
+      vim.keymap.set('n', 'gd', definition_or_references(client, ev.buf),
+        { buffer = ev.buf, silent = true, desc = 'definition, or usages when on it' })
     end
   end,
 })
