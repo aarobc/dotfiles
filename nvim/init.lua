@@ -39,7 +39,7 @@ end
 -- monokai-derived colorscheme shipped with nvim (replaces tomasr/molokai)
 vim.cmd('silent! colorscheme unokai')
 
--- php gets the JetBrains look (jb.nvim). A colorscheme is global, not per window,
+-- php and blade get the JetBrains look (jb.nvim). A colorscheme is global, not per window,
 -- so this follows whichever real file buffer has focus; plugin windows (nerdtree,
 -- telescope, quickfix) have a buftype and leave the current scheme alone.
 --
@@ -54,8 +54,9 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'FileType' }, {
     if args.buf ~= vim.api.nvim_get_current_buf() or vim.bo[args.buf].buftype ~= '' then return end
     -- bufload() and friends run autocmds in a hidden 'autocmd' window; not a real focus change
     if vim.fn.win_gettype() ~= '' then return end
-    local php = vim.bo[args.buf].filetype == 'php'
-    -- jb's php support is treesitter-based; the parser is already in lua/ts_parsers.lua
+    local ft = vim.bo[args.buf].filetype
+    local php = ft == 'php' or ft == 'blade'
+    -- jb's php/blade support is treesitter-based; the parsers are in lua/ts_parsers.lua
     if php then pcall(vim.treesitter.start, args.buf) end
     local want = php and 'jb' or 'unokai'
     if vim.g.colors_name ~= want then vim.cmd('silent! colorscheme ' .. want) end

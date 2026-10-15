@@ -120,6 +120,7 @@ local DEFAULT_FILETYPES = {
   'vue',
   'svelte',
   'php',
+  'blade',
   'javascriptreact',
   'typescriptreact',
 }
