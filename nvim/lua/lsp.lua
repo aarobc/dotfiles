@@ -150,6 +150,28 @@ local find_references = nav('lsp_references', vim.lsp.buf.references, REFS_OPTS)
 -- gd: ask for the definition first, and if it points back at the cursor's own line we are already standing on
 -- the declaration, so list its usages instead. Only the start line is compared: phpactor's range runs from the
 -- name to the end of the body, so a containment test would turn a recursive call into a usage list.
+--
+-- An import binding is the exception. When tsserver cannot resolve the module, it falls back to the binding
+-- itself as the definition, which would otherwise look like standing on the declaration. Bundler aliases cause
+-- this (vite's resolve.alias, a leading / meaning the project root), because tsserver only reads
+-- compilerOptions.paths from a jsconfig.json/tsconfig.json.
+local function in_import(bufnr)
+  -- get_node only sees an already-parsed tree, and nothing has parsed one if highlighting is off
+  local has_parser, parser = pcall(vim.treesitter.get_parser, bufnr)
+  if not has_parser or not parser then
+    return false
+  end
+  parser:parse(true)
+  local ok, node = pcall(vim.treesitter.get_node, { bufnr = bufnr, ignore_injections = false })
+  while ok and node do
+    if node:type() == 'import_statement' then
+      return true
+    end
+    node = node:parent()
+  end
+  return false
+end
+
 local function definition_or_references(client, bufnr)
   return function()
     local params = vim.lsp.util.make_position_params(0, client.offset_encoding)
@@ -169,6 +191,9 @@ local function definition_or_references(client, bufnr)
       end
       if not here then
         goto_definition()
+      elseif in_import(bufnr) then
+        vim.notify('gd: ' .. client.name .. ' cannot resolve this import; an aliased path needs a '
+          .. 'compilerOptions.paths entry in jsconfig.json', vim.log.levels.WARN)
       elseif client:supports_method('textDocument/references', bufnr) then
         find_references()
       else
