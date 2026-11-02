@@ -41,9 +41,6 @@ hl.config({
 		disable_hyprland_logo = true,
 		disable_splash_rendering = true
 	},
-	cursor = {
-		no_hardware_cursors = true
-	},
 	debug = {
 		disable_logs = true,
 		enable_stdout_logs = 1

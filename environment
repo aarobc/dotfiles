@@ -11,7 +11,6 @@ XKB_DEFAULT_OPTIONS=caps:escape
 
 KITTY_ENABLE_WAYLAND=1
 XDG_SESSION_TYPE=wayland
-AQ_NO_ATOMIC=1
 # hopefully to fix phpstorm dialog windows showing up in weird places
 _JAVA_AWT_WM_NONREPARENTING=1
 
