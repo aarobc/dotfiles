@@ -12,3 +12,4 @@ exec swayidle -w \
 
 # wallpaper utility
 # exec azote
+exec ~/.local/bin/wayland-virtual-keyboard

@@ -9,7 +9,7 @@ hl.config({
 			inactive_border = "rgba(595959aa)"
 		},
 		resize_on_border = false,
-		allow_tearing = true,
+		allow_tearing = false,
 		layout = "lua:hy3"
 	},
 	decoration = {
@@ -40,6 +40,9 @@ hl.config({
 		force_default_wallpaper = 0,
 		disable_hyprland_logo = true,
 		disable_splash_rendering = true
+	},
+	cursor = {
+		no_hardware_cursors = true
 	},
 	debug = {
 		disable_logs = true,

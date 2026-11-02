@@ -1,0 +1,7 @@
+#!/bin/sh
+# Environment configuration for Hyprland under UWSM
+
+# Dynamically set AQ_DRM_DEVICES to prioritize the GPU with connected displays
+if [ -f "$HOME/dotfiles/scripts/detect-gpu-env.sh" ]; then
+    . "$HOME/dotfiles/scripts/detect-gpu-env.sh"
+fi
