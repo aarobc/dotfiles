@@ -46,8 +46,3 @@ configs:
 	@PATH="$$HOME/.local/bin:$$PATH" command -v dotbot &> /dev/null || pipx install dotbot
 	@cd $(CURDIR) && PATH="$$HOME/.local/bin:$$PATH" dotbot -d "$(CURDIR)" -c install.conf.yaml $(ARGS)
 
-fix-hyp:
-	hyprpm purge-cache
-	hyprpm update
-	hyprpm add https://github.com/outfoxxed/hy3
-	hyprpm enable hy3
