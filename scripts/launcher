@@ -18,16 +18,36 @@ const luaStr = s => '"' + s
     .replace(/"/g, '\\"')
     .replace(/\n/g, '\\n') + '"'
 
+async function resolveHyprlandTarget(name) {
+    const list = await $`hyprctl workspaces -j`.json()
+    const existing = list.find(w => !w.special && (w.name === name || String(w.id) === name))
+    if (existing) {
+        if (existing.id && existing.id > 0) {
+            return String(existing.id)
+        }
+        return luaStr('name:' + existing.name)
+    }
+    return /^\d+$/.test(name) ? name : luaStr('name:' + name)
+}
+
 const hyprland = {
-    workspaces: async () => (await $`hyprctl workspaces -j`.json())
-        .filter(ws => ws.id > 0)
-        .sort((a, b) => a.id - b.id)
-        .map(ws => ws.name),
-    gotoWs:     async name => $`hyprctl dispatch ${`hl.dsp.focus({workspace=${luaStr('name:' + name)}})`}`,
-    moveToWs:   async name => $`hyprctl dispatch ${`hl.dsp.window.move({workspace=${luaStr('name:' + name)}})`}`,
+    workspaces: async () => {
+        const list = await $`hyprctl workspaces -j`.json()
+        const filtered = list.filter(ws => !ws.special && !ws.name.startsWith('special:'))
+        filtered.sort((a, b) => {
+            const aId = (a.id && a.id > 0) ? a.id : Infinity
+            const bId = (b.id && b.id > 0) ? b.id : Infinity
+            if (aId !== bId) return aId - bId
+            return a.name.localeCompare(b.name)
+        })
+        return Array.from(new Set(filtered.map(ws => ws.name)))
+    },
+    gotoWs:     async name => $`hyprctl dispatch ${`hl.dsp.focus({workspace=${await resolveHyprlandTarget(name)}})`}`,
+    moveToWs:   async name => $`hyprctl dispatch ${`hl.dsp.window.move({workspace=${await resolveHyprlandTarget(name)}})`}`,
     renameWs:   async name => {
-        const wsId = (await $`hyprctl activeworkspace -j`.json()).id
-        return $`hyprctl dispatch ${`hl.dsp.workspace.rename({workspace=${wsId}, name=${luaStr(name)}})`}`
+        const ws = await $`hyprctl activeworkspace -j`.json()
+        const target = (ws.id && ws.id > 0) ? ws.id : luaStr('name:' + ws.name)
+        return $`hyprctl dispatch ${`hl.dsp.workspace.rename({workspace=${target}, name=${luaStr(name)}})`}`
     },
 }
 

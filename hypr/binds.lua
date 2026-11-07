@@ -120,9 +120,11 @@ end
 -- sway's `workspace next_on_output` / `prev_on_output`: cycle the workspaces
 -- living on the focused monitor, in id order, wrapping at both ends.
 function cycle_ws_on_monitor(dir)
-	local focused
-	for _, mon in ipairs(hl.get_monitors()) do
-		if mon.focused then focused = mon; break end
+	local focused = hl.get_active_monitor and hl.get_active_monitor()
+	if not focused then
+		for _, mon in ipairs(hl.get_monitors()) do
+			if mon.focused then focused = mon; break end
+		end
 	end
 	if not focused then return end
 
@@ -133,20 +135,34 @@ function cycle_ws_on_monitor(dir)
 			table.insert(workspaces, ws)
 		end
 	end
-	table.sort(workspaces, function(a, b) return a.id < b.id end)
+	table.sort(workspaces, function(a, b)
+		local a_id = (a.id and a.id > 0) and a.id or math.huge
+		local b_id = (b.id and b.id > 0) and b.id or math.huge
+		if a_id ~= b_id then return a_id < b_id end
+		return (a.name or '') < (b.name or '')
+	end)
 
-	local current_id = focused.active_workspace.id
+	local active_ws = focused.active_workspace
 	local idx
 	for i, ws in ipairs(workspaces) do
-		if ws.id == current_id then idx = i; break end
+		if ws == active_ws or (active_ws and ws.addressable_name == active_ws.addressable_name) then
+			idx = i
+			break
+		end
 	end
 	if not idx or #workspaces < 2 then return end
 
 	local next_ws = workspaces[((idx - 1 + dir) % #workspaces) + 1]
-	-- Hyprland clamps plain numeric workspace selectors to a minimum of 1
-	-- (see getWorkspaceIDNameFromString), so negative IDs (named workspaces)
-	-- must be targeted by name, not by raw numeric id.
-	hl.dispatch(hl.dsp.focus({ workspace = 'name:' .. next_ws.name }))
+	if not next_ws then return end
+
+	-- Hyprland accepts the HL.Workspace userdata object directly via
+	-- Workspace::selector(ws), which handles numeric IDs ("1", "8") as well
+	-- as named workspaces ("name:foo").
+	local target = next_ws
+	if type(target) ~= 'userdata' then
+		target = (next_ws.id and next_ws.id > 0) and next_ws.id or ('name:' .. next_ws.name)
+	end
+	hl.dispatch(hl.dsp.focus({ workspace = target }))
 end
 
 
