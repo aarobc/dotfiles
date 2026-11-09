@@ -10,9 +10,13 @@ fi
 trap 'rm -f "$LOCKFILE"' EXIT
 
 monitor=$(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')
-current=$(hyprctl activeworkspace -j | jq '.id')
+current=$(hyprctl activeworkspace -j | jq -r 'if .id and .id > 0 then (.id | tostring) else ("\"name:" + .name + "\"") end')
 
-mapfile -t workspaces < <(hyprctl workspaces -j | jq -r --arg mon "$monitor" '.[] | select(.monitor == $mon) | .id' | sort -n)
+mapfile -t workspaces < <(hyprctl workspaces -j | jq -r --arg mon "$monitor" '
+  [ .[] | select(.monitor == $mon and (.special | not) and (.name | startswith("special:") | not)) ]
+  | sort_by(if .id and .id > 0 then .id else 999999 end, .name)
+  | .[] | (if .id and .id > 0 then (.id | tostring) else ("\"name:" + .name + "\"") end)
+')
 
 idx=-1
 for i in "${!workspaces[@]}"; do
@@ -21,6 +25,10 @@ for i in "${!workspaces[@]}"; do
         break
     fi
 done
+
+if [[ $idx -lt 0 || ${#workspaces[@]} -lt 2 ]]; then
+    exit 0
+fi
 
 if [[ "$1" == "1" ]]; then
     next_idx=$((idx + 1))
