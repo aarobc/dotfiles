@@ -22,6 +22,35 @@ vim.diagnostic.config({
 -- full message for the current line; virtual text truncates on narrow windows
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { silent = true })
 
+-- F2, VSCode-style rename: prompt with the word under the cursor prefilled. With a server that can rename, this is
+-- vim.lsp.buf.rename(), the same as nvim's grn, and it renames the symbol project-wide. Without one (a Makefile,
+-- say) it falls back to a whole-word substitute across the current buffer: no semantics, but one u undoes it.
+-- Defined above the docker check so that the fallback exists even when no server can run.
+local function rename_in_buffer()
+  local word = vim.fn.expand('<cword>')
+  if word == '' then
+    return
+  end
+  vim.ui.input({ prompt = 'Rename (buffer): ', default = word }, function(new)
+    if not new or new == '' or new == word then
+      return
+    end
+    -- \V: nothing in the word is magic except backslash; / is the delimiter. \< \> keep it to whole words.
+    local pat = '\\V\\<' .. vim.fn.escape(word, '\\/') .. '\\>'
+    local view = vim.fn.winsaveview()
+    vim.cmd(('keeppatterns %%s/%s/%s/ge'):format(pat, vim.fn.escape(new, '\\/&~')))
+    vim.fn.winrestview(view)
+  end)
+end
+
+vim.keymap.set('n', '<F2>', function()
+  if #vim.lsp.get_clients({ bufnr = 0, method = 'textDocument/rename' }) > 0 then
+    vim.lsp.buf.rename()
+  else
+    rename_in_buffer()
+  end
+end, { silent = true, desc = 'rename: LSP if available, else whole word in buffer' })
+
 if vim.fn.executable('docker') == 0 then
   return
 end
@@ -123,7 +152,9 @@ vim.lsp.enable({ 'eslint', 'vtsls', 'vue_ls', 'phpactor' })
 --   grt   type definition, i.e. the type of the thing under the cursor rather than the thing itself
 --   gO    symbols in this file
 --
--- Left to nvim's defaults: grn rename, gra code action, <C-s> signature help in insert mode.
+--   <F2>  rename, VSCode-style; defined near the top of this file, since it works without a server too
+--
+-- Left to nvim's defaults: gra code action, <C-s> signature help in insert mode.
 --
 -- References vs incoming calls: references are every mention of the symbol, call hierarchy is only actual
 -- calls, and unlike references it can be walked outward repeatedly. phpactor answers references; whether it
