@@ -16,7 +16,7 @@ local repos = {
 
   'unblevable/quick-scope',
   'tpope/vim-fugitive',
-  'dlyongemallo/diffview-plus.nvim',
+  'esmuellert/codediff.nvim',
   'tpope/vim-surround',
   'tpope/vim-repeat',
   'tpope/vim-obsession',

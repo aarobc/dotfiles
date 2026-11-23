@@ -16,7 +16,7 @@ require('tabmerge').setup()
 require('matchtag').setup()
 require('pairs').setup()
 require('gitsigns_config').setup()
-require('diffview_config').setup()
+require('codediff_config').setup()
 require('telescope_config').setup()
 require('filerefs') -- :FileReferences; the <leader>u mapping is down with the others
 
@@ -60,6 +60,17 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'FileType' }, {
     if php then pcall(vim.treesitter.start, args.buf) end
     local want = php and 'jb' or 'unokai'
     if vim.g.colors_name ~= want then vim.cmd('silent! colorscheme ' .. want) end
+  end,
+})
+
+-- treesitter folds for ts/tsx instead of the shared foldmethod=syntax, which is slow and
+-- drops its folds when syntax highlighting gives up on a big file. Parsers in lua/ts_parsers.lua.
+vim.api.nvim_create_autocmd('FileType', {
+  group = vim.api.nvim_create_augroup('ts_folds', {}),
+  pattern = { 'typescript', 'typescriptreact' },
+  callback = function()
+    vim.wo[0][0].foldmethod = 'expr'
+    vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
   end,
 })
 

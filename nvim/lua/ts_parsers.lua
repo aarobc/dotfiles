@@ -8,6 +8,7 @@ return {
   'php', -- pulls in php_only
   'blade', -- *.blade.php is filetype=blade (builtin); injects html, php_only, javascript
   'javascript', -- filetype javascriptreact
-  'tsx', -- filetype typescriptreact
+  'typescript', -- folds; see init.lua
+  'tsx', -- filetype typescriptreact; matchtag and folds
   -- svelte is in matchtag's filetype list, left out on purpose: unused here, and a missing parser is a no-op
 }
