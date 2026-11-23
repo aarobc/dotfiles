@@ -4,6 +4,7 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec blueman-applet
 exec mako --default-timeout 30000
 exec kanshi
+exec solaar --window=hide
 
 exec swayidle -w \
   timeout 600 'swaymsg "output * dpms off"' \
